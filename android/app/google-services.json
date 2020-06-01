@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "975979539786",
+    "firebase_url": "https://al-akhul-qurani.firebaseio.com",
+    "project_id": "al-akhul-qurani",
+    "storage_bucket": "al-akhul-qurani.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:975979539786:android:165f36d7f91619f832a5b3",
+        "android_client_info": {
+          "package_name": "com.example.mahadalzahra"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "975979539786-ofngp53hqppctri6lklf7gq79s5bkadu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mahadalzahra",
+            "certificate_hash": "ad40089f95dd7cd496f74a501de2797d04b7984d"
+          }
+        },
+        {
+          "client_id": "975979539786-jo2u5lsil21hvdfrq2k26g3o2lr8jfnt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAAsSfWVr-RixvhOJxNaSdkgJNcbBjXC4M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "975979539786-jo2u5lsil21hvdfrq2k26g3o2lr8jfnt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
