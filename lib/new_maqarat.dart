@@ -936,7 +936,7 @@ class _NewMaqaratState extends State<NewMaqarat> {
 
                                                                                     confirmResult(dtod[_currentItemSelected],juzsnapshot.data.documents[0],
                                                                                     selectedTime,
-                                                                                    true,
+                                                                                    false,
                                                                                     context);
                                                                                     }
                                                                                     ),
