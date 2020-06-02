@@ -187,6 +187,7 @@ class _MaqaratPageState extends State<MaqaratPage> {
         print(check_time[1]);
         n=DateTime.now().toUtc();
         comp=DateTime.utc(1,1,1,int.parse(check_time[0]),int.parse(check_time[1])).difference(DateTime.utc(1,1,1,n.hour,n.minute)).inSeconds;
+        print('***************');
         print(comp);
         if(comp<60){
           continue;
@@ -429,13 +430,14 @@ class _MaqaratPageState extends State<MaqaratPage> {
                                     child: GestureDetector(
                                       onTap: () {
                                         print('tapped');
+                                        //print(_maqaratList[index].isTime);
                                         if (_maqaratList[index].isTime) {
                                           DateTime en=DateTime.now().toUtc();
                                           print(_maqaratList[index].time);
-                                          List temp=_maqaratList[index].time.toString().split(':');
-                                          comp=DateTime.utc(1,1,1,int.parse(temp[0]),int.parse(temp[1])).difference(DateTime.utc(1,1,1,en.hour,en.minute)).inSeconds;
-                                          print(comp);
-                                          if(60<comp && comp<360){
+                                          List temp=utc_times[_maqaratList[index].time].toString().split(':');
+                                          int comptest;
+                                          comptest=DateTime.utc(1,1,1,int.parse(temp[0]),int.parse(temp[1])).difference(DateTime.utc(1,1,1,en.hour,en.minute)).inSeconds;
+                                          if(60<comptest && comptest<360){
                                             showDialog(
                                                 context:
                                                 context,

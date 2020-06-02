@@ -53,6 +53,8 @@ Future getdetails() async {
   //var maqcount = (await fb.child('users').child('2043').once()).value;
   //return maqcount;
   DateTime dt=DateTime.now();
+  print(dt);
+  print('paaaaaaaaaaapiiiiiiiiiiiii');
   var maqcount=(await fb.child('user_maqarat_booked').child(userappid).once()).value;
     //print(r.documents[0].documentID);
   QuerySnapshot r = await fs.collection('maqarat_male').where('date',isEqualTo: Timestamp.fromDate(DateTime(dt.year,dt.month,dt.day))).getDocuments();
@@ -266,7 +268,7 @@ class _NewMaqaratState extends State<NewMaqarat> {
     /* var date1=DateTime.parse(documents[0].data['date'].toDate().toString());
     _currentItemSelected=date1.day.toString()+" "+DateUtil().month(date1.month).toString().substring(0,3)+" "+date1.year.toString();*/
     List temp;
-    String chance=documents[0].data['chance'];
+   String chance=documents[0].data['chance'];
     print(documents[0].documentID);
     if(chance=='even'){
       temp=['odd','even','odd','even','odd','even','odd','even'];
@@ -274,6 +276,7 @@ class _NewMaqaratState extends State<NewMaqarat> {
     else{
       temp=['even','odd','even','odd','even','odd','even','odd'];
     }
+    //temp=['even','odd','even','odd','even','odd','even','odd'];
     int j=0;
     for (var i in _dates) {
       if(i=='Date'){
@@ -332,9 +335,9 @@ class _NewMaqaratState extends State<NewMaqarat> {
         );
       }
         else {
-          //print(snapshot.data.documents[0]);
-          /*print('******');
-          print(snapshot.data[1]);*/
+          print(snapshot.data[0].documents[0]);
+          print('******');
+          print(snapshot.data[1]);
           populate(snapshot.data[0].documents,Map.from(snapshot.data[1]));
 
         return Stack(
