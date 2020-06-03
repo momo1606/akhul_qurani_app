@@ -397,7 +397,8 @@ class _NewMaqaratState extends State<NewMaqarat> {
                                       "Join a Maqarat",
                                       style: TextStyle(
                                         fontFamily: "Segoe UI",fontWeight: FontWeight.w600,
-                                        fontSize: MediaQuery.of(context).size.height *0.0586, //40.0
+                                        fontSize: MediaQuery.of(context).size.width *
+                                            0.0974, //40.0
                                         color:Color(0xff000000),
                                       ),
                                     ),
@@ -426,7 +427,7 @@ class _NewMaqaratState extends State<NewMaqarat> {
                                                   "Select Date",
                                                   style: TextStyle(
                                                     fontFamily: "Segoe UI",
-                                                    fontSize: MediaQuery.of(context).size.height*0.033695, //23
+                                                    fontSize: MediaQuery.of(context).size.width*0.065745, //23
                                                     color:Color(0xff000000),
                                                   ),
                                                 ),
@@ -523,7 +524,7 @@ class _NewMaqaratState extends State<NewMaqarat> {
                                                   "Select Juz",
                                                   style: TextStyle(
                                                     fontFamily: "Segoe UI",
-                                                    fontSize: MediaQuery.of(context).size.height*0.033695, //23
+                                                    fontSize: MediaQuery.of(context).size.width*0.065745, //23
                                                     color:Color(0xff000000),
                                                   ),
                                                 ),
@@ -669,7 +670,7 @@ class _NewMaqaratState extends State<NewMaqarat> {
                                                 maqarat_count[_currentItemSelected].toString()+" Maqarat Scheduled",  //MAQARAT COUNT
                                                 style: TextStyle(
                                                   fontFamily: "Segoe UI",
-                                                  fontSize: MediaQuery.of(context).size.height*0.02637, //18
+                                                  fontSize: MediaQuery.of(context).size.width*0.046265, //18
                                                   color:Color(0xff000000).withOpacity(0.72),
                                                 ),
                                               ),
@@ -936,7 +937,7 @@ class _NewMaqaratState extends State<NewMaqarat> {
 
                                                                                     confirmResult(dtod[_currentItemSelected],juzsnapshot.data.documents[0],
                                                                                     selectedTime,
-                                                                                    true,
+                                                                                    false,
                                                                                     context);
                                                                                     }
                                                                                     ),
@@ -1015,8 +1016,7 @@ class _NewMaqaratState extends State<NewMaqarat> {
                                                                                     .w600,
                                                                                 fontSize: MediaQuery.of(context)
                                                                                     .size
-                                                                                    .height *
-                                                                                    0.027835,
+                                                                                    .width*0.0487,
                                                                                 //19
                                                                                 color: Color(
                                                                                     0xff000000),

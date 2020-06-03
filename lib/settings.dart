@@ -85,7 +85,8 @@ class _SettingsState extends State<Settings> {
                                   "Information",
                                   style: TextStyle(
                                     fontFamily: "Segoe UI",fontWeight: FontWeight.w600,
-                                    fontSize: MediaQuery.of(context).size.height *0.0586, //40.0
+                                    fontSize: MediaQuery.of(context).size.width *
+                                        0.0974, //40.0
                                     color:Color(0xff000000),
                                   ),
                                 ),

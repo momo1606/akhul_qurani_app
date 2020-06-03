@@ -208,8 +208,8 @@ class _DashboardState extends State<Dashboard> {
                                         fontFamily: "Segoe UI",
                                         fontWeight: FontWeight.w600,
                                         fontSize:
-                                            MediaQuery.of(context).size.height *
-                                                0.0586,
+                                            MediaQuery.of(context).size.width *
+                                                0.0974,
                                         //40.0
                                         color: Color(0xff000000),
                                       ),
@@ -354,9 +354,9 @@ class _DashboardState extends State<Dashboard> {
                                                             fontSize: MediaQuery.of(
                                                                         context)
                                                                     .size
-                                                                    .height *
-                                                                0.027835,
-                                                            //19.0
+                                                                    .width *
+                                                                0.05357,
+                                                            //22.0
                                                             color: index ==
                                                                     selectedIndex
                                                                 ? Colors.white
@@ -415,8 +415,8 @@ class _DashboardState extends State<Dashboard> {
                                                                 fontSize: MediaQuery.of(
                                                                             context)
                                                                         .size
-                                                                        .height *
-                                                                    0.027835,
+                                                                        .width *
+                                                                    0.046265,
                                                                 //19.0
 
                                                                 color: index ==
@@ -491,8 +491,8 @@ class _DashboardState extends State<Dashboard> {
                                                 fontWeight: FontWeight.w400,
                                                 fontSize: MediaQuery.of(context)
                                                         .size
-                                                        .height *
-                                                    0.030765,
+                                                        .width *
+                                                    0.060875,
                                                 //21.0
                                                 color: Color(0xff000000),
                                               ),
@@ -530,8 +530,8 @@ class _DashboardState extends State<Dashboard> {
                                                           fontSize: MediaQuery.of(
                                                                       context)
                                                                   .size
-                                                                  .height *
-                                                              0.030765)),
+                                                                  .width *
+                                                              0.05357)),
                                                   //19
                                                   Spacer(),
                                                 ],
@@ -553,8 +553,8 @@ class _DashboardState extends State<Dashboard> {
                                                           fontSize: MediaQuery.of(
                                                                       context)
                                                                   .size
-                                                                  .height *
-                                                              0.02637)),
+                                                                  .width *
+                                                              0.04383)),
                                                   //18
                                                   Spacer(),
                                                 ],

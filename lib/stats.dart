@@ -173,7 +173,8 @@ class _StatsState extends State<Stats> {
                                   fontFamily: "Segoe UI",
                                   fontWeight: FontWeight.w600,
                                   fontSize:
-                                      MediaQuery.of(context).size.height * 0.0586,
+                                      MediaQuery.of(context).size.width *
+                                          0.0974,
                                   //40.0
                                   color: Color(0xff000000),
                                 ),
@@ -224,8 +225,8 @@ class _StatsState extends State<Stats> {
                                               fontWeight: FontWeight.w600,
                                               fontSize: MediaQuery.of(context)
                                                       .size
-                                                      .height *
-                                                  0.04102,
+                                                      .width *
+                                                  0.08279,
                                               //28
                                               color: Colors.black,
                                             ),
@@ -292,8 +293,8 @@ class _StatsState extends State<Stats> {
                                                               fontSize: MediaQuery.of(
                                                                           context)
                                                                       .size
-                                                                      .height *
-                                                                  0.033695,
+                                                                      .width *
+                                                                  0.07305,
                                                               //23
                                                               color: Color(
                                                                   0xffffffff),
@@ -309,8 +310,8 @@ class _StatsState extends State<Stats> {
                                                               fontSize: MediaQuery.of(
                                                                           context)
                                                                       .size
-                                                                      .height *
-                                                                  0.06446,
+                                                                      .width *
+                                                                  0.10714,
                                                               //44
                                                               color: Color(
                                                                   0xffffffff),
@@ -332,8 +333,8 @@ class _StatsState extends State<Stats> {
                                                   fontWeight: FontWeight.w600,
                                                   fontSize: MediaQuery.of(context)
                                                           .size
-                                                          .height *
-                                                      0.033695,
+                                                          .width *
+                                                      0.07305,
                                                   //23
                                                   color: Color(0xff070101),
                                                 ),
@@ -352,8 +353,8 @@ class _StatsState extends State<Stats> {
                                                     fontSize:
                                                         MediaQuery.of(context)
                                                                 .size
-                                                                .height *
-                                                            0.06446,
+                                                                .width *
+                                                            0.129055,
                                                     //44
                                                     color: Color(0xff771616),
                                                   ),
@@ -395,8 +396,8 @@ class _StatsState extends State<Stats> {
                                             fontWeight: FontWeight.w600,
                                             fontSize: MediaQuery.of(context)
                                                     .size
-                                                    .height *
-                                                0.04102,
+                                                    .width *
+                                                0.08279,
                                             //28
                                             color: Colors.black,
                                           ),
@@ -445,8 +446,8 @@ class _StatsState extends State<Stats> {
                                                           fontSize: MediaQuery.of(
                                                                       context)
                                                                   .size
-                                                                  .height *
-                                                              0.024905,
+                                                                  .width *
+                                                              0.036525,
                                                           //17
                                                           color:
                                                               Color(0xff000000),
@@ -482,8 +483,8 @@ class _StatsState extends State<Stats> {
                                                         fontSize:
                                                             MediaQuery.of(context)
                                                                     .size
-                                                                    .height *
-                                                                0.024905,
+                                                                    .width *
+                                                                0.036525,
                                                         color: Color(0xff000000),
                                                       ),
                                                     ),
@@ -516,8 +517,8 @@ class _StatsState extends State<Stats> {
                                                         fontSize:
                                                             MediaQuery.of(context)
                                                                     .size
-                                                                    .height *
-                                                                0.024905,
+                                                                    .width *
+                                                                0.036525,
                                                         color: Color(0xff000000),
                                                       ),
                                                     ),
@@ -550,8 +551,8 @@ class _StatsState extends State<Stats> {
                                                         fontSize:
                                                             MediaQuery.of(context)
                                                                     .size
-                                                                    .height *
-                                                                0.024905,
+                                                                    .width *
+                                                                0.036525,
                                                         color: Color(0xff000000),
                                                       ),
                                                     ),
@@ -584,8 +585,8 @@ class _StatsState extends State<Stats> {
                                                         fontSize:
                                                             MediaQuery.of(context)
                                                                     .size
-                                                                    .height *
-                                                                0.024905,
+                                                                    .width *
+                                                                0.036525,
                                                         color: Color(0xff000000),
                                                       ),
                                                     ),
@@ -626,8 +627,8 @@ class _StatsState extends State<Stats> {
                                                           fontSize: MediaQuery.of(
                                                                       context)
                                                                   .size
-                                                                  .height *
-                                                              0.024905,
+                                                                  .width *
+                                                              0.036525,
                                                           color:
                                                               Color(0xff000000),
                                                         ),
@@ -680,8 +681,8 @@ class _StatsState extends State<Stats> {
                                                           fontSize: MediaQuery.of(
                                                                       context)
                                                                   .size
-                                                                  .height *
-                                                              0.024905,
+                                                                  .width *
+                                                              0.036525,
                                                           color:
                                                               Color(0xff000000),
                                                         ),
@@ -716,8 +717,8 @@ class _StatsState extends State<Stats> {
                                                         fontSize:
                                                             MediaQuery.of(context)
                                                                     .size
-                                                                    .height *
-                                                                0.024905,
+                                                                    .width *
+                                                                0.036525,
                                                         color: Color(0xff000000),
                                                       ),
                                                     ),
@@ -750,8 +751,8 @@ class _StatsState extends State<Stats> {
                                                         fontSize:
                                                             MediaQuery.of(context)
                                                                     .size
-                                                                    .height *
-                                                                0.024905,
+                                                                    .width *
+                                                                0.036525,
                                                         color: Color(0xff000000),
                                                       ),
                                                     ),
@@ -784,8 +785,8 @@ class _StatsState extends State<Stats> {
                                                         fontSize:
                                                             MediaQuery.of(context)
                                                                     .size
-                                                                    .height *
-                                                                0.024905,
+                                                                    .width *
+                                                                0.036525,
                                                         color: Color(0xff000000),
                                                       ),
                                                     ),
@@ -818,8 +819,8 @@ class _StatsState extends State<Stats> {
                                                         fontSize:
                                                             MediaQuery.of(context)
                                                                     .size
-                                                                    .height *
-                                                                0.024905,
+                                                                    .width *
+                                                                0.036525,
                                                         color: Color(0xff000000),
                                                       ),
                                                     ),
@@ -860,8 +861,8 @@ class _StatsState extends State<Stats> {
                                                           fontSize: MediaQuery.of(
                                                                       context)
                                                                   .size
-                                                                  .height *
-                                                              0.024905,
+                                                                  .width *
+                                                              0.036525,
                                                           color:
                                                               Color(0xff000000),
                                                         ),
@@ -914,8 +915,8 @@ class _StatsState extends State<Stats> {
                                                           fontSize: MediaQuery.of(
                                                                       context)
                                                                   .size
-                                                                  .height *
-                                                              0.024905,
+                                                                  .width *
+                                                              0.036525,
                                                           color:
                                                               Color(0xff000000),
                                                         ),
@@ -950,8 +951,8 @@ class _StatsState extends State<Stats> {
                                                         fontSize:
                                                             MediaQuery.of(context)
                                                                     .size
-                                                                    .height *
-                                                                0.024905,
+                                                                    .width *
+                                                                0.036525,
                                                         color: Color(0xff000000),
                                                       ),
                                                     ),
@@ -984,8 +985,8 @@ class _StatsState extends State<Stats> {
                                                         fontSize:
                                                             MediaQuery.of(context)
                                                                     .size
-                                                                    .height *
-                                                                0.024905,
+                                                                    .width *
+                                                                0.036525,
                                                         color: Color(0xff000000),
                                                       ),
                                                     ),
@@ -1018,8 +1019,8 @@ class _StatsState extends State<Stats> {
                                                         fontSize:
                                                             MediaQuery.of(context)
                                                                     .size
-                                                                    .height *
-                                                                0.024905,
+                                                                    .width *
+                                                                0.036525,
                                                         color: Color(0xff000000),
                                                       ),
                                                     ),
@@ -1052,8 +1053,8 @@ class _StatsState extends State<Stats> {
                                                         fontSize:
                                                             MediaQuery.of(context)
                                                                     .size
-                                                                    .height *
-                                                                0.024905,
+                                                                    .width *
+                                                                0.036525,
                                                         color: Color(0xff000000),
                                                       ),
                                                     ),
@@ -1094,8 +1095,8 @@ class _StatsState extends State<Stats> {
                                                           fontSize: MediaQuery.of(
                                                                       context)
                                                                   .size
-                                                                  .height *
-                                                              0.024905,
+                                                                  .width *
+                                                              0.036525,
                                                           color:
                                                               Color(0xff000000),
                                                         ),
@@ -1148,8 +1149,8 @@ class _StatsState extends State<Stats> {
                                                           fontSize: MediaQuery.of(
                                                                       context)
                                                                   .size
-                                                                  .height *
-                                                              0.024905,
+                                                                  .width *
+                                                              0.036525,
                                                           color:
                                                               Color(0xff000000),
                                                         ),
@@ -1184,8 +1185,8 @@ class _StatsState extends State<Stats> {
                                                         fontSize:
                                                             MediaQuery.of(context)
                                                                     .size
-                                                                    .height *
-                                                                0.024905,
+                                                                    .width *
+                                                                0.036525,
                                                         color: Color(0xff000000),
                                                       ),
                                                     ),
@@ -1218,8 +1219,8 @@ class _StatsState extends State<Stats> {
                                                         fontSize:
                                                             MediaQuery.of(context)
                                                                     .size
-                                                                    .height *
-                                                                0.024905,
+                                                                    .width *
+                                                                0.036525,
                                                         color: Color(0xff000000),
                                                       ),
                                                     ),
@@ -1252,8 +1253,8 @@ class _StatsState extends State<Stats> {
                                                         fontSize:
                                                             MediaQuery.of(context)
                                                                     .size
-                                                                    .height *
-                                                                0.024905,
+                                                                    .width *
+                                                                0.036525,
                                                         color: Color(0xff000000),
                                                       ),
                                                     ),
@@ -1286,8 +1287,8 @@ class _StatsState extends State<Stats> {
                                                         fontSize:
                                                             MediaQuery.of(context)
                                                                     .size
-                                                                    .height *
-                                                                0.024905,
+                                                                    .width *
+                                                                0.036525,
                                                         color: Color(0xff000000),
                                                       ),
                                                     ),
@@ -1328,8 +1329,8 @@ class _StatsState extends State<Stats> {
                                                           fontSize: MediaQuery.of(
                                                                       context)
                                                                   .size
-                                                                  .height *
-                                                              0.024905,
+                                                                  .width *
+                                                              0.036525,
                                                           color:
                                                               Color(0xff000000),
                                                         ),
@@ -1382,8 +1383,8 @@ class _StatsState extends State<Stats> {
                                                           fontSize: MediaQuery.of(
                                                                       context)
                                                                   .size
-                                                                  .height *
-                                                              0.024905,
+                                                                  .width *
+                                                              0.036525,
                                                           color:
                                                               Color(0xff000000),
                                                         ),
@@ -1418,8 +1419,8 @@ class _StatsState extends State<Stats> {
                                                         fontSize:
                                                             MediaQuery.of(context)
                                                                     .size
-                                                                    .height *
-                                                                0.024905,
+                                                                    .width *
+                                                                0.036525,
                                                         color: Color(0xff000000),
                                                       ),
                                                     ),
@@ -1452,8 +1453,8 @@ class _StatsState extends State<Stats> {
                                                         fontSize:
                                                             MediaQuery.of(context)
                                                                     .size
-                                                                    .height *
-                                                                0.024905,
+                                                                    .width *
+                                                                0.036525,
                                                         color: Color(0xff000000),
                                                       ),
                                                     ),
@@ -1486,8 +1487,8 @@ class _StatsState extends State<Stats> {
                                                         fontSize:
                                                             MediaQuery.of(context)
                                                                     .size
-                                                                    .height *
-                                                                0.024905,
+                                                                    .width *
+                                                                0.036525,
                                                         color: Color(0xff000000),
                                                       ),
                                                     ),
@@ -1520,8 +1521,8 @@ class _StatsState extends State<Stats> {
                                                         fontSize:
                                                             MediaQuery.of(context)
                                                                     .size
-                                                                    .height *
-                                                                0.024905,
+                                                                    .width *
+                                                                0.036525,
                                                         color: Color(0xff000000),
                                                       ),
                                                     ),
@@ -1562,8 +1563,8 @@ class _StatsState extends State<Stats> {
                                                           fontSize: MediaQuery.of(
                                                                       context)
                                                                   .size
-                                                                  .height *
-                                                              0.024905,
+                                                                  .width *
+                                                              0.036525,
                                                           color:
                                                               Color(0xff000000),
                                                         ),
@@ -1620,8 +1621,8 @@ class _StatsState extends State<Stats> {
                                             fontWeight: FontWeight.w600,
                                             fontSize: MediaQuery.of(context)
                                                     .size
-                                                    .height *
-                                                0.04102,
+                                                    .width *
+                                                0.08279,
                                             //28
                                             color: Colors.black,
                                           ),
@@ -1636,7 +1637,7 @@ class _StatsState extends State<Stats> {
                                           child: Row(
                                             children: <Widget>[
                                               Text(
-                                                "Maqarats attended",
+                                                "Attended",
                                                 style: TextStyle(
                                                   fontFamily: "Segoe UI",
                                                   fontWeight: FontWeight.bold,
@@ -1829,8 +1830,8 @@ class _StatsState extends State<Stats> {
                                             fontWeight: FontWeight.w600,
                                             fontSize: MediaQuery.of(context)
                                                     .size
-                                                    .height *
-                                                0.04102,
+                                                    .width *
+                                                0.08279,
                                             // 28
                                             color: Colors.white,
                                           ),
@@ -1841,10 +1842,7 @@ class _StatsState extends State<Stats> {
                                                       .size
                                                       .width *
                                                   0.01948,
-                                              top: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.01172),
+                                              ),
                                           // 8.0 - 8.0
                                           child: Row(
                                             children: <Widget>[
@@ -1855,8 +1853,8 @@ class _StatsState extends State<Stats> {
                                                   fontWeight: FontWeight.w600,
                                                   fontSize: MediaQuery.of(context)
                                                           .size
-                                                          .height *
-                                                      0.027835,
+                                                          .width *
+                                                      0.056005,
                                                   //19
                                                   color: Color(0xff00ffe5),
                                                 ),
@@ -1903,8 +1901,8 @@ class _StatsState extends State<Stats> {
                                                   fontWeight: FontWeight.w600,
                                                   fontSize: MediaQuery.of(context)
                                                           .size
-                                                          .height *
-                                                      0.027835,
+                                                          .width *
+                                                      0.056005,
                                                   color: Color(0xff00ffe5),
                                                 ),
                                               ),
@@ -1949,8 +1947,8 @@ class _StatsState extends State<Stats> {
                                                   fontWeight: FontWeight.w600,
                                                   fontSize: MediaQuery.of(context)
                                                           .size
-                                                          .height *
-                                                      0.027835,
+                                                          .width *
+                                                      0.056005,
                                                   color: Color(0xff00ffe5),
                                                 ),
                                               ),
