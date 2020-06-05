@@ -4,7 +4,7 @@ import 'package:toast/toast.dart';
 import 'package:mahadalzahra/services/authentication.dart';
 
 import 'homepage.dart';
-
+BaseAuth oauth;
 class LoginSignupPage extends StatefulWidget {
   LoginSignupPage({this.auth});
 
@@ -78,6 +78,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
 
   @override
   void initState() {
+    oauth=widget.auth;
     _errorMessage = "";
     _isLoading = false;
     _isLoginForm = true;

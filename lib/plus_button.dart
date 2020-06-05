@@ -86,15 +86,16 @@ void populate(Map val){
     dates = dates_hist.keys.toList();
     var o = DateUtil();
     for (var k in dates) {
+      for(var j in dates_hist[k.toString()].keys){
       var temp = k.toString().split('-');
       var temp_day = temp[0].toString() + " ";
       var temp_month = o.month(int.parse(temp[1])).toString().substring(
           0, 3) + " ";
       var temp_year = temp[2].toString();
       _maqaratList.add(Maqarat((temp_day + temp_month + temp_year),
-          dates_hist[k]['time'].toString(),
-          int.parse(dates_hist[k]['juz'].toString())));
-    }
+          dates_hist[k][j]['time'].toString(),
+          int.parse(dates_hist[k][j]['juz'].toString())));
+    }}
   }
 }
   @override

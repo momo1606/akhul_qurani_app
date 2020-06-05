@@ -142,10 +142,10 @@ class _CallPageState extends State<CallPage> {
     };
 
     AgoraRtcEngine.onJoinChannelSuccess = (
-      String channel,
-      int uid,
-      int elapsed,
-    ) {
+        String channel,
+        int uid,
+        int elapsed,
+        ) {
       setState(() {
         final info = 'onJoinChannel: $channel, uid: $uid';
         _infoStrings.add(info);
@@ -176,11 +176,11 @@ class _CallPageState extends State<CallPage> {
     };
 
     AgoraRtcEngine.onFirstRemoteVideoFrame = (
-      int uid,
-      int width,
-      int height,
-      int elapsed,
-    ) {
+        int uid,
+        int width,
+        int height,
+        int elapsed,
+        ) {
       setState(() {
         final info = 'firstRemoteVideo: $uid ${width}x $height';
         _infoStrings.add(info);
@@ -219,32 +219,32 @@ class _CallPageState extends State<CallPage> {
       case 1:
         return Container(
             child: Column(
-          children: <Widget>[_videoView(views[0])],
-        ));
+              children: <Widget>[_videoView(views[0])],
+            ));
       case 2:
         return Container(
             child: Column(
-          children: <Widget>[
-            _expandedVideoRow([views[0]]),
-            _expandedVideoRow([views[1]])
-          ],
-        ));
+              children: <Widget>[
+                _expandedVideoRow([views[0]]),
+                _expandedVideoRow([views[1]])
+              ],
+            ));
       case 3:
         return Container(
             child: Column(
-          children: <Widget>[
-            _expandedVideoRow(views.sublist(0, 2)),
-            _expandedVideoRow(views.sublist(2, 3))
-          ],
-        ));
+              children: <Widget>[
+                _expandedVideoRow(views.sublist(0, 2)),
+                _expandedVideoRow(views.sublist(2, 3))
+              ],
+            ));
       case 4:
         return Container(
             child: Column(
-          children: <Widget>[
-            _expandedVideoRow(views.sublist(0, 2)),
-            _expandedVideoRow(views.sublist(2, 4))
-          ],
-        ));
+              children: <Widget>[
+                _expandedVideoRow(views.sublist(0, 2)),
+                _expandedVideoRow(views.sublist(2, 4))
+              ],
+            ));
       case 5:
         return Container(
             child: Column(
@@ -373,9 +373,9 @@ class _CallPageState extends State<CallPage> {
     return true;
   }
 
-  void _onCallEnd(BuildContext context) {
+  Future<void> _onCallEnd(BuildContext context)  {
     //final dataRef = FirebaseDatabase.instance.reference().child('buffer_lobby');
-    var now=DateTime.now();
+    var now=DateTime.now().toUtc().add(Duration(minutes: 330));
 
     var formatter = new DateFormat('dd-MM-yyyy');
     String formatted = formatter.format(now);
@@ -384,6 +384,33 @@ class _CallPageState extends State<CallPage> {
       if(widget.users[0].appid==userappid){
         DataSnapshot dsglob= await FirebaseDatabase.instance.reference().child('global_stats').once();
         await FirebaseDatabase.instance.reference().child('global_stats').update({'total_maqarat': dsglob.value['total_maqarat']+1});
+        DataSnapshot nem= await FirebaseDatabase.instance.reference().child('non empty maqarat').child(widget.channelName).once();
+        List<String> inuser=[];
+        for(var t in widget.users){
+          inuser.add(t.appid);
+        }
+        print(inuser);
+        List tusers=nem.value['users'].toString().split(",");
+        List<String> notatd=[];
+        for(var p in tusers){
+          if(inuser.contains(p)==false){
+            notatd.add(p);
+          }
+        }
+        for(var w in notatd){
+          print('okokokokokookokookokok');
+          print(w);
+          print('okokokokokookokookokok');
+          DataSnapshot incun= await FirebaseDatabase.instance.reference().child('user_state').child(w).once();
+          if(incun.value["unattended_maqarat"]==""){
+            await FirebaseDatabase.instance.reference().child('user_state').child(w).update({"unattended_maqarat": widget.channelName});
+          }
+          else{
+            await FirebaseDatabase.instance.reference().child('user_state').child(w).update({"unattended_maqarat":incun.value["unattended_maqarat"]+','+widget.channelName});
+          }
+          await FirebaseDatabase.instance.reference().child('user_maqarat_booked').child(w).child(formatted).child(widget.channelName).remove();
+
+        }
       }
       DataSnapshot psglob= await FirebaseDatabase.instance.reference().child('user_history').child(userappid).once();
       List ajzac=psglob.value['ajza_count'].toString().split(',').map(int.parse).toList();
@@ -424,9 +451,9 @@ class _CallPageState extends State<CallPage> {
 
       if(tqflag==true){
           DataSnapshot dsglob= await FirebaseDatabase.instance.reference().child('global_stats').once();
-          await FirebaseDatabase.instance.reference().child('global_stats').update({'total_maqarat': dsglob.value['total_quran']+1});
+          await FirebaseDatabase.instance.reference().child('global_stats').update({'total_quran': dsglob.value['total_quran']+1});
           await FirebaseDatabase.instance.reference().child('user_state').child(userappid).update({'total_quran':usertq.value['total_quran']+1});
-          
+
       }
       int incday;
       int week;
@@ -444,45 +471,108 @@ class _CallPageState extends State<CallPage> {
       }
       await FirebaseDatabase.instance.reference().child('user_state').child(userappid).update({'total_maqarat':usertq.value['total_maqarat']+1,'days':incday,"last_maqarat_date":formatted,'ajza':cju, 'weeks':week});
       await FirebaseDatabase.instance.reference().child('user_history').child(userappid).update({'ajza_count':ajza});
-      await FirebaseDatabase.instance.reference().child('user_history').child(userappid).update({'ajza_count':ajza, 'date_wise':{formatted:{'juz':widget.users[0].juz,'time':widget.users[0].time}}});
+      await FirebaseDatabase.instance.reference().child('user_history').child(userappid).child('date_wise').child(formatted).update({widget.channelName:{'juz':widget.users[0].juz,'time':widget.users[0].time}});
       await FirebaseDatabase.instance.reference().child('user_maqarat_booked').child(userappid).child(formatted).child(widget.channelName).remove();
       await FirebaseDatabase.instance.reference().child('buffer_lobby').child(widget.channelName).remove();
 
 
-      QuerySnapshot r = await fs.collection('maqarat_male').document(formatted).collection('flag maqarat').where('maqaratID',isEqualTo: widget.channelName.toString()).getDocuments();
-      DocumentSnapshot freshcopy=r.documents[0];
 
-      Map fresh=freshcopy.data;
+      /*QuerySnapshot r = await fs.collection('maqarat_male').document(formatted).collection('flag maqarat').where('maqaratID',isEqualTo: widget.channelName.toString()).getDocuments();
+      DocumentSnapshot freshcopy=r.documents[0];*/
 
+      /*Map fresh=freshcopy.data;*/
+      int length=widget.users.length;
 
-      if(freshcopy.data['no_participants']==0){
+      /*if(freshcopy.data['no_participants']==0){
         await fs.collection('maqarat_male').document(formatted).collection('flag maqarat').document(widget.channelName).
         updateData(<String,dynamic>{'juz':widget.users[0].juz.toString(), 'maqaratID':widget.channelName, 'no_participants': 1,
           'participants':{'user1':userappid, 'user2':"",'user3':"", 'user4':"", 'user5':""},'status':"maqarat completed",'time':widget.users[0].time});
-        }
-        else if(freshcopy.data['no_participants']==1){
+        }*/
+         /*if(length==1){
           await fs.collection('maqarat_male').document(formatted).collection('flag maqarat').document(widget.channelName).
-          setData(<String,dynamic>{'juz':widget.users[0].juz.toString(), 'maqaratID':widget.channelName, 'no_participants': 2,
-            'participants':{'user1':fresh['participants']['user1'], 'user2':userappid,'user3':"", 'user4':"", 'user5':""},'status':"maqarat completed",'time':widget.users[0].time});
+          setData(<String,dynamic>{'juz':widget.users[0].juz.toString(), 'maqaratID':widget.channelName, 'no_participants': 1,
+            'participants':{'user1':widget.users[0].appid, 'user2':"",'user3':"", 'user4':"", 'user5':""},'status':"maqarat completed",'time':widget.users[0].time});
+        }*/
+      if(widget.users[0].appid==userappid) {
+        if (length == 2) {
+          await fs.collection('maqarat_male').document(formatted).collection(
+              'flag maqarat').document(widget.channelName).
+          setData(<String, dynamic>{
+            'juz': widget.users[0].juz.toString(),
+            'maqaratID': widget.channelName,
+            'no_participants': 2,
+            'participants': {
+              'user1': widget.users[0].appid,
+              'user2': widget.users[1].appid,
+              'user3': "",
+              'user4': "",
+              'user5': ""
+            },
+            'status': "maqarat completed",
+            'time': widget.users[0].time
+          });
         }
-        else if(freshcopy.data['no_participants']==2){
-          await fs.collection('maqarat_male').document(formatted).collection('flag maqarat').document(widget.channelName).
-          setData(<String,dynamic>{'juz':widget.users[0].juz.toString(), 'maqaratID':widget.channelName, 'no_participants': 3,
-            'participants':{'user1':fresh['participants']['user1'], 'user2':fresh['participants']['user2'],'user3':userappid, 'user4':"", 'user5':""},'status':"maqarat completed",'time':widget.users[0].time});
+        else if (length == 3) {
+          await fs.collection('maqarat_male').document(formatted).collection(
+              'flag maqarat').document(widget.channelName).
+          setData(<String, dynamic>{
+            'juz': widget.users[0].juz.toString(),
+            'maqaratID': widget.channelName,
+            'no_participants': 3,
+            'participants': {
+              'user1': widget.users[0].appid,
+              'user2': widget.users[1].appid,
+              'user3': widget.users[2].appid,
+              'user4': "",
+              'user5': ""
+            },
+            'status': "maqarat completed",
+            'time': widget.users[0].time
+          });
         }
-        else if(freshcopy.data['no_participants']==3){
-          await fs.collection('maqarat_male').document(formatted).collection('flag maqarat').document(widget.channelName).
-          setData(<String,dynamic>{'juz':widget.users[0].juz.toString(), 'maqaratID':widget.channelName, 'no_participants': 4,
-            'participants':{'user1':fresh['participants']['user1'], 'user2':fresh['participants']['user2'],'user3':fresh['participants']['user3'], 'user4':userappid, 'user5':""},'status':"maqarat completed",'time':widget.users[0].time});
+        else if (length == 4) {
+          await fs.collection('maqarat_male').document(formatted).collection(
+              'flag maqarat').document(widget.channelName).
+          setData(<String, dynamic>{
+            'juz': widget.users[0].juz.toString(),
+            'maqaratID': widget.channelName,
+            'no_participants': 4,
+            'participants': {
+              'user1': widget.users[0].appid,
+              'user2': widget.users[1].appid,
+              'user3': widget.users[2].appid,
+              'user4': widget.users[3].appid,
+              'user5': ""
+            },
+            'status': "maqarat completed",
+            'time': widget.users[0].time
+          });
         }
-        else if(freshcopy.data['no_participants']==4){
-          await fs.collection('maqarat_male').document(formatted).collection('flag maqarat').document(widget.channelName).
-          setData(<String,dynamic>{'juz':widget.users[0].juz.toString(), 'maqaratID':widget.channelName, 'no_participants': 5,
-            'participants':{'user1':fresh['participants']['user1'], 'user2':fresh['participants']['user2'],'user3':fresh['participants']['user3'], 'user4':fresh['participants']['user4'], 'user5':userappid},'status':"maqarat completed",'time':widget.users[0].time});
+        else if (length == 5) {
+          await fs.collection('maqarat_male').document(formatted).collection(
+              'flag maqarat').document(widget.channelName).
+          setData(<String, dynamic>{
+            'juz': widget.users[0].juz.toString(),
+            'maqaratID': widget.channelName,
+            'no_participants': 5,
+            'participants': {
+              'user1': widget.users[0].appid,
+              'user2': widget.users[1].appid,
+              'user3': widget.users[2].appid,
+              'user4': widget.users[3].appid,
+              'user5': widget.users[4].appid
+            },
+            'status': "maqarat completed",
+            'time': widget.users[0].time
+          });
         }
+      }
+      await FirebaseDatabase.instance.reference().child('non empty maqarat').child(widget.channelName).remove();
+        print("DB UPDATED");
 
 
     });
+    //await t;
     _waitfordata().then((value) {
       Navigator.pushAndRemoveUntil(
         context,

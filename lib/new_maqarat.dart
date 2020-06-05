@@ -52,12 +52,13 @@ final fb = FirebaseDatabase.instance.reference();
 Future getdetails() async {
   //var maqcount = (await fb.child('users').child('2043').once()).value;
   //return maqcount;
-  DateTime dt=DateTime.now();
+  DateTime dt=DateTime.now().toUtc().add(Duration(minutes: 330));
   print(dt);
-  print('paaaaaaaaaaapiiiiiiiiiiiii');
+  var formatter = new DateFormat('dd-MM-yyyy');
+  String formatted = formatter.format(dt);
   var maqcount=(await fb.child('user_maqarat_booked').child(userappid).once()).value;
     //print(r.documents[0].documentID);
-  QuerySnapshot r = await fs.collection('maqarat_male').where('date',isEqualTo: Timestamp.fromDate(DateTime(dt.year,dt.month,dt.day))).getDocuments();
+  QuerySnapshot r = await fs.collection('maqarat_male').where('date',isEqualTo: formatted).getDocuments();
   //print(Map.from(maqcount.value));
   List details=[r,maqcount];
   return details;
@@ -96,7 +97,8 @@ confirmResult(String date,DocumentSnapshot juzdoc,String time,bool action, Build
           await transaction.update(freshcopy.reference, fresh);
           for(var k=1; k<=fresh[time]["no_participants"]; k++){
             await FirebaseDatabase.instance.reference().child('user_maqarat_booked').child(fresh[time]['participants']['user$k']).child(date).
-            update(<String,dynamic>{fresh[time]['maqaratID']:{'juz':int.parse(freshcopy.documentID),'time':time,'participants':fresh[time]["no_participants"]}});};
+            update(<String,dynamic>{fresh[time]['maqaratID']:{'juz':int.parse(freshcopy.documentID),'time':time,'participants':fresh[time]["no_participants"]}});}
+          await FirebaseDatabase.instance.reference().child("non empty maqarat").update({fresh[time]['maqaratID'].toString():{"users":userappid}});
         }
         else if(freshcopy.data[time]["no_participants"]==1){
           fresh[time]['participants']['user2']=userappid;
@@ -108,7 +110,9 @@ confirmResult(String date,DocumentSnapshot juzdoc,String time,bool action, Build
             'users':fresh[time]['participants']['user1'].toString()+','+fresh[time]['participants']['user2'].toString()}});*///update buffer lobby
           for(var k=1; k<=fresh[time]["no_participants"]; k++){
             await FirebaseDatabase.instance.reference().child('user_maqarat_booked').child(fresh[time]['participants']['user$k']).child(date).
-            update(<String,dynamic>{fresh[time]['maqaratID']:{'juz':int.parse(freshcopy.documentID),'time':time,'participants':fresh[time]["no_participants"]}});}//update user maqarat booked
+            update(<String,dynamic>{fresh[time]['maqaratID']:{'juz':int.parse(freshcopy.documentID),'time':time,'participants':fresh[time]["no_participants"]}});}
+          DataSnapshot nem= await FirebaseDatabase.instance.reference().child('non empty maqarat').child(fresh[time]['maqaratID'].toString()).once();
+          await FirebaseDatabase.instance.reference().child("non empty maqarat").update({fresh[time]['maqaratID'].toString():{"users":nem.value['users']+','+userappid}});
         }
         else if(freshcopy.data[time]["no_participants"]==2){
           fresh[time]['participants']['user3']=userappid;
@@ -121,6 +125,8 @@ confirmResult(String date,DocumentSnapshot juzdoc,String time,bool action, Build
           for(var k=1; k<=fresh[time]["no_participants"]; k++){
             await FirebaseDatabase.instance.reference().child('user_maqarat_booked').child(fresh[time]['participants']['user$k']).child(date).
             update(<String,dynamic>{fresh[time]['maqaratID']:{'juz':int.parse(freshcopy.documentID),'time':time,'participants':fresh[time]["no_participants"]}});}//update user maqarat booked
+          DataSnapshot nem= await FirebaseDatabase.instance.reference().child('non empty maqarat').child(fresh[time]['maqaratID'].toString()).once();
+          await FirebaseDatabase.instance.reference().child("non empty maqarat").update({fresh[time]['maqaratID'].toString():{"users":nem.value['users']+','+userappid}});
         }
         else if(freshcopy.data[time]["no_participants"]==3){
           fresh[time]['participants']['user4']=userappid;
@@ -134,6 +140,8 @@ confirmResult(String date,DocumentSnapshot juzdoc,String time,bool action, Build
           for(var k=1; k<=fresh[time]["no_participants"]; k++){
             await FirebaseDatabase.instance.reference().child('user_maqarat_booked').child(fresh[time]['participants']['user$k']).child(date).
             update(<String,dynamic>{fresh[time]['maqaratID']:{'juz':int.parse(freshcopy.documentID),'time':time,'participants':fresh[time]["no_participants"]}});}//update user maqarat booked
+          DataSnapshot nem= await FirebaseDatabase.instance.reference().child('non empty maqarat').child(fresh[time]['maqaratID'].toString()).once();
+          await FirebaseDatabase.instance.reference().child("non empty maqarat").update({fresh[time]['maqaratID'].toString():{"users":nem.value['users']+','+userappid}});
         }
         else if(freshcopy.data[time]["no_participants"]==4){
           Map newver=fresh;
@@ -157,6 +165,8 @@ confirmResult(String date,DocumentSnapshot juzdoc,String time,bool action, Build
           await fs.collection('maqarat_male').document(date).collection('flag maqarat').document(fresh[time]['maqaratID'].toString()).
           setData(<String,dynamic>{'juz':freshcopy.documentID, 'maqaratID':fresh[time]['maqaratID'], 'no_participants':fresh[time]["no_participants"],
             'participants':newver[time]['participants'],'status':"lobby full",'time':time});
+          DataSnapshot nem= await FirebaseDatabase.instance.reference().child('non empty maqarat').child(fresh[time]['maqaratID'].toString()).once();
+          await FirebaseDatabase.instance.reference().child("non empty maqarat").update({fresh[time]['maqaratID'].toString():{"users":nem.value['users']+','+userappid}});
         }
       });}
 
@@ -191,8 +201,7 @@ class _NewMaqaratState extends State<NewMaqarat> {
   String _currentItemSelected="Date";
   String dateselect;
   List<Slots> todaylist=[];
-  String odate;
-  List<Slots> date1=[];
+  Map<String,List<Slots>> date1={};
 
 
   var _ajzaeven = ['JUZ  ','Juz 2','Juz 4','Juz 6',
@@ -299,20 +308,22 @@ class _NewMaqaratState extends State<NewMaqarat> {
             todaylist=timp;
           }
           else{
-            odate=i;
             List tomp=Map.from(maqlist[dtod[i]]).keys.toList();
             print(tomp);
+            List<Slots> datetemp=[];
             for(var j in utc_times.keys){
               print(j);
               if(j!=maqlist[dtod[i]][tomp[0]]['time']){
-                date1.add(new Slots(j));
+                datetemp.add(new Slots(j));
               }
             }
+            date1[i]=datetemp;
           }
         }
 
       }
       else{
+        date1[i]=_slotList;
         maqarat_count[i]=0;
       }
       j++;
@@ -400,7 +411,8 @@ class _NewMaqaratState extends State<NewMaqarat> {
                                       "Join a Maqarat",
                                       style: TextStyle(
                                         fontFamily: "Segoe UI",fontWeight: FontWeight.w600,
-                                        fontSize: MediaQuery.of(context).size.height *0.0586, //40.0
+                                        fontSize: MediaQuery.of(context).size.width *
+                                            0.0974, //40.0
                                         color:Color(0xff000000),
                                       ),
                                     ),
@@ -408,736 +420,735 @@ class _NewMaqaratState extends State<NewMaqarat> {
                                 ],
                               ),
 
-                              Column(
-                                children: <Widget>[
-                                  Padding(
-                                    padding:  EdgeInsets.only(top:MediaQuery.of(context).size.height*0.007325),//5.0
-                                    child: Container(
-                                      height: MediaQuery.of(context).size.height*0.12013, // 82
-                                      width: MediaQuery.of(context).size.width * 0.90095, // 370
-                                      decoration: BoxDecoration(
-                                        color: Color(0xffffffff),
-                                        border: Border.all(width: 0.25, color: Color(0xff000000),), borderRadius: BorderRadius.circular(20.00),
-                                      ),
-                                      child:Column(
-                                        children: <Widget>[
-                                          Padding(
-                                            padding:  EdgeInsets.only(left:MediaQuery.of(context).size.width*0.0487, top:MediaQuery.of(context).size.height*0.00586), //20, 4
-                                            child: Row(
-                                              children: <Widget>[
-                                                Text(
-                                                  "Select Date",
-                                                  style: TextStyle(
-                                                    fontFamily: "Segoe UI",
-                                                    fontSize: MediaQuery.of(context).size.height*0.033695, //23
-                                                    color:Color(0xff000000),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
+                              Expanded(
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    children: <Widget>[
+                                      Padding(
+                                        padding:  EdgeInsets.only(top:MediaQuery.of(context).size.height*0.007325),//5.0
+                                        child: Container(
+                                          height: MediaQuery.of(context).size.height*0.12013, // 82
+                                          width: MediaQuery.of(context).size.width * 0.90095, // 370
+                                          decoration: BoxDecoration(
+                                            color: Color(0xffffffff),
+                                            border: Border.all(width: 0.25, color: Color(0xff000000),), borderRadius: BorderRadius.circular(20.00),
                                           ),
-                                          Padding(
-                                            padding:  EdgeInsets.only(left:MediaQuery.of(context).size.width*0.1461, right:MediaQuery.of(context).size.width*0.0487), //60, 20
-                                            child: Row(
-                                              children: <Widget>[
-                                                Icon(
-                                                  Icons.today, size: MediaQuery.of(context).size.height*0.0586 , //40
-                                                  color: Color(0xff003CE7),//Color from Database
-                                                ),
-                                                Spacer(),
-                                                Container(
-                                                  height: MediaQuery.of(context).size.height * 0.06446, // 44
-                                                  width: MediaQuery.of(context).size.width*0.440735, //181
-                                                  decoration: BoxDecoration(
-                                                    color: Color(0xffffffff),
-                                                    border: Border.all(width: 1.00, color: Color(0xff707070),),
-                                                  ),
-
-                                                  //dropdown
-                                                  child: Center(
-                                                    child: DropdownButton<String>(
-                                                      items: _dates.map((String dropDownStringItem) {
-                                                        return DropdownMenuItem<String>(
-                                                          value: dropDownStringItem,
-
-                                                          child: Text(dropDownStringItem,style: TextStyle(fontSize: MediaQuery.of(context).size.height*0.027835,fontWeight: FontWeight.w600),),
-                                                        );
-                                                      }).toList(),
-                                                      onChanged: (String newValueSelected) {
-                                                        setState(() {
-                                                          this._currentItemSelected = newValueSelected;
-                                                          //_currentItemSelected=dateselect;
-                                                          if(_currentItemSelected!='Date'){
-                                                          flag=false;
-                                                          i=false;
-                                                          date_check=true;
-                                                          juz_flag=true;
-                                                          //
-                                                          mod_check = int.parse(_currentItemSelected.substring(0,2));
-                                                          selectedJuz='JUZ  ';
-                                                          if (datetochance[
-                                                          _currentItemSelected
-                                                              .toString()] ==
-                                                              "even") {
-                                                            drop_juz = false;
-                                                          } else {
-                                                            drop_juz = true;
-                                                          }
-                                                        }
-                                                        else{
-                                                          i=false;
-                                                          flag=false;
-                                                          juz_flag=false;
-                                                          date_check=false;
-                                                          }});
-                                                      },
-                                                      value: _currentItemSelected,
-                                                      isExpanded: false,
-                                                      hint: Text("Date", style: TextStyle(fontSize: MediaQuery.of(context).size.height*0.027835,fontWeight: FontWeight.w600, letterSpacing: 2.0),),
-                                                    ),
-                                                  ),
-
-                                                ),
-
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding:  EdgeInsets.only(top:MediaQuery.of(context).size.height*0.01172), //8.0
-                                    child: Container(
-                                      height: MediaQuery.of(context).size.height*0.12013, //82
-                                      width: MediaQuery.of(context).size.width*0.90095, //370
-                                      decoration: BoxDecoration(
-                                        color: Color(0xffffffff),
-                                        border: Border.all(width: 0.25, color: Color(0xff000000),), borderRadius: BorderRadius.circular(20.00),
-                                      ),
-                                      child:Column(
-                                        children: <Widget>[
-                                          Padding(
-                                            padding:  EdgeInsets.only(left:MediaQuery.of(context).size.width*0.0487, top:MediaQuery.of(context).size.height*0.00586), //20, 4
-                                            child: Row(
-                                              children: <Widget>[
-                                                Text(
-                                                  "Select Juz",
-                                                  style: TextStyle(
-                                                    fontFamily: "Segoe UI",
-                                                    fontSize: MediaQuery.of(context).size.height*0.033695, //23
-                                                    color:Color(0xff000000),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding:  EdgeInsets.only(left:MediaQuery.of(context).size.width*0.1461, right:MediaQuery.of(context).size.width*0.0487), //60, 20
-                                            child: Row(
-                                              children: <Widget>[
-                                                Icon(
-                                                  Icons.import_contacts, size: MediaQuery.of(context).size.height*0.0586 ,
-                                                  color: Color(0xff003CE7),//Color from Database
-                                                ),
-                                                Spacer(),
-                                                Container(
-                                                  height: MediaQuery.of(context).size.height * 0.06446, // 44
-                                                  width: MediaQuery.of(context).size.width*0.440735, //181
-                                                  decoration: BoxDecoration(
-                                                    color: Color(0xffffffff),
-                                                    border: Border.all(width: 1.00, color: Color(0xff707070),),
-                                                  ),
-
-
-                                                  child: drop_juz ? Visibility(
-                                                    child: Center(
-                                                      child: DropdownButton<String>(
-                                                        items: _ajzaodd.map((String dropDownStringItem) {
-                                                          return DropdownMenuItem<String>(
-                                                            value: dropDownStringItem,
-
-                                                            child: Text(dropDownStringItem,style: TextStyle(fontSize: MediaQuery.of(context).size.height*0.027835,fontWeight: FontWeight.w600),),
-                                                          );
-                                                        }).toList(),
-                                                        onChanged: (String newValueSelected) {
-                                                          setState(() {
-                                                            this.selectedJuz = newValueSelected;
-                                                            flag=false;
-                                                            i=false;
-                                                            juz_check=true;
-                                                          });
-                                                        },
-                                                        value: selectedJuz,
-                                                        isExpanded: false,
-                                                        hint: Text("Juz", style: TextStyle(fontSize: MediaQuery.of(context).size.height*0.027835,fontWeight: FontWeight.w600, letterSpacing: 2.0),),
+                                          child:Column(
+                                            children: <Widget>[
+                                              Padding(
+                                                padding:  EdgeInsets.only(left:MediaQuery.of(context).size.width*0.0487, top:MediaQuery.of(context).size.height*0.00586), //20, 4
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Text(
+                                                      "Select Date",
+                                                      style: TextStyle(
+                                                        fontFamily: "Segoe UI",
+                                                        fontSize: MediaQuery.of(context).size.width*0.065745, //23
+                                                        color:Color(0xff000000),
                                                       ),
                                                     ),
-                                                    maintainState: true,
-                                                    maintainSize: true,
-                                                    maintainAnimation: true,
-                                                    visible: juz_flag,
+                                                  ],
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:  EdgeInsets.only(left:MediaQuery.of(context).size.width*0.1461, right:MediaQuery.of(context).size.width*0.0487), //60, 20
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Icon(
+                                                      Icons.today, size: MediaQuery.of(context).size.height*0.0586 , //40
+                                                      color: Color(0xff003CE7),//Color from Database
+                                                    ),
+                                                    Spacer(),
+                                                    Container(
+                                                      height: MediaQuery.of(context).size.height * 0.06446, // 44
+                                                      width: MediaQuery.of(context).size.width*0.440735, //181
+                                                      decoration: BoxDecoration(
+                                                        color: Color(0xffffffff),
+                                                        border: Border.all(width: 1.00, color: Color(0xff707070),),
+                                                      ),
 
-                                                  ) : Visibility(
-                                                    child: Center(
-                                                      child: DropdownButton<String>(
-                                                        items: _ajzaeven.map((String dropDownStringItem) {
-                                                          return DropdownMenuItem<String>(
-                                                            value: dropDownStringItem,
+                                                      //dropdown
+                                                      child: Center(
+                                                        child: DropdownButton<String>(
+                                                          items: _dates.map((String dropDownStringItem) {
+                                                            return DropdownMenuItem<String>(
+                                                              value: dropDownStringItem,
 
-                                                            child: Text(dropDownStringItem,style: TextStyle(fontSize: MediaQuery.of(context).size.height*0.027835,fontWeight: FontWeight.w600),),
-                                                          );
-                                                        }).toList(),
-                                                        onChanged: (String newValueSelected) {
-                                                          setState(() {
-                                                            this.selectedJuz = newValueSelected;
-                                                            flag=false;
-                                                            i=false;
-                                                            juz_check=true;
-                                                          });
-                                                        },
-                                                        value: selectedJuz,
-                                                        isExpanded: false,
-                                                        hint: Text("Juz", style: TextStyle(fontSize: MediaQuery.of(context).size.height*0.027835,fontWeight: FontWeight.w600, letterSpacing: 2.0),),
+                                                              child: Text(dropDownStringItem,style: TextStyle(fontSize: MediaQuery.of(context).size.height*0.027835,fontWeight: FontWeight.w600),),
+                                                            );
+                                                          }).toList(),
+                                                          onChanged: (String newValueSelected) {
+                                                            setState(() {
+                                                              this._currentItemSelected = newValueSelected;
+                                                              //_currentItemSelected=dateselect;
+                                                              if(_currentItemSelected!='Date'){
+                                                              flag=false;
+                                                              i=false;
+                                                              date_check=true;
+                                                              juz_flag=true;
+                                                              //
+                                                              mod_check = int.parse(_currentItemSelected.substring(0,2));
+                                                              selectedJuz='JUZ  ';
+                                                              if (datetochance[
+                                                              _currentItemSelected
+                                                                  .toString()] ==
+                                                                  "even") {
+                                                                drop_juz = false;
+                                                              } else {
+                                                                drop_juz = true;
+                                                              }
+                                                            }
+                                                            else{
+                                                              i=false;
+                                                              flag=false;
+                                                              juz_flag=false;
+                                                              date_check=false;
+                                                              }});
+                                                          },
+                                                          value: _currentItemSelected,
+                                                          isExpanded: false,
+                                                          hint: Text("Date", style: TextStyle(fontSize: MediaQuery.of(context).size.height*0.027835,fontWeight: FontWeight.w600, letterSpacing: 2.0),),
+                                                        ),
+                                                      ),
+
+                                                    ),
+
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding:  EdgeInsets.only(top:MediaQuery.of(context).size.height*0.01172), //8.0
+                                        child: Container(
+                                          height: MediaQuery.of(context).size.height*0.12013, //82
+                                          width: MediaQuery.of(context).size.width*0.90095, //370
+                                          decoration: BoxDecoration(
+                                            color: Color(0xffffffff),
+                                            border: Border.all(width: 0.25, color: Color(0xff000000),), borderRadius: BorderRadius.circular(20.00),
+                                          ),
+                                          child:Column(
+                                            children: <Widget>[
+                                              Padding(
+                                                padding:  EdgeInsets.only(left:MediaQuery.of(context).size.width*0.0487, top:MediaQuery.of(context).size.height*0.00586), //20, 4
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Text(
+                                                      "Select Juz",
+                                                      style: TextStyle(
+                                                        fontFamily: "Segoe UI",
+                                                        fontSize: MediaQuery.of(context).size.width*0.065745, //23
+                                                        color:Color(0xff000000),
                                                       ),
                                                     ),
-                                                    maintainState: true,
-                                                    maintainSize: true,
-                                                    maintainAnimation: true,
-                                                    visible: juz_flag,
-
-                                                  ),
-
-                                                ),
-
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-
-                                    ),
-                                  ),
-
-                                  Padding(
-                                    padding:  EdgeInsets.only(top:MediaQuery.of(context).size.height*0.01172,right:MediaQuery.of(context).size.width*0.0487,left:MediaQuery.of(context).size.width*0.0487), //8 , 20, 20
-                                    child: Row(
-                                      children: <Widget>[
-                                        GestureDetector(
-                                          onTap:(){
-                                            foo=showlist();
-                                            setState(() {
-                                              if(date_check && juz_check && selectedJuz!='JUZ  ' && _currentItemSelected!='Date')
-                                              {flag=true;
-                                              selectedIndex=-1;
-                                              i=false;}
-                                            });
-
-                                          },
-                                          child: Container(
-                                            height: MediaQuery.of(context).size.height*0.065925, // 45
-                                            width: MediaQuery.of(context).size.width*0.280025, // 115
-                                            decoration: BoxDecoration(
-                                              color: date_check && juz_check && selectedJuz!='JUZ  ' && _currentItemSelected!='Date'? Color(0xff003ce7) : Colors.white,
-                                              border: Border.all(width: 1.00, color: date_check && juz_check && selectedJuz!='JUZ  ' && _currentItemSelected!='Date'? Color(0xff003ce7) : Colors.white,),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  offset: Offset(1.00,1.00),
-                                                  color: Color(0xff000000).withOpacity(0.53),
-                                                  blurRadius: 6,
-                                                ),
-                                              ], borderRadius: BorderRadius.circular(30.00),
-                                            ),
-                                            child:Align(
-                                              alignment: Alignment.centerRight,
-                                              child: Icon(
-                                                Icons.arrow_forward, size: MediaQuery.of(context).size.height*0.0586 ,
-                                                color: date_check && juz_check && selectedJuz!='JUZ  ' && _currentItemSelected!='Date'? Colors.white : Colors.black,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Spacer(),
-                                        Visibility(
-                                          child: Container(
-                                            height: MediaQuery.of(context).size.height*0.065925, //45
-                                            width: MediaQuery.of(context).size.width*0.508915, //209
-                                            decoration: BoxDecoration(
-                                              color: Color(0xffffffff),
-                                              border: Border.all(width: 0.25, color: Color(0xff707070),), borderRadius: BorderRadius.circular(10.00),
-                                            ),
-                                            child: Center(
-                                              child: Text(
-                                                maqarat_count[_currentItemSelected].toString()+" Maqarat Scheduled",  //MAQARAT COUNT
-                                                style: TextStyle(
-                                                  fontFamily: "Segoe UI",
-                                                  fontSize: MediaQuery.of(context).size.height*0.02637, //18
-                                                  color:Color(0xff000000).withOpacity(0.72),
+                                                  ],
                                                 ),
                                               ),
-                                            ),
-                                          ),
-                                          maintainState: true,
-                                          maintainSize: true,
-                                          maintainAnimation: true,
-                                          visible: flag,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
+                                              Padding(
+                                                padding:  EdgeInsets.only(left:MediaQuery.of(context).size.width*0.1461, right:MediaQuery.of(context).size.width*0.0487), //60, 20
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Icon(
+                                                      Icons.import_contacts, size: MediaQuery.of(context).size.height*0.0586 ,
+                                                      color: Color(0xff003CE7),//Color from Database
+                                                    ),
+                                                    Spacer(),
+                                                    Container(
+                                                      height: MediaQuery.of(context).size.height * 0.06446, // 44
+                                                      width: MediaQuery.of(context).size.width*0.440735, //181
+                                                      decoration: BoxDecoration(
+                                                        color: Color(0xffffffff),
+                                                        border: Border.all(width: 1.00, color: Color(0xff707070),),
+                                                      ),
 
 
-                                  Column(
-                                      children: <Widget>[ FutureBuilder(
-                                          future: foo,
-                                          builder: (context, maqsnapshot){
-                                            if (maqsnapshot.connectionState == ConnectionState.waiting) {
-                                              return Container(
-                                                child: Center(
-                                                  child: CircularProgressIndicator(),
-                                                ),
-                                              );
-                                            }
-                                            else if(maqsnapshot.connectionState == ConnectionState.done){
-                                              print(maqsnapshot.data);
+                                                      child: drop_juz ? Visibility(
+                                                        child: Center(
+                                                          child: DropdownButton<String>(
+                                                            items: _ajzaodd.map((String dropDownStringItem) {
+                                                              return DropdownMenuItem<String>(
+                                                                value: dropDownStringItem,
 
-                                              if (maqarat_count[_currentItemSelected] < 2 && selectedJuz!='JUZ  '){
-                                                if(_currentItemSelected==today){
-                                                  L=todaylist;
-                                                  print(today);
-                                                }
-                                                else if(_currentItemSelected==odate){
-                                                  L=date1;
-                                                  print(today+"Date1");
-                                                }
-                                                else{
-                                                  L=_slotList;
-                                                  print(today+"tomorrow");
-                                                }
-                                                return StreamBuilder(
-                                                    stream: fs
-                                                        .collection('maqarat_male')
-                                                        .document(dtod[_currentItemSelected])
-                                                        .collection('live maqarat')
-                                                        .where("juz", isEqualTo: selectedJuz.substring(4,)). snapshots(),
-                                                    builder: (context, juzsnapshot) {
-
-                                                      if (juzsnapshot.connectionState == ConnectionState.waiting) {
-                                                        return Container(
-                                                          child: Center(
-                                                            child:
-                                                            CircularProgressIndicator(),
+                                                                child: Text(dropDownStringItem,style: TextStyle(fontSize: MediaQuery.of(context).size.height*0.027835,fontWeight: FontWeight.w600),),
+                                                              );
+                                                            }).toList(),
+                                                            onChanged: (String newValueSelected) {
+                                                              setState(() {
+                                                                this.selectedJuz = newValueSelected;
+                                                                flag=false;
+                                                                i=false;
+                                                                juz_check=true;
+                                                              });
+                                                            },
+                                                            value: selectedJuz,
+                                                            isExpanded: false,
+                                                            hint: Text("Juz", style: TextStyle(fontSize: MediaQuery.of(context).size.height*0.027835,fontWeight: FontWeight.w600, letterSpacing: 2.0),),
                                                           ),
-                                                        );
-                                                      } else {
-                                                        print(dtod[_currentItemSelected]);
-                                                        print(selectedJuz+" THIS ONE");
-                                                        print(juzsnapshot.data.documents);
+                                                        ),
+                                                        maintainState: true,
+                                                        maintainSize: true,
+                                                        maintainAnimation: true,
+                                                        visible: juz_flag,
 
-                                                        //DocumentSnapshot firestoreData = juzsnapshot.data;
-                                                        //print(firestoreData.data);
-                                                        //getslots(firestoreData.data);
-                                                        return Column(
-                                                          children: <Widget>[
-                                                            Padding(
-                                                              //from here2
-                                                              padding: EdgeInsets.only(
-                                                                  top:
-                                                                  MediaQuery.of(context)
-                                                                      .size
-                                                                      .height *
-                                                                      0.01172), //8.0
-                                                              child: Visibility(
-                                                                child: Container(
-                                                                  height:
-                                                                  MediaQuery.of(context)
-                                                                      .size
-                                                                      .height *
-                                                                      0.24905, //170
-                                                                  width:
-                                                                  MediaQuery.of(context)
-                                                                      .size
-                                                                      .width *
-                                                                      0.90095, //370
-                                                                  decoration: BoxDecoration(
-                                                                    color:
-                                                                    Color(0xffffffff),
-                                                                    border: Border.all(
-                                                                      width: 0.25,
-                                                                      color:
-                                                                      Color(0xff000000),
-                                                                    ),
-                                                                    borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                        20.00),
-                                                                  ),
+                                                      ) : Visibility(
+                                                        child: Center(
+                                                          child: DropdownButton<String>(
+                                                            items: _ajzaeven.map((String dropDownStringItem) {
+                                                              return DropdownMenuItem<String>(
+                                                                value: dropDownStringItem,
 
-                                                                  child: ListView.builder(
-                                                                    itemCount:
-                                                                    L.length,
-                                                                    itemBuilder:
-                                                                        (context, index) {
-                                                                      return GestureDetector(
-                                                                        onTap: () {
-                                                                          setState(() {
-                                                                            if (selectedIndex ==
-                                                                                index) {
-                                                                              selectedIndex =
-                                                                              -1;
-                                                                              i = false;
-                                                                            } else {
-                                                                              selectedIndex =
-                                                                                  index;
-                                                                              i = true;
-                                                                              selectedTime =
-                                                                                  L[
-                                                                                  index]
-                                                                                      .time
-                                                                                      .toString();
-                                                                            }
+                                                                child: Text(dropDownStringItem,style: TextStyle(fontSize: MediaQuery.of(context).size.height*0.027835,fontWeight: FontWeight.w600),),
+                                                              );
+                                                            }).toList(),
+                                                            onChanged: (String newValueSelected) {
+                                                              setState(() {
+                                                                this.selectedJuz = newValueSelected;
+                                                                flag=false;
+                                                                i=false;
+                                                                juz_check=true;
+                                                              });
+                                                            },
+                                                            value: selectedJuz,
+                                                            isExpanded: false,
+                                                            hint: Text("Juz", style: TextStyle(fontSize: MediaQuery.of(context).size.height*0.027835,fontWeight: FontWeight.w600, letterSpacing: 2.0),),
+                                                          ),
+                                                        ),
+                                                        maintainState: true,
+                                                        maintainSize: true,
+                                                        maintainAnimation: true,
+                                                        visible: juz_flag,
 
-                                                                          });
+                                                      ),
+
+                                                    ),
+
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+
+                                        ),
+                                      ),
+
+                                      Padding(
+                                        padding:  EdgeInsets.only(top:MediaQuery.of(context).size.height*0.01172,right:MediaQuery.of(context).size.width*0.0487,left:MediaQuery.of(context).size.width*0.0487), //8 , 20, 20
+                                        child: Row(
+                                          children: <Widget>[
+                                            GestureDetector(
+                                              onTap:(){
+                                                foo=showlist();
+                                                setState(() {
+                                                  if(date_check && juz_check && selectedJuz!='JUZ  ' && _currentItemSelected!='Date')
+                                                  {flag=true;
+                                                  selectedIndex=-1;
+                                                  i=false;}
+                                                });
+
+                                              },
+                                              child: Container(
+                                                height: MediaQuery.of(context).size.height*0.065925, // 45
+                                                width: MediaQuery.of(context).size.width*0.280025, // 115
+                                                decoration: BoxDecoration(
+                                                  color: date_check && juz_check && selectedJuz!='JUZ  ' && _currentItemSelected!='Date'? Color(0xff003ce7) : Colors.white,
+                                                  border: Border.all(width: 1.00, color: date_check && juz_check && selectedJuz!='JUZ  ' && _currentItemSelected!='Date'? Color(0xff003ce7) : Colors.white,),
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      offset: Offset(1.00,1.00),
+                                                      color: Color(0xff000000).withOpacity(0.53),
+                                                      blurRadius: 6,
+                                                    ),
+                                                  ], borderRadius: BorderRadius.circular(30.00),
+                                                ),
+                                                child:Align(
+                                                  alignment: Alignment.centerRight,
+                                                  child: Icon(
+                                                    Icons.arrow_forward, size: MediaQuery.of(context).size.height*0.0586 ,
+                                                    color: date_check && juz_check && selectedJuz!='JUZ  ' && _currentItemSelected!='Date'? Colors.white : Colors.black,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            Spacer(),
+                                            Visibility(
+                                              child: Container(
+                                                height: MediaQuery.of(context).size.height*0.065925, //45
+                                                width: MediaQuery.of(context).size.width*0.508915, //209
+                                                decoration: BoxDecoration(
+                                                  color: Color(0xffffffff),
+                                                  border: Border.all(width: 0.25, color: Color(0xff707070),), borderRadius: BorderRadius.circular(10.00),
+                                                ),
+                                                child: Center(
+                                                  child: Text(
+                                                    maqarat_count[_currentItemSelected].toString()+" Maqarat Scheduled",  //MAQARAT COUNT
+                                                    style: TextStyle(
+                                                      fontFamily: "Segoe UI",
+                                                      fontSize: MediaQuery.of(context).size.width*0.046265, //18
+                                                      color:Color(0xff000000).withOpacity(0.72),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              maintainState: true,
+                                              maintainSize: true,
+                                              maintainAnimation: true,
+                                              visible: flag,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+
+
+                                      Column(
+                                          children: <Widget>[ FutureBuilder(
+                                              future: foo,
+                                              builder: (context, maqsnapshot){
+                                                if (maqsnapshot.connectionState == ConnectionState.waiting) {
+                                                  return Container(
+                                                    child: Center(
+                                                      child: CircularProgressIndicator(),
+                                                    ),
+                                                  );
+                                                }
+                                                else if(maqsnapshot.connectionState == ConnectionState.done){
+                                                  print(maqsnapshot.data);
+
+                                                  if (maqarat_count[_currentItemSelected] < 2 && selectedJuz!='JUZ  '){
+                                                    if(_currentItemSelected==today){
+                                                      L=todaylist;
+                                                      print(today);
+                                                    }
+                                                    else{
+                                                      L=date1[_currentItemSelected];
+                                                      print(today+"tomorrow");
+                                                    }
+                                                    return StreamBuilder(
+                                                        stream: fs
+                                                            .collection('maqarat_male')
+                                                            .document(dtod[_currentItemSelected])
+                                                            .collection('live maqarat')
+                                                            .where("juz", isEqualTo: selectedJuz.substring(4,)). snapshots(),
+                                                        builder: (context, juzsnapshot) {
+
+                                                          if (juzsnapshot.connectionState == ConnectionState.waiting) {
+                                                            return Container(
+                                                              child: Center(
+                                                                child:
+                                                                CircularProgressIndicator(),
+                                                              ),
+                                                            );
+                                                          } else {
+                                                            print(dtod[_currentItemSelected]);
+                                                            print(selectedJuz+" THIS ONE");
+                                                            print(juzsnapshot.data.documents);
+
+                                                            //DocumentSnapshot firestoreData = juzsnapshot.data;
+                                                            //print(firestoreData.data);
+                                                            //getslots(firestoreData.data);
+                                                            return Column(
+                                                              children: <Widget>[
+                                                                Padding(
+                                                                  //from here2
+                                                                  padding: EdgeInsets.only(
+                                                                      top:
+                                                                      MediaQuery.of(context)
+                                                                          .size
+                                                                          .height *
+                                                                          0.01172), //8.0
+                                                                  child: Visibility(
+                                                                    child: Container(
+                                                                      height:
+                                                                      MediaQuery.of(context)
+                                                                          .size
+                                                                          .height *
+                                                                          0.24905, //170
+                                                                      width:
+                                                                      MediaQuery.of(context)
+                                                                          .size
+                                                                          .width *
+                                                                          0.90095, //370
+                                                                      decoration: BoxDecoration(
+                                                                        color:
+                                                                        Color(0xffffffff),
+                                                                        border: Border.all(
+                                                                          width: 0.25,
+                                                                          color:
+                                                                          Color(0xff000000),
+                                                                        ),
+                                                                        borderRadius:
+                                                                        BorderRadius
+                                                                            .circular(
+                                                                            20.00),
+                                                                      ),
+
+                                                                      child: ListView.builder(
+                                                                        itemCount:
+                                                                        L.length,
+                                                                        itemBuilder:
+                                                                            (context, index) {
+                                                                          return GestureDetector(
+                                                                            onTap: () {
+                                                                              setState(() {
+                                                                                if (selectedIndex ==
+                                                                                    index) {
+                                                                                  selectedIndex =
+                                                                                  -1;
+                                                                                  i = false;
+                                                                                } else {
+                                                                                  selectedIndex =
+                                                                                      index;
+                                                                                  i = true;
+                                                                                  selectedTime =
+                                                                                      L[
+                                                                                      index]
+                                                                                          .time
+                                                                                          .toString();
+                                                                                }
+
+                                                                              });
+                                                                            },
+                                                                            /*onDoubleTap: (){
+                                                               setState(() {
+                                                                 selectedIndex=-1;
+                                                               });
+                                                             },*/
+                                                                            child: Row(
+                                                                              children: <
+                                                                                  Widget>[
+                                                                                Spacer(),
+                                                                                Padding(
+                                                                                  padding: EdgeInsets.only(
+                                                                                      top: MediaQuery.of(context)
+                                                                                          .size
+                                                                                          .height *
+                                                                                          0.01172),
+                                                                                  //8.0
+                                                                                  child: Container(
+                                                                                      height: MediaQuery.of(context).size.height * 0.065925,
+                                                                                      //45
+                                                                                      width: MediaQuery.of(context).size.width * 0.74511,
+                                                                                      //306
+                                                                                      decoration: BoxDecoration(
+                                                                                        color: index ==
+                                                                                            selectedIndex
+                                                                                            ? Color(0xff00ff00)
+                                                                                            : Color(0xffffffff),
+                                                                                        border:
+                                                                                        Border.all(
+                                                                                          width:
+                                                                                          1.00,
+                                                                                          color:
+                                                                                          Color(0xff707070),
+                                                                                        ),
+                                                                                        borderRadius:
+                                                                                        BorderRadius.circular(10.00),
+                                                                                      ),
+                                                                                      child: Padding(
+                                                                                        padding: EdgeInsets.only(
+                                                                                            left: MediaQuery.of(context).size.width *
+                                                                                                0.01948,
+                                                                                            right:
+                                                                                            MediaQuery.of(context).size.width * 0.01948),
+                                                                                        //8.0 , 8
+                                                                                        child:
+                                                                                        Row(
+                                                                                          children: <
+                                                                                              Widget>[
+                                                                                            Text(
+                                                                                              L[index].time + " IST",
+                                                                                              style: TextStyle(
+                                                                                                fontFamily: "Segoe UI",
+                                                                                                fontWeight: FontWeight.w700,
+                                                                                                fontSize: MediaQuery.of(context).size.height * 0.033695,
+                                                                                                //23
+                                                                                                color: Color(0xff000000),
+                                                                                              ),
+                                                                                            ),
+                                                                                            Spacer(),
+                                                                                            Text(
+                                                                                              juzsnapshot.data.documents[0][L[index].time.toString()]["no_participants"].toString()+"/5",
+                                                                                              style: TextStyle(
+                                                                                                fontFamily: "Segoe UI",
+                                                                                                fontSize: MediaQuery.of(context).size.height * 0.02637,
+                                                                                                //18
+                                                                                                color: Color(0xff000000),
+                                                                                              ),
+                                                                                            ),
+                                                                                            Spacer(),
+                                                                                            Icon(
+                                                                                              index == selectedIndex ? Icons.check_box : Icons.check_box_outline_blank,
+                                                                                              size: MediaQuery.of(context).size.height * 0.04395, //30
+                                                                                            ),
+                                                                                          ],
+                                                                                        ),
+                                                                                      )),
+                                                                                ),
+                                                                                Spacer(),
+                                                                              ],
+                                                                            ),
+                                                                          );
                                                                         },
-                                                                        /*onDoubleTap: (){
-                                                           setState(() {
-                                                             selectedIndex=-1;
-                                                           });
-                                                         },*/
-                                                                        child: Row(
-                                                                          children: <
-                                                                              Widget>[
-                                                                            Spacer(),
-                                                                            Padding(
-                                                                              padding: EdgeInsets.only(
-                                                                                  top: MediaQuery.of(context)
-                                                                                      .size
-                                                                                      .height *
-                                                                                      0.01172),
-                                                                              //8.0
-                                                                              child: Container(
-                                                                                  height: MediaQuery.of(context).size.height * 0.065925,
-                                                                                  //45
-                                                                                  width: MediaQuery.of(context).size.width * 0.74511,
-                                                                                  //306
-                                                                                  decoration: BoxDecoration(
-                                                                                    color: index ==
-                                                                                        selectedIndex
-                                                                                        ? Color(0xff00ff00)
-                                                                                        : Color(0xffffffff),
-                                                                                    border:
-                                                                                    Border.all(
-                                                                                      width:
-                                                                                      1.00,
-                                                                                      color:
-                                                                                      Color(0xff707070),
-                                                                                    ),
-                                                                                    borderRadius:
-                                                                                    BorderRadius.circular(10.00),
-                                                                                  ),
-                                                                                  child: Padding(
-                                                                                    padding: EdgeInsets.only(
-                                                                                        left: MediaQuery.of(context).size.width *
-                                                                                            0.01948,
-                                                                                        right:
-                                                                                        MediaQuery.of(context).size.width * 0.01948),
-                                                                                    //8.0 , 8
-                                                                                    child:
-                                                                                    Row(
-                                                                                      children: <
+                                                                      ),
+                                                                    ),
+                                                                    maintainSize: true,
+                                                                    maintainState: true,
+                                                                    maintainAnimation: true,
+                                                                    visible: flag,
+                                                                  ),
+                                                                ),
+                                                                Padding(
+                                                                  padding: EdgeInsets.only(
+                                                                      top:
+                                                                      MediaQuery.of(context)
+                                                                          .size
+                                                                          .height *
+                                                                          0.01172,
+                                                                      right:
+                                                                      MediaQuery.of(context)
+                                                                          .size
+                                                                          .width *
+                                                                          0.0487), //8 , 20
+                                                                  child: Align(
+                                                                    alignment:
+                                                                    Alignment.centerRight,
+                                                                    child: Visibility(
+                                                                      child: Material(
+                                                                        child: InkWell(
+                                                                          onTap: () {
+                                                                            if (i == true) {
+                                                                              showDialog(
+                                                                                  context:
+                                                                                  context,
+                                                                                  builder:
+                                                                                      (BuildContext
+                                                                                  context) {
+                                                                                    return AlertDialog(
+                                                                                      title:
+                                                                                      Text(
+                                                                                        "Confirm",
+                                                                                      ),
+                                                                                      content: Text("Date: " +
+                                                                                          _currentItemSelected +
+                                                                                          "\nTime: " +
+                                                                                          selectedTime +
+                                                                                          " IST\nJuz: " +
+                                                                                          selectedJuz +
+                                                                                          "\n\nOnce confirmed Maqarat cannot be changed nor deleted\nAttendance is mandatory\n"
+                                                                                              "Wait for data sync after confirming"),
+                                                                                      actions: <
                                                                                           Widget>[
-                                                                                        Text(
-                                                                                          L[index].time + " IST",
-                                                                                          style: TextStyle(
-                                                                                            fontFamily: "Segoe UI",
-                                                                                            fontWeight: FontWeight.w700,
-                                                                                            fontSize: MediaQuery.of(context).size.height * 0.033695,
-                                                                                            //23
-                                                                                            color: Color(0xff000000),
+                                                                                        FlatButton(
+                                                                                          child:
+                                                                                          Text(
+                                                                                            "Cancel",
                                                                                           ),
+                                                                                          onPressed: () {
+
+                                                                                        confirmResult(dtod[_currentItemSelected],juzsnapshot.data.documents[0],
+                                                                                        selectedTime,
+                                                                                        false,
+                                                                                        context);
+                                                                                        }
                                                                                         ),
-                                                                                        Spacer(),
-                                                                                        Text(
-                                                                                          juzsnapshot.data.documents[0][L[index].time.toString()]["no_participants"].toString()+"/5",
-                                                                                          style: TextStyle(
-                                                                                            fontFamily: "Segoe UI",
-                                                                                            fontSize: MediaQuery.of(context).size.height * 0.02637,
-                                                                                            //18
-                                                                                            color: Color(0xff000000),
-                                                                                          ),
-                                                                                        ),
-                                                                                        Spacer(),
-                                                                                        Icon(
-                                                                                          index == selectedIndex ? Icons.check_box : Icons.check_box_outline_blank,
-                                                                                          size: MediaQuery.of(context).size.height * 0.04395, //30
+                                                                                        FlatButton(
+                                                                                            child:
+                                                                                            Text("Confirm"),
+                                                                                            onPressed: () {
+
+                                                                                              confirmResult(dtod[_currentItemSelected],juzsnapshot.data.documents[0],
+                                                                                                  selectedTime,
+                                                                                                  true,
+                                                                                                  context);
+                                                                                            }
                                                                                         ),
                                                                                       ],
-                                                                                    ),
-                                                                                  )),
-                                                                            ),
-                                                                            Spacer(),
-                                                                          ],
-                                                                        ),
-                                                                      );
-                                                                    },
-                                                                  ),
-                                                                ),
-                                                                maintainSize: true,
-                                                                maintainState: true,
-                                                                maintainAnimation: true,
-                                                                visible: flag,
-                                                              ),
-                                                            ),
-                                                            Padding(
-                                                              padding: EdgeInsets.only(
-                                                                  top:
-                                                                  MediaQuery.of(context)
-                                                                      .size
-                                                                      .height *
-                                                                      0.01172,
-                                                                  right:
-                                                                  MediaQuery.of(context)
-                                                                      .size
-                                                                      .width *
-                                                                      0.0487), //8 , 20
-                                                              child: Align(
-                                                                alignment:
-                                                                Alignment.centerRight,
-                                                                child: Visibility(
-                                                                  child: Material(
-                                                                    child: InkWell(
-                                                                      onTap: () {
-                                                                        if (i == true) {
-                                                                          showDialog(
-                                                                              context:
-                                                                              context,
-                                                                              builder:
-                                                                                  (BuildContext
-                                                                              context) {
-                                                                                return AlertDialog(
-                                                                                  title:
-                                                                                  Text(
-                                                                                    "Confirm",
+                                                                                    );
+                                                                                  });
+                                                                            }
+                                                                          },
+                                                                          child: Container(
+                                                                              height: MediaQuery.of(
+                                                                                  context)
+                                                                                  .size
+                                                                                  .height *
+                                                                                  0.065925,
+                                                                              //45
+                                                                              width: MediaQuery.of(
+                                                                                  context)
+                                                                                  .size
+                                                                                  .width *
+                                                                                  0.2435,
+                                                                              //100
+                                                                              decoration:
+                                                                              BoxDecoration(
+                                                                                color: i
+                                                                                    ? Color(
+                                                                                    0xff00ff00)
+                                                                                    : Color(
+                                                                                    0xffffffff),
+                                                                                border:
+                                                                                Border.all(
+                                                                                  width: 1.00,
+                                                                                  color: i
+                                                                                      ? Color(
+                                                                                      0xff00ff00)
+                                                                                      : Color(
+                                                                                      0xffffffff),
+                                                                                ),
+                                                                                boxShadow: [
+                                                                                  BoxShadow(
+                                                                                    offset: Offset(
+                                                                                        1.00,
+                                                                                        1.00),
+                                                                                    color: Color(
+                                                                                        0xff000000)
+                                                                                        .withOpacity(
+                                                                                        0.53),
+                                                                                    blurRadius:
+                                                                                    6,
                                                                                   ),
-                                                                                  content: Text("Date: " +
-                                                                                      _currentItemSelected +
-                                                                                      "\nTime: " +
-                                                                                      selectedTime +
-                                                                                      " IST\nJuz: " +
-                                                                                      selectedJuz +
-                                                                                      "\n\nOnce confirmed Maqarat cannot be changed nor deleted\nAttendance is mandatory\n"
-                                                                                          "Wait for data sync after confirming"),
-                                                                                  actions: <
-                                                                                      Widget>[
-                                                                                    FlatButton(
-                                                                                      child:
-                                                                                      Text(
-                                                                                        "Cancel",
-                                                                                      ),
-                                                                                      onPressed: () {
-
-                                                                                    confirmResult(dtod[_currentItemSelected],juzsnapshot.data.documents[0],
-                                                                                    selectedTime,
-                                                                                    false,
-                                                                                    context);
-                                                                                    }
-                                                                                    ),
-                                                                                    FlatButton(
-                                                                                        child:
-                                                                                        Text("Confirm"),
-                                                                                        onPressed: () {
-
-                                                                                          confirmResult(dtod[_currentItemSelected],juzsnapshot.data.documents[0],
-                                                                                              selectedTime,
-                                                                                              true,
-                                                                                              context);
-                                                                                        }
-                                                                                    ),
-                                                                                  ],
-                                                                                );
-                                                                              });
-                                                                        }
-                                                                      },
-                                                                      child: Container(
-                                                                          height: MediaQuery.of(
-                                                                              context)
-                                                                              .size
-                                                                              .height *
-                                                                              0.065925,
-                                                                          //45
-                                                                          width: MediaQuery.of(
-                                                                              context)
-                                                                              .size
-                                                                              .width *
-                                                                              0.2435,
-                                                                          //100
-                                                                          decoration:
-                                                                          BoxDecoration(
-                                                                            color: i
-                                                                                ? Color(
-                                                                                0xff00ff00)
-                                                                                : Color(
-                                                                                0xffffffff),
-                                                                            border:
-                                                                            Border.all(
-                                                                              width: 1.00,
-                                                                              color: i
-                                                                                  ? Color(
-                                                                                  0xff00ff00)
-                                                                                  : Color(
-                                                                                  0xffffffff),
-                                                                            ),
-                                                                            boxShadow: [
-                                                                              BoxShadow(
-                                                                                offset: Offset(
-                                                                                    1.00,
-                                                                                    1.00),
-                                                                                color: Color(
-                                                                                    0xff000000)
-                                                                                    .withOpacity(
-                                                                                    0.53),
-                                                                                blurRadius:
-                                                                                6,
+                                                                                ],
+                                                                                borderRadius:
+                                                                                BorderRadius
+                                                                                    .circular(
+                                                                                    30.00),
                                                                               ),
-                                                                            ],
-                                                                            borderRadius:
-                                                                            BorderRadius
-                                                                                .circular(
-                                                                                30.00),
-                                                                          ),
-                                                                          child: Center(
-                                                                            child: Text(
-                                                                              "Confirm",
-                                                                              style:
-                                                                              TextStyle(
-                                                                                fontFamily:
-                                                                                "Segoe UI",
-                                                                                fontWeight:
-                                                                                FontWeight
-                                                                                    .w600,
-                                                                                fontSize: MediaQuery.of(context)
-                                                                                    .size
-                                                                                    .height *
-                                                                                    0.027835,
-                                                                                //19
-                                                                                color: Color(
-                                                                                    0xff000000),
-                                                                              ),
-                                                                            ),
-                                                                          )),
+                                                                              child: Center(
+                                                                                child: Text(
+                                                                                  "Confirm",
+                                                                                  style:
+                                                                                  TextStyle(
+                                                                                    fontFamily:
+                                                                                    "Segoe UI",
+                                                                                    fontWeight:
+                                                                                    FontWeight
+                                                                                        .w600,
+                                                                                    fontSize: MediaQuery.of(context)
+                                                                                        .size
+                                                                                        .width*0.0487,
+                                                                                    //19
+                                                                                    color: Color(
+                                                                                        0xff000000),
+                                                                                  ),
+                                                                                ),
+                                                                              )),
+                                                                        ),
+                                                                      ),
+                                                                      maintainSize: true,
+                                                                      maintainAnimation: true,
+                                                                      maintainState: true,
+                                                                      visible: flag,
                                                                     ),
                                                                   ),
-                                                                  maintainSize: true,
-                                                                  maintainAnimation: true,
-                                                                  maintainState: true,
-                                                                  visible: flag,
-                                                                ),
-                                                              ),
-                                                            )
-                                                          ],
-                                                        );
-                                                      }
-                                                    });
-                                              }
-                                              else if(maqarat_count[_currentItemSelected]>=2){
-                                                Visibility(
-                                                  child: Container(
-                                                    height:
-                                                    MediaQuery.of(context).size.height *
-                                                        0.3223, //220
-                                                    width:
-                                                    MediaQuery.of(context).size.width,
-                                                    child: Center(
-                                                        child: Column(
-                                                          children: <Widget>[
-                                                            SizedBox(
-                                                              height: MediaQuery.of(context)
-                                                                  .size
-                                                                  .height *
-                                                                  0.1172,
-                                                            ), //80.0
-                                                            Text('Maximum Limit Reached',
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                    MediaQuery.of(context)
-                                                                        .size
-                                                                        .height *
-                                                                        0.027835,
-                                                                    fontWeight:
-                                                                    FontWeight.w600)),
-                                                            Text(
-                                                                'Cannot book a new Maqarat for the same date',
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                    MediaQuery.of(context)
-                                                                        .size
-                                                                        .height *
-                                                                        0.021975,
-                                                                    fontWeight:
-                                                                    FontWeight.w600)),
-                                                          ],
-                                                        )),
+                                                                )
+                                                              ],
+                                                            );
+                                                          }
+                                                        });
+                                                  }
+                                                  else if(maqarat_count[_currentItemSelected]>=2){
+                                                    Visibility(
+                                                      child: Container(
+                                                        height:
+                                                        MediaQuery.of(context).size.height *
+                                                            0.3223, //220
+                                                        width:
+                                                        MediaQuery.of(context).size.width,
+                                                        child: Center(
+                                                            child: Column(
+                                                              children: <Widget>[
+                                                                SizedBox(
+                                                                  height: MediaQuery.of(context)
+                                                                      .size
+                                                                      .height *
+                                                                      0.1172,
+                                                                ), //80.0
+                                                                Text('Maximum Limit Reached',
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                        MediaQuery.of(context)
+                                                                            .size
+                                                                            .height *
+                                                                            0.027835,
+                                                                        fontWeight:
+                                                                        FontWeight.w600)),
+                                                                Text(
+                                                                    'Cannot book a new Maqarat for the same date',
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                        MediaQuery.of(context)
+                                                                            .size
+                                                                            .height *
+                                                                            0.021975,
+                                                                        fontWeight:
+                                                                        FontWeight.w600)),
+                                                              ],
+                                                            )),
+                                                      ),
+                                                      maintainSize: true,
+                                                      maintainState: true,
+                                                      maintainAnimation: true,
+                                                      visible: flag,
+                                                    );}
+                                                }
+                                                return Container(
+                                                  child: Center(
+                                                    child:
+                                                    Text(" "),
                                                   ),
-                                                  maintainSize: true,
-                                                  maintainState: true,
-                                                  maintainAnimation: true,
-                                                  visible: flag,
                                                 );}
-                                            }
-                                            return Container(
-                                              child: Center(
-                                                child:
-                                                Text(" "),
-                                              ),
-                                            );}
-                                      ),
-                                      ]),
-                                  //else
-                                  /* Visibility(
-                                      child: Container(
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.3223, //220
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        child: Center(
-                                            child: Column(
-                                          children: <Widget>[
-                                            SizedBox(
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.1172,
-                                            ), //80.0
-                                            Text('Maximum Limit Reached',
-                                                style: TextStyle(
-                                                    fontSize:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .height *
-                                                            0.027835,
-                                                    fontWeight:
-                                                        FontWeight.w600)),
-                                            Text(
-                                                'Cannot book a new Maqarat for the same date',
-                                                style: TextStyle(
-                                                    fontSize:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .height *
-                                                            0.021975,
-                                                    fontWeight:
-                                                        FontWeight.w600)),
-                                          ],
-                                        )),
-                                      ),
-                                      maintainSize: true,
-                                      maintainState: true,
-                                      maintainAnimation: true,
-                                      visible: flag,
-                                    ),*/
-                                ],
+                                          ),
+                                          ]),
+                                      //else
+                                      /* Visibility(
+                                          child: Container(
+                                            height:
+                                                MediaQuery.of(context).size.height *
+                                                    0.3223, //220
+                                            width:
+                                                MediaQuery.of(context).size.width,
+                                            child: Center(
+                                                child: Column(
+                                              children: <Widget>[
+                                                SizedBox(
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                      0.1172,
+                                                ), //80.0
+                                                Text('Maximum Limit Reached',
+                                                    style: TextStyle(
+                                                        fontSize:
+                                                            MediaQuery.of(context)
+                                                                    .size
+                                                                    .height *
+                                                                0.027835,
+                                                        fontWeight:
+                                                            FontWeight.w600)),
+                                                Text(
+                                                    'Cannot book a new Maqarat for the same date',
+                                                    style: TextStyle(
+                                                        fontSize:
+                                                            MediaQuery.of(context)
+                                                                    .size
+                                                                    .height *
+                                                                0.021975,
+                                                        fontWeight:
+                                                            FontWeight.w600)),
+                                              ],
+                                            )),
+                                          ),
+                                          maintainSize: true,
+                                          maintainState: true,
+                                          maintainAnimation: true,
+                                          visible: flag,
+                                        ),*/
+                                    ],
+                                  ),
+                                ),
                               )
                             ],
                           )),

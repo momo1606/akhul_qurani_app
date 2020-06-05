@@ -5,6 +5,10 @@ import 'package:mahadalzahra/buffer.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mahadalzahra/services/authentication.dart';
+import 'package:mahadalzahra/src/pages/call.dart';
+import 'package:mahadalzahra/src/pages/index.dart';
+import 'package:permission_handler/permission_handler.dart';
+
 String channel;
 class MaqaratPage extends StatefulWidget {
   Map info;
@@ -30,35 +34,54 @@ Future<bool> _waitfordata() async {
 
   return true;
 }
-
+Future<void> _handleCameraAndMic() async {
+  await PermissionHandler().requestPermissions(
+    [PermissionGroup.camera, PermissionGroup.microphone],
+  );
+}
 createbuffer(BuildContext context,Maqarat maqarat)async{
   final dataRef = FirebaseDatabase.instance.reference().child('buffer_lobby');
-  bool admin;
-  var now=DateTime.now();
+  var now=DateTime.now().toUtc().add(Duration(minutes: 330));
   var formatter = new DateFormat('dd-MM-yyyy');
   String formatted = formatter.format(now);
  var trans= dataRef.runTransaction((MutableData transaction) async{
-   DataSnapshot r= await dataRef.child(maqarat.channel).once();
+   /*DataSnapshot g= await FirebaseDatabase.instance.reference().child('non empty maqarat').child(maqarat.channel).once();
+   List l=g.value['users'].toString().split(',');*/
+   /*DataSnapshot r= await dataRef.child(maqarat.channel).once();
    print(r.value);
    if(r.value==null){
-     await FirebaseDatabase.instance.reference().child('buffer_lobby').
-     update(<String,dynamic>{maqarat.channel.toString():{userappid:{'channel':maqarat.channel,'juz':maqarat.juz, 'time': maqarat.time, 'isadmin':true, 'bool1': false, 'bool2':true}}});
+     await FirebaseDatabase.instance.reference().child('buffer_lobby').child(
+         maqarat.channel).child(userappid).
+     update(<String, dynamic>{
+       'channel': maqarat.channel,
+       'juz': maqarat.juz,
+       'time': maqarat.time,
+       'isadmin': false,
+       'bool1': false,
+       'bool2': false
+     });
      admin=true;
-   }
-   else{
-     await FirebaseDatabase.instance.reference().child('buffer_lobby').child(maqarat.channel).
-     update(<String,dynamic>{userappid:{'channel':maqarat.channel,'juz':maqarat.juz, 'time': maqarat.time, 'isadmin':false, 'bool1': false, 'bool2':false}});
-     admin=false;
-   }
-   await Firestore.instance.collection('maqarat_male').document(formatted).collection('flag maqarat').document(maqarat.channel).
+   }*/
+     await FirebaseDatabase.instance.reference().child('buffer_lobby').child(
+         maqarat.channel).child(userappid).
+     update(<String, dynamic>{
+       'channel': maqarat.channel,
+       'juz': maqarat.juz,
+       'time': maqarat.time,
+       'isadmin': false,
+       'bool1': false,
+       'bool2': false
+     });
+
+   /*await Firestore.instance.collection('maqarat_male').document(formatted).collection('flag maqarat').document(maqarat.channel).
    setData(<String,dynamic>{'juz':maqarat.juz.toString(), 'maqaratID':maqarat.channel, 'no_participants': 0,
-     'participants':{'user1':"", 'user2':"",'user3':"", 'user4':"", 'user5':""},'status':"maqarat completed",'time':maqarat.time});
+     'participants':{'user1':"", 'user2':"",'user3':"", 'user4':"", 'user5':""},'status':"maqarat is live",'time':maqarat.time});*/
     return transaction;
   });
   await trans;
 
 
- _waitfordata().then((value) {
+ _waitfordata().then((value)  {
     if(value){
       channel=maqarat.channel;
       /*Navigator.push(context,
@@ -68,7 +91,7 @@ createbuffer(BuildContext context,Maqarat maqarat)async{
               }));*/
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => Buffer(admin,maqarat,maqarat.channel))
+        MaterialPageRoute(builder: (context) => Buffer(maqarat,maqarat.channel))
       );
     }
   });
@@ -174,20 +197,24 @@ class _MaqaratPageState extends State<MaqaratPage> {
           .toList();
       for (var i = 0; i < temp.length; i++) {
         isTime=false;
-        print(DateFormat('dd-MM-yyyy').format(DateTime.now()));
-        print(widget.dkey);
-        bool cur_date=DateFormat('dd-MM-yyyy').format(DateTime.now())==widget.dkey.toString();
-        print(cur_date);
+        //print(DateFormat('dd-MM-yyyy').format(DateTime.now().toUtc().add(Duration(minutes: 330))));
+        //print(widget.dkey);
+        var to_date=DateTime.now().toUtc().add(Duration(minutes: 330));
+        bool cur_date=DateFormat('dd-MM-yyyy').format(DateTime.now().toUtc().add(Duration(minutes: 330)))==widget.dkey.toString();
+        print(cur_date.toString()+"paapii");
         if(cur_date){
+          print(widget.dkey);
           print(widget.info[widget.dkey][temp[i].toString()]['time']);
         utc_t=utc_times[widget.info[widget.dkey][temp[i].toString()]['time'].toString()];
         print(utc_t);
         check_time=utc_t.toString().split(':');
-        print(check_time[0]);
-        print(check_time[1]);
+        print('check_time');
+        //print(check_time[0]);
+        //print(check_time[1]);
         n=DateTime.now().toUtc();
-        comp=DateTime.utc(1,1,1,int.parse(check_time[0]),int.parse(check_time[1])).difference(DateTime.utc(1,1,1,n.hour,n.minute)).inSeconds;
-        print('***************');
+        print(n);
+        comp=DateTime.utc(to_date.year,to_date.month,to_date.day,int.parse(check_time[0]),int.parse(check_time[1])).difference(DateTime.utc(n.year,n.month,n.day,n.hour,n.minute)).inSeconds;
+        //print('***************');
         print(comp);
         if(comp<60){
           continue;
@@ -433,10 +460,10 @@ class _MaqaratPageState extends State<MaqaratPage> {
                                         //print(_maqaratList[index].isTime);
                                         if (_maqaratList[index].isTime) {
                                           DateTime en=DateTime.now().toUtc();
-                                          print(_maqaratList[index].time);
+                                          //print(_maqaratList[index].time);
                                           List temp=utc_times[_maqaratList[index].time].toString().split(':');
                                           int comptest;
-                                          comptest=DateTime.utc(1,1,1,int.parse(temp[0]),int.parse(temp[1])).difference(DateTime.utc(1,1,1,en.hour,en.minute)).inSeconds;
+                                          comptest=DateTime.utc(1,1,1,int.parse(temp[0]),int.parse(temp[1])).difference(DateTime.utc(1,1,1,en.hour,en.minute,en.second)).inSeconds;
                                           if(60<comptest && comptest<360){
                                             showDialog(
                                                 context:
@@ -449,8 +476,8 @@ class _MaqaratPageState extends State<MaqaratPage> {
                                                     Text(
                                                       "Confirm",
                                                     ),
-                                                    content: Text("Once confirmed, wait for the Lobby to be created \n"
-                                                            "DO NOT EXIT THE LOBBY"),
+                                                    content: Text("Once confirmed, wait few seconds for the Lobby to be created \n"
+                                                        "DO NOT EXIT THE LOBBY"),
                                                     actions: <
                                                         Widget>[
                                                       FlatButton(
@@ -468,7 +495,7 @@ class _MaqaratPageState extends State<MaqaratPage> {
                                                 });
                                             //createbuffer(context,_maqaratList[index]);
 
-                                        }}
+                                          }}
                                       },
                                       child: Icon(
                                           _maqaratList[index].isTime

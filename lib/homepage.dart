@@ -74,7 +74,7 @@ class _HomePageState extends State<HomePage> {
               icon: Icon(
                 Icons.add_circle_outline,
               ),
-              title: Text('Join Maqarat',
+              title: Text('Maqarat',
                   style: TextStyle(fontWeight: FontWeight.bold)),
               activeIcon: Icon(Icons.add_circle),
             ),

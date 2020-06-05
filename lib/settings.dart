@@ -85,7 +85,8 @@ class _SettingsState extends State<Settings> {
                                   "Information",
                                   style: TextStyle(
                                     fontFamily: "Segoe UI",fontWeight: FontWeight.w600,
-                                    fontSize: MediaQuery.of(context).size.height *0.0586, //40.0
+                                    fontSize: MediaQuery.of(context).size.width *
+                                        0.0974, //40.0
                                     color:Color(0xff000000),
                                   ),
                                 ),
@@ -108,19 +109,23 @@ class _SettingsState extends State<Settings> {
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.only(top:5.0),
-                                        child: Align(alignment: Alignment.centerLeft, child: Text("2. Two(2) Maqarats cannot be booked for the same time",style: TextStyle(fontSize: 19.0))),
+                                        child: Align(alignment: Alignment.centerLeft, child: Text("2. Two Maqarats cannot be booked for the same time slot of a given date",style: TextStyle(fontSize: 19.0))),
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.only(top:5.0),
-                                        child: Align(alignment: Alignment.centerLeft,child: Text("3. Ajza are divided between days as Odd Ajza and Even Ajza",style: TextStyle(fontSize: 19.0))),
+                                        child: Align(alignment: Alignment.centerLeft,child: Text("3. A Maqarat cannot be booked 15 mins prior to a maqarat slot of a given date",style: TextStyle(fontSize: 19.0))),
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.only(top:5.0),
-                                        child: Align(alignment: Alignment.centerLeft,child: Text("4. Maqarat(s) can be booked for upto seven days at a time",style: TextStyle(fontSize: 19.0))),
+                                        child: Align(alignment: Alignment.centerLeft,child: Text("4. Ajza are divided between days as Odd Ajza and Even Ajza",style: TextStyle(fontSize: 19.0))),
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.only(top:5.0),
-                                        child: Align(alignment: Alignment.centerLeft,child: Text("5. Days will be incremented daily",style: TextStyle(fontSize: 19.0))),
+                                        child: Align(alignment: Alignment.centerLeft,child: Text("5. Maqarat(s) can be booked for upto seven days at a time",style: TextStyle(fontSize: 19.0))),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top:5.0),
+                                        child: Align(alignment: Alignment.centerLeft,child: Text("6. Days will be incremented daily",style: TextStyle(fontSize: 19.0))),
                                       ),
                                       Text(''),
                                       Padding(
@@ -129,29 +134,45 @@ class _SettingsState extends State<Settings> {
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.only(top:5.0),
-                                        child: Align(alignment: Alignment.centerLeft,child: Text("1. Maqarat will be activated 6 minutes before Maqarat time and locked 1 minute before Maqarat time",style: TextStyle(fontSize: 19.0))),
+                                        child: Align(alignment: Alignment.centerLeft,child: Text("1. Scroll down to refresh dashboard",style: TextStyle(fontSize: 19.0))),
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.only(top:5.0),
-                                        child: Align(alignment: Alignment.centerLeft,child: Text("2. Maqarat will not be displayed after Maqarat time",style: TextStyle(fontSize: 19.0))),
+                                        child: Align(alignment: Alignment.centerLeft,child: Text("2. Maqarat will be activated 6 minutes before Maqarat time and locked 1 minute before Maqarat time",style: TextStyle(fontSize: 19.0))),
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.only(top:5.0),
-                                        child: Align(alignment: Alignment.centerLeft,child: Text("3. During the active phase, wait for few seconds until lobby is created",style: TextStyle(fontSize: 19.0))),
+                                        child: Align(alignment: Alignment.centerLeft,child: Text("3. Maqarat will not be displayed after Maqarat time",style: TextStyle(fontSize: 19.0))),
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.only(top:5.0),
-                                        child: Align(alignment: Alignment.centerLeft,child: Text("4. After lobby creation, wait till Maqarat time after which a countdown for 30 seconds will begin",style: TextStyle(fontSize: 19.0))),
+                                        child: Align(alignment: Alignment.centerLeft,child: Text("4. During the active phase, wait for few seconds until lobby is created",style: TextStyle(fontSize: 19.0))),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top:5.0),
+                                        child: Align(alignment: Alignment.centerLeft,child: Text("5. After lobby creation, wait till Maqarat time after which a countdown for 30 seconds will begin",style: TextStyle(fontSize: 19.0))),
                                       ),
                                       //
                                       Padding(
                                         padding: const EdgeInsets.only(top:5.0),
-                                        child: Align(alignment: Alignment.centerLeft,child: Text("5. During the countdown Safahaat to be recited will be displayed and then the Maqarat will start",style: TextStyle(fontSize: 19.0))),
+                                        child: Align(alignment: Alignment.centerLeft,child: Text("6. During the countdown Safahaat to be recited will be displayed and then the Maqarat will start",style: TextStyle(fontSize: 19.0))),
                                       ),
 
                                       Padding(
                                         padding: const EdgeInsets.only(top:5.0),
-                                        child: Align(alignment: Alignment.centerLeft,child: Text("6. During the 30 second countdown you are not allowed to leave the lobby",style: TextStyle(fontSize: 19.0))),
+                                        child: Align(alignment: Alignment.centerLeft,child: Text("7. During the 30 second countdown you are not allowed to leave the lobby",style: TextStyle(fontSize: 19.0))),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top:5.0),
+                                        child: Align(alignment: Alignment.centerLeft,child: Text("8. Each Maqarat will be of a duration of 50 minutes after which the lobby will be disposed",style: TextStyle(fontSize: 19.0))),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top:5.0),
+                                        child: Align(alignment: Alignment.centerLeft,child: Text("9. Ending an ongoing Maqarat call will lead to the user not being able to rejoin",style: TextStyle(fontSize: 19.0))),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top:5.0),
+                                        child: Align(alignment: Alignment.centerLeft,child: Text("10. Each Maqarat will have a user who will be the admin of that Maqarat, who will be responsible for prompting Tanbee/Talqeen",style: TextStyle(fontSize: 19.0))),
                                       ),
                                       Text(""),
                                       Align(alignment: Alignment.center,child: Text("Feedback",style: TextStyle(fontSize: 25.0, fontFamily: "Segoe UI",fontWeight: FontWeight.w500,  ))),

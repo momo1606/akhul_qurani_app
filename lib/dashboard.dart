@@ -32,6 +32,7 @@ final Map<int, String> day_map = {
 final fb = FirebaseDatabase.instance.reference();
 
 Future getbooked() async {
+  print("refreshed");
   var r = (await fb.child('user_maqarat_booked').child(userappid).once()).value;
   return r;
 }
@@ -67,10 +68,11 @@ class Maqarat {
 List<String> dlist = [];
 
 List<DateSelect> getdata(var value) {
+  print("data refreshed");
   List<DateSelect> datList = [];
   List<DateTime> dates = [];
   int cnt;
-  var temp_date = DateTime.now();
+  var temp_date = DateTime.now().toUtc().add(Duration(minutes: 330));
   for (var i = 0; i < 7; i++) {
     dates.add(temp_date);
     temp_date = temp_date.add(new Duration(days: 1));
@@ -132,450 +134,460 @@ class _DashboardState extends State<Dashboard> {
             _datList = getdata(snapshot.data);
 
             //dlist=Map<String, dynamic>.from(snapshot.data).keys.toList();
-            return Stack(
-              children: <Widget>[
-                HomePageBackground(
-                  screenHeight: MediaQuery.of(context).size.height,
-                ),
-                SafeArea(
-                    child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.007, //5.0
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                          right: MediaQuery.of(context).size.width *
-                              0.02435), //10.0
-                      child: Row(
-                        children: <Widget>[
-                          Spacer(),
-                          Container(
-                            height: MediaQuery.of(context).size.height *
-                                0.0879, //60.0
-                            width: MediaQuery.of(context).size.width *
-                                0.12175, //50.00,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage("images/mahadlogo.png"),
-                              ),
-                            ),
-                          )
-                        ],
+            return RefreshIndicator(
+              child: Stack(
+                children: <Widget>[
+                  HomePageBackground(
+                    screenHeight: MediaQuery.of(context).size.height,
+                  ),
+                  SafeArea(
+                      child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.007, //5.0
                       ),
-                    ),
-                    SizedBox(
-                      height:
-                          MediaQuery.of(context).size.height * 0.01465, //10.0
-                    ),
-                    Expanded(
-                      child: Container(
-                          decoration: BoxDecoration(
-                            color: Color(0xffffffff),
-                            border: Border.all(
-                              width:
-                                  MediaQuery.of(context).size.width * 0.002435,
+                      Padding(
+                        padding: EdgeInsets.only(
+                            right: MediaQuery.of(context).size.width *
+                                0.02435), //10.0
+                        child: Row(
+                          children: <Widget>[
+                            Spacer(),
+                            Container(
+                              height: MediaQuery.of(context).size.height *
+                                  0.0879, //60.0
+                              width: MediaQuery.of(context).size.width *
+                                  0.12175, //50.00,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: AssetImage("images/mahadlogo.png"),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height:
+                            MediaQuery.of(context).size.height * 0.01465, //10.0
+                      ),
+                      Expanded(
+                        child: Container(
+                            decoration: BoxDecoration(
                               color: Color(0xffffffff),
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                offset: Offset(1.00, 1.00),
-                                color: Color(0xffffffff).withOpacity(0.53),
-                                blurRadius: 6,
+                              border: Border.all(
+                                width:
+                                    MediaQuery.of(context).size.width * 0.002435,
+                                color: Color(0xffffffff),
                               ),
-                            ],
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(30.00),
-                              topRight: Radius.circular(30.00),
+                              boxShadow: [
+                                BoxShadow(
+                                  offset: Offset(1.00, 1.00),
+                                  color: Color(0xffffffff).withOpacity(0.53),
+                                  blurRadius: 6,
+                                ),
+                              ],
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(30.00),
+                                topRight: Radius.circular(30.00),
+                              ),
                             ),
-                          ),
-                          child: Column(
-                            children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal:
-                                            MediaQuery.of(context).size.width *
-                                                0.0487,
-                                        vertical:
-                                            MediaQuery.of(context).size.height *
-                                                0.007), //20.0 - 5.0
-                                    child: Text(
-                                      "My Maqarats",
-                                      style: TextStyle(
-                                        fontFamily: "Segoe UI",
-                                        fontWeight: FontWeight.w600,
-                                        fontSize:
-                                            MediaQuery.of(context).size.height *
-                                                0.0586,
-                                        //40.0
-                                        color: Color(0xff000000),
+                            child: Column(
+                              children: <Widget>[
+                                Row(
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal:
+                                              MediaQuery.of(context).size.width *
+                                                  0.0487,
+                                          vertical:
+                                              MediaQuery.of(context).size.height *
+                                                  0.007), //20.0 - 5.0
+                                      child: Text(
+                                        "My Maqarats",
+                                        style: TextStyle(
+                                          fontFamily: "Segoe UI",
+                                          fontWeight: FontWeight.w600,
+                                          fontSize:
+                                              MediaQuery.of(context).size.width *
+                                                  0.0974,
+                                          //40.0
+                                          color: Color(0xff000000),
+                                        ),
                                       ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                              //DateSelector(),
+                                    )
+                                  ],
+                                ),
+                                //DateSelector(),
 
-                              Padding(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal:
-                                        MediaQuery.of(context).size.width *
-                                            0.012175,
-                                    vertical:
-                                        MediaQuery.of(context).size.height *
-                                            0.007), //5.0 - 5.0
-                                child: Container(
-                                    height: MediaQuery.of(context).size.height *
-                                        0.124525, //85.0
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal:
+                                          MediaQuery.of(context).size.width *
+                                              0.012175,
+                                      vertical:
+                                          MediaQuery.of(context).size.height *
+                                              0.007), //5.0 - 5.0
+                                  child: Container(
+                                      height: MediaQuery.of(context).size.height *
+                                          0.124525, //85.0
 
-                                    child: ListView.builder(
-                                      scrollDirection: Axis.horizontal,
-                                      itemCount: _datList.length,
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        return GestureDetector(
-                                          onTap: () {
-                                            setState(() {
-                                              selectedIndex = index;
+                                      child: ListView.builder(
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount: _datList.length,
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          return GestureDetector(
+                                            onTap: () {
+                                              setState(() {
+                                                selectedIndex = index;
 
-                                              print(selectedIndex.toString() +
-                                                  " " +
-                                                  dlist[selectedIndex]);
-                                              /*maqaratList = [];
-                                              if (_datList[selectedIndex]
-                                                      .cnt_maqarat >
-                                                  0) {
-                                                List temp = Map.from(snapshot
-                                                            .data[
-                                                        dlist[selectedIndex]])
-                                                    .keys
-                                                    .toList();
-                                                for (var i = 0;
-                                                    i < temp.length;
-                                                    i++) {
-                                                  _maqaratList.add(new Maqarat(
-                                                      snapshot
-                                                          .data[dlist[selectedIndex]]
-                                                              [temp[i].toString()]
-                                                              ['time']
-                                                          .toString(),
-                                                      snapshot.data[dlist[selectedIndex]]
-                                                              [temp[i].toString()]
-                                                          ['juz'],
-                                                      snapshot.data[dlist[selectedIndex]]
-                                                                  [temp[i]
-                                                                      .toString()]
-                                                                  ['participants']
-                                                              .toString() +
-                                                          "/5",
-                                                      false));
-                                                }
-                                              }*/
-                                            });
-                                          },
-                                          child: Padding(
-                                            padding: EdgeInsets.only(
-                                                bottom: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.007,
-                                                top: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.001465),
-                                            //5.0 -1.0
-                                            child: Container(
-                                                margin: EdgeInsets.symmetric(
-                                                    horizontal:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width *
-                                                            0.012175),
-                                                //5.0
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.1172,
-                                                //80.00
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.17532,
-                                                //72.0
-                                                decoration: BoxDecoration(
-                                                  color: index == selectedIndex
-                                                      ? Color(0xFF003CE7)
-                                                      : Colors.white,
-                                                  border: Border.all(
-                                                    width: 1.0,
-                                                    color:
-                                                        index == selectedIndex
-                                                            ? Color(0xFF003CE7)
-                                                            : Colors.white,
-                                                  ),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          20.00),
-                                                  boxShadow: [
-                                                    BoxShadow(
-                                                      offset:
-                                                          Offset(0.00, 3.00),
-                                                      color: Color(0xff000000)
-                                                          .withOpacity(0.40),
-                                                      blurRadius: 4,
-                                                    ),
-                                                  ],
-                                                ),
-                                                child: Column(
-                                                  children: <Widget>[
-                                                    Padding(
-                                                      padding: EdgeInsets.symmetric(
-                                                          vertical: MediaQuery.of(
-                                                                      context)
+                                                print(selectedIndex.toString() +
+                                                    " " +
+                                                    dlist[selectedIndex]);
+                                                /*maqaratList = [];
+                                                if (_datList[selectedIndex]
+                                                        .cnt_maqarat >
+                                                    0) {
+                                                  List temp = Map.from(snapshot
+                                                              .data[
+                                                          dlist[selectedIndex]])
+                                                      .keys
+                                                      .toList();
+                                                  for (var i = 0;
+                                                      i < temp.length;
+                                                      i++) {
+                                                    _maqaratList.add(new Maqarat(
+                                                        snapshot
+                                                            .data[dlist[selectedIndex]]
+                                                                [temp[i].toString()]
+                                                                ['time']
+                                                            .toString(),
+                                                        snapshot.data[dlist[selectedIndex]]
+                                                                [temp[i].toString()]
+                                                            ['juz'],
+                                                        snapshot.data[dlist[selectedIndex]]
+                                                                    [temp[i]
+                                                                        .toString()]
+                                                                    ['participants']
+                                                                .toString() +
+                                                            "/5",
+                                                        false));
+                                                  }
+                                                }*/
+                                              });
+                                            },
+                                            child: Padding(
+                                              padding: EdgeInsets.only(
+                                                  bottom: MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                      0.007,
+                                                  top: MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                      0.001465),
+                                              //5.0 -1.0
+                                              child: Container(
+                                                  margin: EdgeInsets.symmetric(
+                                                      horizontal:
+                                                          MediaQuery.of(context)
                                                                   .size
-                                                                  .height *
-                                                              0.007),
-                                                      child: Center(
-                                                        child: Text(
-                                                          _datList[index]
-                                                                  .dat
-                                                                  .toString() +
-                                                              "\n" +
+                                                                  .width *
+                                                              0.012175),
+                                                  //5.0
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                      0.1172,
+                                                  //80.00
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.17532,
+                                                  //72.0
+                                                  decoration: BoxDecoration(
+                                                    color: index == selectedIndex
+                                                        ? Color(0xFF003CE7)
+                                                        : Colors.white,
+                                                    border: Border.all(
+                                                      width: 1.0,
+                                                      color:
+                                                          index == selectedIndex
+                                                              ? Color(0xFF003CE7)
+                                                              : Colors.white,
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20.00),
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                        offset:
+                                                            Offset(0.00, 3.00),
+                                                        color: Color(0xff000000)
+                                                            .withOpacity(0.40),
+                                                        blurRadius: 4,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  child: SingleChildScrollView(
+                                                    child: Column(
+                                                      children: <Widget>[
+                                                        Padding(
+                                                          padding: EdgeInsets.symmetric(
+                                                              vertical: 0),//0.007
+                                                          child: Center(
+                                                            child: Text(
                                                               _datList[index]
-                                                                  .day,
-                                                          style: TextStyle(
-                                                            fontFamily:
-                                                                "Segoe UI",
+                                                                      .dat
+                                                                      .toString() +
+                                                                  "\n" +
+                                                                  _datList[index]
+                                                                      .day,
+                                                              style: TextStyle(
+                                                                fontFamily:
+                                                                    "Segoe UI",
+                                                                fontWeight:
+                                                                    FontWeight.w600,
+                                                                fontSize: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width *
+                                                                    0.05357,
+                                                                //22.0
+                                                                color: index ==
+                                                                        selectedIndex
+                                                                    ? Colors.white
+                                                                    : Colors.black,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        Row(
+                                                          children: <Widget>[
+                                                            Spacer(),
+                                                            Container(
+                                                              height: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .height *
+                                                                  0.033695,
+                                                              //23.0
+                                                              width: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width *
+                                                                  0.056005,
+                                                              //23.00
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                color: Colors.white,
+                                                                border: Border.all(
+                                                                  width: MediaQuery.of(
+                                                                              context)
+                                                                          .size
+                                                                          .width *
+                                                                      0.00182625,
+                                                                  color: index ==
+                                                                          selectedIndex
+                                                                      ? Color(
+                                                                          0xFF003CE7)
+                                                                      : Colors
+                                                                          .black,
+                                                                ),
+                                                                shape:
+                                                                    BoxShape.circle,
+                                                              ),
+                                                              child: Center(
+                                                                child: Text(
+                                                                  _datList[index]
+                                                                      .cnt_maqarat
+                                                                      .toString(),
+                                                                  style: TextStyle(
+                                                                    fontFamily:
+                                                                        "Segoe UI",
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w600,
+
+                                                                    fontSize: MediaQuery.of(
+                                                                                context)
+                                                                            .size
+                                                                            .width *
+                                                                        0.046265,
+                                                                    //19.0
+
+                                                                    color: index ==
+                                                                            selectedIndex
+                                                                        ? Color(
+                                                                            0xFF003CE7)
+                                                                        : Colors
+                                                                            .black,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  )),
+                                            ),
+                                          );
+                                        },
+                                      )),
+                                ),
+
+                                SizedBox(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.01465), //10.0
+                                Expanded(
+                                  child: Container(
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.95,
+                                    decoration: BoxDecoration(
+                                      color: Color(0xffffffff),
+                                      //border: Border.all(width: MediaQuery.of(context).size.width *0.002435, color: Color(0xffffffff),),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          offset: Offset(3.00, 3.00),
+                                          color:
+                                              Color(0xff000000).withOpacity(0.21),
+                                          blurRadius: 12,
+                                        ),
+                                      ],
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(30.0),
+                                          topRight: Radius.circular(30.0)),
+                                    ),
+                                    child: Column(
+                                      children: <Widget>[
+                                        Row(
+                                          children: <Widget>[
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                  top: MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                      0.01465,
+                                                  left: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.036525),
+                                              //10.0 - 15.0
+                                              child: Text(
+                                                _datList[selectedIndex]
+                                                        .dat
+                                                        .toString() +
+                                                    " " +
+                                                    _datList[selectedIndex]
+                                                        .month +
+                                                    ", " +
+                                                    _datList[selectedIndex].day,
+                                                //DATE DISPLAY
+                                                style: TextStyle(
+                                                  fontFamily: "Segoe UI",
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.060875,
+                                                  //21.0
+                                                  color: Color(0xff000000),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.007324),
+                                        if (_datList[selectedIndex].cnt_maqarat >
+                                            0)
+                                          MaqaratPage(Map.from(snapshot.data),
+                                              dlist[selectedIndex])
+                                        else
+                                          Container(
+                                            height: 200,
+                                            child: Column(
+                                              children: <Widget>[
+                                                SizedBox(
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                      0.10255,
+                                                ), //70
+                                                Row(
+                                                  children: <Widget>[
+                                                    Spacer(),
+                                                    Text("No Maqarat Scheduled",
+                                                        style: TextStyle(
                                                             fontWeight:
                                                                 FontWeight.w600,
                                                             fontSize: MediaQuery.of(
                                                                         context)
                                                                     .size
-                                                                    .height *
-                                                                0.027835,
-                                                            //19.0
-                                                            color: index ==
-                                                                    selectedIndex
-                                                                ? Colors.white
-                                                                : Colors.black,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Row(
-                                                      children: <Widget>[
-                                                        Spacer(),
-                                                        Container(
-                                                          height: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .height *
-                                                              0.033695,
-                                                          //23.0
-                                                          width: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width *
-                                                              0.056005,
-                                                          //23.00
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color: Colors.white,
-                                                            border: Border.all(
-                                                              width: MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .width *
-                                                                  0.00182625,
-                                                              color: index ==
-                                                                      selectedIndex
-                                                                  ? Color(
-                                                                      0xFF003CE7)
-                                                                  : Colors
-                                                                      .black,
-                                                            ),
-                                                            shape:
-                                                                BoxShape.circle,
-                                                          ),
-                                                          child: Center(
-                                                            child: Text(
-                                                              _datList[index]
-                                                                  .cnt_maqarat
-                                                                  .toString(),
-                                                              style: TextStyle(
-                                                                fontFamily:
-                                                                    "Segoe UI",
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-
-                                                                fontSize: MediaQuery.of(
-                                                                            context)
-                                                                        .size
-                                                                        .height *
-                                                                    0.027835,
-                                                                //19.0
-
-                                                                color: index ==
-                                                                        selectedIndex
-                                                                    ? Color(
-                                                                        0xFF003CE7)
-                                                                    : Colors
-                                                                        .black,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
+                                                                    .width *
+                                                                0.05357)),
+                                                    //19
+                                                    Spacer(),
                                                   ],
-                                                )),
-                                          ),
-                                        );
-                                      },
-                                    )),
-                              ),
-
-                              SizedBox(
-                                  height: MediaQuery.of(context).size.height *
-                                      0.01465), //10.0
-                              Expanded(
-                                child: Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.95,
-                                  decoration: BoxDecoration(
-                                    color: Color(0xffffffff),
-                                    //border: Border.all(width: MediaQuery.of(context).size.width *0.002435, color: Color(0xffffffff),),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        offset: Offset(3.00, 3.00),
-                                        color:
-                                            Color(0xff000000).withOpacity(0.21),
-                                        blurRadius: 12,
-                                      ),
-                                    ],
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(30.0),
-                                        topRight: Radius.circular(30.0)),
-                                  ),
-                                  child: Column(
-                                    children: <Widget>[
-                                      Row(
-                                        children: <Widget>[
-                                          Padding(
-                                            padding: EdgeInsets.only(
-                                                top: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.01465,
-                                                left: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.036525),
-                                            //10.0 - 15.0
-                                            child: Text(
-                                              _datList[selectedIndex]
-                                                      .dat
-                                                      .toString() +
-                                                  " " +
-                                                  _datList[selectedIndex]
-                                                      .month +
-                                                  ", " +
-                                                  _datList[selectedIndex].day,
-                                              //DATE DISPLAY
-                                              style: TextStyle(
-                                                fontFamily: "Segoe UI",
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.030765,
-                                                //21.0
-                                                color: Color(0xff000000),
-                                              ),
+                                                ),
+                                                SizedBox(
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                      0.0293,
+                                                ), //20
+                                                Row(
+                                                  children: <Widget>[
+                                                    Spacer(),
+                                                    Text(
+                                                        "To schedule a Maqarat - Click on Join Maqarat",
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.w300,
+                                                            fontSize: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width *
+                                                                0.04383)),
+                                                    //18
+                                                    Spacer(),
+                                                  ],
+                                                )
+                                              ],
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.007324),
-                                      if (_datList[selectedIndex].cnt_maqarat >
-                                          0)
-                                        MaqaratPage(Map.from(snapshot.data),
-                                            dlist[selectedIndex])
-                                      else
-                                        Container(
-                                          height: 200,
-                                          child: Column(
-                                            children: <Widget>[
-                                              SizedBox(
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.10255,
-                                              ), //70
-                                              Row(
-                                                children: <Widget>[
-                                                  Spacer(),
-                                                  Text("No Maqarat Scheduled",
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          fontSize: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .height *
-                                                              0.030765)),
-                                                  //19
-                                                  Spacer(),
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.0293,
-                                              ), //20
-                                              Row(
-                                                children: <Widget>[
-                                                  Spacer(),
-                                                  Text(
-                                                      "To schedule a Maqarat - Click on Join Maqarat",
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.w300,
-                                                          fontSize: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .height *
-                                                              0.02637)),
-                                                  //18
-                                                  Spacer(),
-                                                ],
-                                              )
-                                            ],
-                                          ),
-                                        )
-                                    ],
+                                          )
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
-                          )),
-                    ),
-                  ],
-                )),
-              ],
+                              ],
+                            )),
+                      ),
+                    ],
+                  )),
+                ],
+              ),
+              onRefresh: _getData,
             );
           }
         },
       ),
     );
   }
+  Future<void> _getData() async {
+    setState(() {
+      print("***********");
+      getbooked().then((value) {
+        _datList = getdata(Map.from(value));
+      });
+    });
+  }
+
 }

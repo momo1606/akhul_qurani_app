@@ -173,7 +173,8 @@ class _StatsState extends State<Stats> {
                                   fontFamily: "Segoe UI",
                                   fontWeight: FontWeight.w600,
                                   fontSize:
-                                      MediaQuery.of(context).size.height * 0.0586,
+                                      MediaQuery.of(context).size.width *
+                                          0.0974,
                                   //40.0
                                   color: Color(0xff000000),
                                 ),
@@ -215,153 +216,157 @@ class _StatsState extends State<Stats> {
                                         borderRadius:
                                             BorderRadius.circular(20.00),
                                       ),
-                                      child: Column(
-                                        children: <Widget>[
-                                          Text(
-                                            "Streaks",
-                                            style: TextStyle(
-                                              fontFamily: "Segoe UI",
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.04102,
-                                              //28
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.only(
-                                                top: MediaQuery.of(context)
+                                      child: SingleChildScrollView(
+                                        child: Column(
+                                          children: <Widget>[
+                                            Text(
+                                              "Streaks",
+                                              style: TextStyle(
+                                                fontFamily: "Segoe UI",
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: MediaQuery.of(context)
                                                         .size
-                                                        .height *
-                                                    0.01758), //12.0
-                                            child: Container(
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.16701, //114
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.27759, //114
-                                              decoration: BoxDecoration(
-                                                color: Color(0xfff62e2e),
-                                                border: Border.all(
-                                                  width: 1.00,
-                                                  color: Color(0xff707070),
-                                                ),
-                                                shape: BoxShape.circle,
-                                              ),
-                                              child: Center(
-                                                child: Container(
-                                                    height: MediaQuery.of(context)
-                                                            .size
-                                                            .height *
-                                                        0.142105,
-                                                    //97
-                                                    width: MediaQuery.of(context)
-                                                            .size
-                                                            .width *
-                                                        0.236195,
-                                                    //97
-                                                    decoration: BoxDecoration(
-                                                      color: Color(0xff771616),
-                                                      border: Border.all(
-                                                        width: 1.00,
-                                                        color: Color(0xff707070),
-                                                      ),
-                                                      shape: BoxShape.circle,
-                                                    ),
-                                                    child: Padding(
-                                                      padding: EdgeInsets.only(
-                                                          top: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .height *
-                                                              0.01758), //12
-                                                      child: Column(
-                                                        children: <Widget>[
-                                                          Text(
-                                                            "Day",
-                                                            style: TextStyle(
-                                                              fontFamily:
-                                                                  "Segoe UI",
-                                                              fontWeight:
-                                                                  FontWeight.w600,
-                                                              fontSize: MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .height *
-                                                                  0.033695,
-                                                              //23
-                                                              color: Color(
-                                                                  0xffffffff),
-                                                            ),
-                                                          ),
-                                                          Text(
-                                                            "$day",
-                                                            style: TextStyle(
-                                                              fontFamily:
-                                                                  "Segoe UI",
-                                                              fontWeight:
-                                                                  FontWeight.w600,
-                                                              fontSize: MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .height *
-                                                                  0.06446,
-                                                              //44
-                                                              color: Color(
-                                                                  0xffffffff),
-                                                            ),
-                                                          )
-                                                        ],
-                                                      ),
-                                                    )),
+                                                        .width *
+                                                    0.08279,
+                                                //28
+                                                color: Colors.black,
                                               ),
                                             ),
-                                          ),
-                                          Row(
-                                            children: <Widget>[
-                                              Spacer(),
-                                              Text(
-                                                "Weeks",
-                                                style: TextStyle(
-                                                  fontFamily: "Segoe UI",
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: MediaQuery.of(context)
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                  top: MediaQuery.of(context)
                                                           .size
                                                           .height *
-                                                      0.033695,
-                                                  //23
-                                                  color: Color(0xff070101),
+                                                      0.01758), //12.0
+                                              child: Container(
+                                                height: MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                    0.16701, //114
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.27759, //114
+                                                decoration: BoxDecoration(
+                                                  color: Color(0xfff62e2e),
+                                                  border: Border.all(
+                                                    width: 1.00,
+                                                    color: Color(0xff707070),
+                                                  ),
+                                                  shape: BoxShape.circle,
+                                                ),
+                                                child: Center(
+                                                  child: Container(
+                                                      height: MediaQuery.of(context)
+                                                              .size
+                                                              .height *
+                                                          0.142105,
+                                                      //97
+                                                      width: MediaQuery.of(context)
+                                                              .size
+                                                              .width *
+                                                          0.236195,
+                                                      //97
+                                                      decoration: BoxDecoration(
+                                                        color: Color(0xff771616),
+                                                        border: Border.all(
+                                                          width: 1.00,
+                                                          color: Color(0xff707070),
+                                                        ),
+                                                        shape: BoxShape.circle,
+                                                      ),
+                                                      child: Padding(
+                                                        padding: EdgeInsets.only(
+                                                            top: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .height *
+                                                                0.01758), //12
+                                                        child: SingleChildScrollView(
+                                                          child: Column(
+                                                            children: <Widget>[
+                                                              Text(
+                                                                "Day",
+                                                                style: TextStyle(
+                                                                  fontFamily:
+                                                                      "Segoe UI",
+                                                                  fontWeight:
+                                                                      FontWeight.w600,
+                                                                  fontSize: MediaQuery.of(
+                                                                              context)
+                                                                          .size
+                                                                          .width *
+                                                                      0.07305,
+                                                                  //23
+                                                                  color: Color(
+                                                                      0xffffffff),
+                                                                ),
+                                                              ),
+                                                              Text(
+                                                                "$day",
+                                                                style: TextStyle(
+                                                                  fontFamily:
+                                                                      "Segoe UI",
+                                                                  fontWeight:
+                                                                      FontWeight.w600,
+                                                                  fontSize: MediaQuery.of(
+                                                                              context)
+                                                                          .size
+                                                                          .width *
+                                                                      0.10714,
+                                                                  //44
+                                                                  color: Color(
+                                                                      0xffffffff),
+                                                                ),
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      )),
                                                 ),
                                               ),
-                                              Padding(
-                                                padding: EdgeInsets.only(
-                                                    left: MediaQuery.of(context)
-                                                            .size
-                                                            .width *
-                                                        0.01948), //8
-                                                child: Text(
-                                                  "$week",
+                                            ),
+                                            Row(
+                                              children: <Widget>[
+                                                Spacer(),
+                                                Text(
+                                                  "Weeks",
                                                   style: TextStyle(
                                                     fontFamily: "Segoe UI",
                                                     fontWeight: FontWeight.w600,
-                                                    fontSize:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .height *
-                                                            0.06446,
-                                                    //44
-                                                    color: Color(0xff771616),
+                                                    fontSize: MediaQuery.of(context)
+                                                            .size
+                                                            .width *
+                                                        0.07305,
+                                                    //23
+                                                    color: Color(0xff070101),
                                                   ),
                                                 ),
-                                              )
-                                            ],
-                                          ),
-                                        ],
+                                                Padding(
+                                                  padding: EdgeInsets.only(
+                                                      left: MediaQuery.of(context)
+                                                              .size
+                                                              .width *
+                                                          0.01948), //8
+                                                  child: Text(
+                                                    "$week",
+                                                    style: TextStyle(
+                                                      fontFamily: "Segoe UI",
+                                                      fontWeight: FontWeight.w600,
+                                                      fontSize:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.129055,
+                                                      //44
+                                                      color: Color(0xff771616),
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ],
+                                        ),
                                       )),
                                   Spacer(),
                                   Container(
@@ -395,8 +400,8 @@ class _StatsState extends State<Stats> {
                                             fontWeight: FontWeight.w600,
                                             fontSize: MediaQuery.of(context)
                                                     .size
-                                                    .height *
-                                                0.04102,
+                                                    .width *
+                                                0.08279,
                                             //28
                                             color: Colors.black,
                                           ),
@@ -445,8 +450,8 @@ class _StatsState extends State<Stats> {
                                                           fontSize: MediaQuery.of(
                                                                       context)
                                                                   .size
-                                                                  .height *
-                                                              0.024905,
+                                                                  .width *
+                                                              0.036525,
                                                           //17
                                                           color:
                                                               Color(0xff000000),
@@ -482,8 +487,8 @@ class _StatsState extends State<Stats> {
                                                         fontSize:
                                                             MediaQuery.of(context)
                                                                     .size
-                                                                    .height *
-                                                                0.024905,
+                                                                    .width *
+                                                                0.036525,
                                                         color: Color(0xff000000),
                                                       ),
                                                     ),
@@ -516,8 +521,8 @@ class _StatsState extends State<Stats> {
                                                         fontSize:
                                                             MediaQuery.of(context)
                                                                     .size
-                                                                    .height *
-                                                                0.024905,
+                                                                    .width *
+                                                                0.036525,
                                                         color: Color(0xff000000),
                                                       ),
                                                     ),
@@ -550,8 +555,8 @@ class _StatsState extends State<Stats> {
                                                         fontSize:
                                                             MediaQuery.of(context)
                                                                     .size
-                                                                    .height *
-                                                                0.024905,
+                                                                    .width *
+                                                                0.036525,
                                                         color: Color(0xff000000),
                                                       ),
                                                     ),
@@ -584,8 +589,8 @@ class _StatsState extends State<Stats> {
                                                         fontSize:
                                                             MediaQuery.of(context)
                                                                     .size
-                                                                    .height *
-                                                                0.024905,
+                                                                    .width *
+                                                                0.036525,
                                                         color: Color(0xff000000),
                                                       ),
                                                     ),
@@ -626,8 +631,8 @@ class _StatsState extends State<Stats> {
                                                           fontSize: MediaQuery.of(
                                                                       context)
                                                                   .size
-                                                                  .height *
-                                                              0.024905,
+                                                                  .width *
+                                                              0.036525,
                                                           color:
                                                               Color(0xff000000),
                                                         ),
@@ -680,8 +685,8 @@ class _StatsState extends State<Stats> {
                                                           fontSize: MediaQuery.of(
                                                                       context)
                                                                   .size
-                                                                  .height *
-                                                              0.024905,
+                                                                  .width *
+                                                              0.036525,
                                                           color:
                                                               Color(0xff000000),
                                                         ),
@@ -716,8 +721,8 @@ class _StatsState extends State<Stats> {
                                                         fontSize:
                                                             MediaQuery.of(context)
                                                                     .size
-                                                                    .height *
-                                                                0.024905,
+                                                                    .width *
+                                                                0.036525,
                                                         color: Color(0xff000000),
                                                       ),
                                                     ),
@@ -750,8 +755,8 @@ class _StatsState extends State<Stats> {
                                                         fontSize:
                                                             MediaQuery.of(context)
                                                                     .size
-                                                                    .height *
-                                                                0.024905,
+                                                                    .width *
+                                                                0.036525,
                                                         color: Color(0xff000000),
                                                       ),
                                                     ),
@@ -784,8 +789,8 @@ class _StatsState extends State<Stats> {
                                                         fontSize:
                                                             MediaQuery.of(context)
                                                                     .size
-                                                                    .height *
-                                                                0.024905,
+                                                                    .width *
+                                                                0.036525,
                                                         color: Color(0xff000000),
                                                       ),
                                                     ),
@@ -818,8 +823,8 @@ class _StatsState extends State<Stats> {
                                                         fontSize:
                                                             MediaQuery.of(context)
                                                                     .size
-                                                                    .height *
-                                                                0.024905,
+                                                                    .width *
+                                                                0.036525,
                                                         color: Color(0xff000000),
                                                       ),
                                                     ),
@@ -860,8 +865,8 @@ class _StatsState extends State<Stats> {
                                                           fontSize: MediaQuery.of(
                                                                       context)
                                                                   .size
-                                                                  .height *
-                                                              0.024905,
+                                                                  .width *
+                                                              0.036525,
                                                           color:
                                                               Color(0xff000000),
                                                         ),
@@ -914,8 +919,8 @@ class _StatsState extends State<Stats> {
                                                           fontSize: MediaQuery.of(
                                                                       context)
                                                                   .size
-                                                                  .height *
-                                                              0.024905,
+                                                                  .width *
+                                                              0.036525,
                                                           color:
                                                               Color(0xff000000),
                                                         ),
@@ -950,8 +955,8 @@ class _StatsState extends State<Stats> {
                                                         fontSize:
                                                             MediaQuery.of(context)
                                                                     .size
-                                                                    .height *
-                                                                0.024905,
+                                                                    .width *
+                                                                0.036525,
                                                         color: Color(0xff000000),
                                                       ),
                                                     ),
@@ -984,8 +989,8 @@ class _StatsState extends State<Stats> {
                                                         fontSize:
                                                             MediaQuery.of(context)
                                                                     .size
-                                                                    .height *
-                                                                0.024905,
+                                                                    .width *
+                                                                0.036525,
                                                         color: Color(0xff000000),
                                                       ),
                                                     ),
@@ -1018,8 +1023,8 @@ class _StatsState extends State<Stats> {
                                                         fontSize:
                                                             MediaQuery.of(context)
                                                                     .size
-                                                                    .height *
-                                                                0.024905,
+                                                                    .width *
+                                                                0.036525,
                                                         color: Color(0xff000000),
                                                       ),
                                                     ),
@@ -1052,8 +1057,8 @@ class _StatsState extends State<Stats> {
                                                         fontSize:
                                                             MediaQuery.of(context)
                                                                     .size
-                                                                    .height *
-                                                                0.024905,
+                                                                    .width *
+                                                                0.036525,
                                                         color: Color(0xff000000),
                                                       ),
                                                     ),
@@ -1094,8 +1099,8 @@ class _StatsState extends State<Stats> {
                                                           fontSize: MediaQuery.of(
                                                                       context)
                                                                   .size
-                                                                  .height *
-                                                              0.024905,
+                                                                  .width *
+                                                              0.036525,
                                                           color:
                                                               Color(0xff000000),
                                                         ),
@@ -1148,8 +1153,8 @@ class _StatsState extends State<Stats> {
                                                           fontSize: MediaQuery.of(
                                                                       context)
                                                                   .size
-                                                                  .height *
-                                                              0.024905,
+                                                                  .width *
+                                                              0.036525,
                                                           color:
                                                               Color(0xff000000),
                                                         ),
@@ -1184,8 +1189,8 @@ class _StatsState extends State<Stats> {
                                                         fontSize:
                                                             MediaQuery.of(context)
                                                                     .size
-                                                                    .height *
-                                                                0.024905,
+                                                                    .width *
+                                                                0.036525,
                                                         color: Color(0xff000000),
                                                       ),
                                                     ),
@@ -1218,8 +1223,8 @@ class _StatsState extends State<Stats> {
                                                         fontSize:
                                                             MediaQuery.of(context)
                                                                     .size
-                                                                    .height *
-                                                                0.024905,
+                                                                    .width *
+                                                                0.036525,
                                                         color: Color(0xff000000),
                                                       ),
                                                     ),
@@ -1252,8 +1257,8 @@ class _StatsState extends State<Stats> {
                                                         fontSize:
                                                             MediaQuery.of(context)
                                                                     .size
-                                                                    .height *
-                                                                0.024905,
+                                                                    .width *
+                                                                0.036525,
                                                         color: Color(0xff000000),
                                                       ),
                                                     ),
@@ -1286,8 +1291,8 @@ class _StatsState extends State<Stats> {
                                                         fontSize:
                                                             MediaQuery.of(context)
                                                                     .size
-                                                                    .height *
-                                                                0.024905,
+                                                                    .width *
+                                                                0.036525,
                                                         color: Color(0xff000000),
                                                       ),
                                                     ),
@@ -1328,8 +1333,8 @@ class _StatsState extends State<Stats> {
                                                           fontSize: MediaQuery.of(
                                                                       context)
                                                                   .size
-                                                                  .height *
-                                                              0.024905,
+                                                                  .width *
+                                                              0.036525,
                                                           color:
                                                               Color(0xff000000),
                                                         ),
@@ -1382,8 +1387,8 @@ class _StatsState extends State<Stats> {
                                                           fontSize: MediaQuery.of(
                                                                       context)
                                                                   .size
-                                                                  .height *
-                                                              0.024905,
+                                                                  .width *
+                                                              0.036525,
                                                           color:
                                                               Color(0xff000000),
                                                         ),
@@ -1418,8 +1423,8 @@ class _StatsState extends State<Stats> {
                                                         fontSize:
                                                             MediaQuery.of(context)
                                                                     .size
-                                                                    .height *
-                                                                0.024905,
+                                                                    .width *
+                                                                0.036525,
                                                         color: Color(0xff000000),
                                                       ),
                                                     ),
@@ -1452,8 +1457,8 @@ class _StatsState extends State<Stats> {
                                                         fontSize:
                                                             MediaQuery.of(context)
                                                                     .size
-                                                                    .height *
-                                                                0.024905,
+                                                                    .width *
+                                                                0.036525,
                                                         color: Color(0xff000000),
                                                       ),
                                                     ),
@@ -1486,8 +1491,8 @@ class _StatsState extends State<Stats> {
                                                         fontSize:
                                                             MediaQuery.of(context)
                                                                     .size
-                                                                    .height *
-                                                                0.024905,
+                                                                    .width *
+                                                                0.036525,
                                                         color: Color(0xff000000),
                                                       ),
                                                     ),
@@ -1520,8 +1525,8 @@ class _StatsState extends State<Stats> {
                                                         fontSize:
                                                             MediaQuery.of(context)
                                                                     .size
-                                                                    .height *
-                                                                0.024905,
+                                                                    .width *
+                                                                0.036525,
                                                         color: Color(0xff000000),
                                                       ),
                                                     ),
@@ -1562,8 +1567,8 @@ class _StatsState extends State<Stats> {
                                                           fontSize: MediaQuery.of(
                                                                       context)
                                                                   .size
-                                                                  .height *
-                                                              0.024905,
+                                                                  .width *
+                                                              0.036525,
                                                           color:
                                                               Color(0xff000000),
                                                         ),
@@ -1611,186 +1616,188 @@ class _StatsState extends State<Stats> {
                                       borderRadius: BorderRadius.circular(20.00),
                                     ),
 
-                                    child: Column(
-                                      children: <Widget>[
-                                        Text(
-                                          "History",
-                                          style: TextStyle(
-                                            fontFamily: "Segoe UI",
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.04102,
-                                            //28
-                                            color: Colors.black,
+                                    child: SingleChildScrollView(
+                                      child: Column(
+                                        children: <Widget>[
+                                          Text(
+                                            "History",
+                                            style: TextStyle(
+                                              fontFamily: "Segoe UI",
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.08279,
+                                              //28
+                                              color: Colors.black,
+                                            ),
                                           ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                            left: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.01948,
-                                          ), //8.0-8.0
-                                          child: Row(
-                                            children: <Widget>[
-                                              Text(
-                                                "Maqarats attended",
-                                                style: TextStyle(
-                                                  fontFamily: "Segoe UI",
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.046265,
-                                                  //19
-                                                  color: Color(0xff121000),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(
+                                          Padding(
+                                            padding: EdgeInsets.only(
                                               left: MediaQuery.of(context)
                                                       .size
                                                       .width *
-                                                  0.01948), //8.0
-                                          child: Row(
-                                            children: <Widget>[
-                                              Text(
-                                                "$maq_att",
-                                                style: TextStyle(
-                                                  fontFamily: "Segoe UI",
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: MediaQuery.of(context)
-                                                          .size
-                                                          .height *
-                                                      0.04102,
-                                                  //28
-                                                  color: Color(0xffff484000),
+                                                  0.01948,
+                                            ), //8.0-8.0
+                                            child: Row(
+                                              children: <Widget>[
+                                                Text(
+                                                  "Attended",
+                                                  style: TextStyle(
+                                                    fontFamily: "Segoe UI",
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: MediaQuery.of(context)
+                                                            .size
+                                                            .width *
+                                                        0.046265,
+                                                    //19
+                                                    color: Color(0xff121000),
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              left: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.01948), //8.0
-                                          child: Row(
-                                            children: <Widget>[
-                                              Text(
-                                                "Quran Tamam",
-                                                style: TextStyle(
-                                                  fontFamily: "Segoe UI",
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.046265,
-                                                  //19
-                                                  color: Color(0xff121000),
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                                left: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.01948), //8.0
+                                            child: Row(
+                                              children: <Widget>[
+                                                Text(
+                                                  "$maq_att",
+                                                  style: TextStyle(
+                                                    fontFamily: "Segoe UI",
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: MediaQuery.of(context)
+                                                            .size
+                                                            .height *
+                                                        0.04102,
+                                                    //28
+                                                    color: Color(0xffff484000),
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              left: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.01948),
-                                          child: Row(
-                                            children: <Widget>[
-                                              Text(
-                                                "$quran_tamam",
-                                                style: TextStyle(
-                                                  fontFamily: "Segoe UI",
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: MediaQuery.of(context)
-                                                          .size
-                                                          .height *
-                                                      0.04102,
-                                                  //28
-                                                  color: Color(0xff484000),
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                                left: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.01948), //8.0
+                                            child: Row(
+                                              children: <Widget>[
+                                                Text(
+                                                  "Quran Tamam",
+                                                  style: TextStyle(
+                                                    fontFamily: "Segoe UI",
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: MediaQuery.of(context)
+                                                            .size
+                                                            .width *
+                                                        0.046265,
+                                                    //19
+                                                    color: Color(0xff121000),
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              left: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.01948), //8.0-8.0
-                                          child: Row(
-                                            children: <Widget>[
-                                              Text(
-                                                "Unattended",
-                                                style: TextStyle(
-                                                  fontFamily: "Segoe UI",
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.046265,
-                                                  //19
-                                                  color: Color(0xff121000),
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                                left: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.01948),
+                                            child: Row(
+                                              children: <Widget>[
+                                                Text(
+                                                  "$quran_tamam",
+                                                  style: TextStyle(
+                                                    fontFamily: "Segoe UI",
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: MediaQuery.of(context)
+                                                            .size
+                                                            .height *
+                                                        0.04102,
+                                                    //28
+                                                    color: Color(0xff484000),
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              left: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.01948), //8.0
-                                          child: Row(
-                                            children: <Widget>[
-                                              Text(
-                                                "$maq_unatt",
-                                                style: TextStyle(
-                                                  fontFamily: "Segoe UI",
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: MediaQuery.of(context)
-                                                          .size
-                                                          .height *
-                                                      0.04102,
-                                                  //28
-                                                  color: Color(0xffff484000),
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                                left: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.01948), //8.0-8.0
+                                            child: Row(
+                                              children: <Widget>[
+                                                Text(
+                                                  "Unattended",
+                                                  style: TextStyle(
+                                                    fontFamily: "Segoe UI",
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: MediaQuery.of(context)
+                                                            .size
+                                                            .width *
+                                                        0.046265,
+                                                    //19
+                                                    color: Color(0xff121000),
+                                                  ),
                                                 ),
-                                              ),
-                                              Spacer(),
-                                              GestureDetector(
-                                                onTap: () {
-                                                  Navigator.push(context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) {
-                                                    return Plus_Button(int.parse(userappid));
-                                                  }));
-                                                },
-                                                child: Icon(
-                                                  Icons.add_circle,
-                                                  size: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.0974, //40
-                                                  color: Color(
-                                                      0xff484000), //Color from Database
-                                                ),
-                                              ),
-                                            ],
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                      ],
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                                left: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.01948), //8.0
+                                            child: Row(
+                                              children: <Widget>[
+                                                Text(
+                                                  "$maq_unatt",
+                                                  style: TextStyle(
+                                                    fontFamily: "Segoe UI",
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: MediaQuery.of(context)
+                                                            .size
+                                                            .height *
+                                                        0.04102,
+                                                    //28
+                                                    color: Color(0xffff484000),
+                                                  ),
+                                                ),
+                                                Spacer(),
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    Navigator.push(context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) {
+                                                      return Plus_Button(int.parse(userappid));
+                                                    }));
+                                                  },
+                                                  child: Icon(
+                                                    Icons.add_circle,
+                                                    size: MediaQuery.of(context)
+                                                            .size
+                                                            .width *
+                                                        0.0974, //40
+                                                    color: Color(
+                                                        0xff484000), //Color from Database
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                   Spacer(),
@@ -1820,167 +1827,166 @@ class _StatsState extends State<Stats> {
                                       ],
                                       borderRadius: BorderRadius.circular(20.00),
                                     ),
-                                    child: Column(
-                                      children: <Widget>[
-                                        Text(
-                                          "Global",
-                                          style: TextStyle(
-                                            fontFamily: "Segoe UI",
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.04102,
-                                            // 28
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              left: MediaQuery.of(context)
+                                    child: SingleChildScrollView(
+                                      child: Column(
+                                        children: <Widget>[
+                                          Text(
+                                            "Global",
+                                            style: TextStyle(
+                                              fontFamily: "Segoe UI",
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: MediaQuery.of(context)
                                                       .size
                                                       .width *
-                                                  0.01948,
-                                              top: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.01172),
-                                          // 8.0 - 8.0
-                                          child: Row(
-                                            children: <Widget>[
-                                              Text(
-                                                "Total Users",
-                                                style: TextStyle(
-                                                  fontFamily: "Segoe UI",
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: MediaQuery.of(context)
-                                                          .size
-                                                          .height *
-                                                      0.027835,
-                                                  //19
-                                                  color: Color(0xff00ffe5),
-                                                ),
-                                              ),
-                                            ],
+                                                  0.08279,
+                                              // 28
+                                              color: Colors.white,
+                                            ),
                                           ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              left: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.01948), //8
-                                          child: Row(
-                                            children: <Widget>[
-                                              Text(
-                                                "$global_users",
-                                                style: TextStyle(
-                                                  fontFamily: "Segoe UI",
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: MediaQuery.of(context)
-                                                          .size
-                                                          .height *
-                                                      0.04102,
-                                                  //28
-                                                  color: Color(0xffffffff),
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                                left: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.01948,
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              left: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.01948),
-                                          child: Row(
-                                            children: <Widget>[
-                                              Text(
-                                                "Total Maqarats",
-                                                style: TextStyle(
-                                                  fontFamily: "Segoe UI",
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: MediaQuery.of(context)
-                                                          .size
-                                                          .height *
-                                                      0.027835,
-                                                  color: Color(0xff00ffe5),
+                                            // 8.0 - 8.0
+                                            child: Row(
+                                              children: <Widget>[
+                                                Text(
+                                                  "Total Users",
+                                                  style: TextStyle(
+                                                    fontFamily: "Segoe UI",
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: MediaQuery.of(context)
+                                                            .size
+                                                            .width *
+                                                        0.056005,
+                                                    //19
+                                                    color: Color(0xff00ffe5),
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              left: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.01948),
-                                          child: Row(
-                                            children: <Widget>[
-                                              Text(
-                                                "$global_maqarat",
-                                                style: TextStyle(
-                                                  fontFamily: "Segoe UI",
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: MediaQuery.of(context)
-                                                          .size
-                                                          .height *
-                                                      0.04102,
-                                                  color: Color(0xffffffff),
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                                left: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.01948), //8
+                                            child: Row(
+                                              children: <Widget>[
+                                                Text(
+                                                  "$global_users",
+                                                  style: TextStyle(
+                                                    fontFamily: "Segoe UI",
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: MediaQuery.of(context)
+                                                            .size
+                                                            .height *
+                                                        0.04102,
+                                                    //28
+                                                    color: Color(0xffffffff),
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              left: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.01948),
-                                          child: Row(
-                                            children: <Widget>[
-                                              Text(
-                                                "Total Quran",
-                                                style: TextStyle(
-                                                  fontFamily: "Segoe UI",
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: MediaQuery.of(context)
-                                                          .size
-                                                          .height *
-                                                      0.027835,
-                                                  color: Color(0xff00ffe5),
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                                left: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.01948),
+                                            child: Row(
+                                              children: <Widget>[
+                                                Text(
+                                                  "Total Maqarats",
+                                                  style: TextStyle(
+                                                    fontFamily: "Segoe UI",
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: MediaQuery.of(context)
+                                                            .size
+                                                            .width *
+                                                        0.056005,
+                                                    color: Color(0xff00ffe5),
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              left: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.01948),
-                                          child: Row(
-                                            children: <Widget>[
-                                              Text(
-                                                "$global_qur",
-                                                style: TextStyle(
-                                                  fontFamily: "Segoe UI",
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: MediaQuery.of(context)
-                                                          .size
-                                                          .height *
-                                                      0.04102,
-                                                  color: Color(0xffffffff),
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                                left: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.01948),
+                                            child: Row(
+                                              children: <Widget>[
+                                                Text(
+                                                  "$global_maqarat",
+                                                  style: TextStyle(
+                                                    fontFamily: "Segoe UI",
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: MediaQuery.of(context)
+                                                            .size
+                                                            .height *
+                                                        0.04102,
+                                                    color: Color(0xffffffff),
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                      ],
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                                left: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.01948),
+                                            child: Row(
+                                              children: <Widget>[
+                                                Text(
+                                                  "Total Quran",
+                                                  style: TextStyle(
+                                                    fontFamily: "Segoe UI",
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: MediaQuery.of(context)
+                                                            .size
+                                                            .width *
+                                                        0.056005,
+                                                    color: Color(0xff00ffe5),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                                left: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.01948),
+                                            child: Row(
+                                              children: <Widget>[
+                                                Text(
+                                                  "$global_qur",
+                                                  style: TextStyle(
+                                                    fontFamily: "Segoe UI",
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: MediaQuery.of(context)
+                                                            .size
+                                                            .height *
+                                                        0.04102,
+                                                    color: Color(0xffffffff),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ],

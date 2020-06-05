@@ -6,14 +6,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mahadalzahra/maqarat_display.dart';
 import 'package:mahadalzahra/services/authentication.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:quiver/async.dart';
 import 'package:mahadalzahra/src/pages/call.dart';
 
 class Buffer extends StatefulWidget {
   final Maqarat maqarat;
-  final bool admin;
   final String channel;
-  Buffer(this.admin,this.maqarat,this.channel);
+  Buffer(this.maqarat,this.channel);
   @override
   _BufferState createState() => _BufferState();
 }
@@ -36,7 +36,7 @@ class Buffer extends StatefulWidget {
 
 class App_Id {
   final String appid;
-  final bool isadmin;
+   bool isadmin;
   final bool bool1;
   final bool bool2;
   final String time;
@@ -180,11 +180,12 @@ int temp=0;
           print(widget.maqarat.time);
           print('timer on');
           DateTime now=DateTime.now().toUtc();
-          if(DateTime.utc(1,1,1,int.parse(temp[0]),int.parse(temp[1])).difference(DateTime.utc(1,1,1,now.hour,now.minute)).inSeconds<0){
+          if(DateTime.utc(1,1,1,int.parse(temp[0]),int.parse(temp[1])).difference(DateTime.utc(1,1,1,now.hour,now.minute,now.second)).inSeconds<0){
             timer.cancel();
           if(mounted){
       setState(() {
         flag = true;
+        _idList[0].isadmin=true;
         if (_idList.length == 1) {
           showDialog(
               context: context,
@@ -194,11 +195,13 @@ int temp=0;
                     "Maqarat Cancelled",
                   ),
                   content: Text(
-                      "Due to no participants, Maqarat is cancelled.\nPlease join Maqarat's with participants"),
+                      "Due to no participants, Maqarat is cancelled.\nPlease join a Maqarat with participants"),
                   actions: <Widget>[
                     FlatButton(
                       child: Text("OK"),
-                      onPressed: () => confirmResult(true, context),
+                      onPressed: (){
+                        update();
+                        confirmResult(true, context);},
                     ),
                   ],
                 );
@@ -229,9 +232,10 @@ int temp=0;
       });}
     });
 
-    sub.onDone(() {
+    sub.onDone(() async {
       print("Done"); //CALL START ---
       sub.cancel();
+      await _handleCameraAndMic();
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => CallPage(channelName: widget.maqarat.channel, users: _idList)));
     });
   }
@@ -296,297 +300,272 @@ int position=0;
                           topRight: Radius.circular(30.00),
                         ),
                       ),
-                      child: Column(
-                        children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              Padding(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal:
-                                        MediaQuery.of(context).size.width *
-                                            0.0487,
-                                    vertical: MediaQuery.of(context).size.height *
-                                        0.007), //20.0 - 5.0
-                                child: Text(
-                                  "Lobby",
-                                  style: TextStyle(
-                                    fontFamily: "Segoe UI",
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: MediaQuery.of(context).size.height *
-                                        0.0586,
-                                    //40.0
-                                    color: Color(0xff000000),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal:
+                                          MediaQuery.of(context).size.width *
+                                              0.0487,
+                                      vertical: MediaQuery.of(context).size.height *
+                                          0.007), //20.0 - 5.0
+                                  child: Text(
+                                    "Lobby",
+                                    style: TextStyle(
+                                      fontFamily: "Segoe UI",
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: MediaQuery.of(context).size.width *
+                                           0.0974,
+                                      //40.0
+                                      color: Color(0xff000000),
+                                    ),
                                   ),
                                 ),
-                              ),
-                              Spacer(),
-                              Padding(
-                                padding: EdgeInsets.only(
-                                    right: MediaQuery.of(context).size.height *
-                                        0.01465), //10.0
-                                child: Container(
-                                  height: MediaQuery.of(context).size.height *
-                                      0.0586, //40
-                                  width: MediaQuery.of(context).size.width *
-                                      0.2922, //120
-                                  decoration: BoxDecoration(
-                                    color: Color(0xffffffff),
-                                    border: Border.all(
-                                      width: 1.00,
-                                      color: Colors.black,
+                                Spacer(),
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      right: MediaQuery.of(context).size.height *
+                                          0.01465), //10.0
+                                  child: Container(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.0586, //40
+                                    width: MediaQuery.of(context).size.width *
+                                        0.2922, //120
+                                    decoration: BoxDecoration(
+                                      color: Color(0xffffffff),
+                                      border: Border.all(
+                                        width: 1.00,
+                                        color: Colors.black,
+                                      ),
+                                      borderRadius: BorderRadius.circular(15.00),
                                     ),
-                                    borderRadius: BorderRadius.circular(15.00),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      'Juz '+  widget.maqarat.juz.toString(),
-                                      style: TextStyle(
-                                        fontFamily: "Segoe UI",
-                                        fontWeight: FontWeight.w400,
-                                        fontSize:
-                                            MediaQuery.of(context).size.height *
-                                                0.033695,
-                                        //23.0
-                                        color: Color(0xff000000),
+                                    child: Center(
+                                      child: Text(
+                                        'Juz '+  widget.maqarat.juz.toString(),
+                                        style: TextStyle(
+                                          fontFamily: "Segoe UI",
+                                          fontWeight: FontWeight.w400,
+                                          fontSize:
+                                              MediaQuery.of(context).size.height *
+                                                  0.033695,
+                                          //23.0
+                                          color: Color(0xff000000),
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          Column(
-                            children: <Widget>[
-                              Padding(
-                                padding: EdgeInsets.only(
-                                    left: MediaQuery.of(context).size.width *
-                                        0.02435,
-                                    right: MediaQuery.of(context).size.width *
-                                        0.02435,
-                                    top: MediaQuery.of(context).size.height *
-                                        0.01465), //14 - 10 - 10
-                                child: Row(
-                                  children: <Widget>[
-                                    Text(
-                                      'Participants',
-                                      style: TextStyle(
-                                          fontSize:
-                                              MediaQuery.of(context).size.height *
-                                                  0.027835),
-                                    ), //19
-                                    Spacer(),
-                                    Text(
-                                      'Safahaat',
-                                      style: TextStyle(
-                                          fontSize:
-                                              MediaQuery.of(context).size.height *
-                                                  0.027835),
-                                    ),
-                                  ],
+                              ],
+                            ),
+                            Column(
+                              children: <Widget>[
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      left: MediaQuery.of(context).size.width *
+                                          0.02435,
+                                      right: MediaQuery.of(context).size.width *
+                                          0.02435,
+                                      top: MediaQuery.of(context).size.height *
+                                          0.01465), //14 - 10 - 10
+                                  child: Row(
+                                    children: <Widget>[
+                                      Text(
+                                        'Participants',
+                                        style: TextStyle(
+                                            fontSize:
+                                                MediaQuery.of(context).size.height *
+                                                    0.027835),
+                                      ), //19
+                                      Spacer(),
+                                      Text(
+                                        'Safahaat',
+                                        style: TextStyle(
+                                            fontSize:
+                                                MediaQuery.of(context).size.height *
+                                                    0.027835),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              Container(
-                                height: MediaQuery.of(context).size.height *
-                                    0.6153, //was 275
-                                margin: EdgeInsets.only(
-                                    left: MediaQuery.of(context).size.width *
-                                        0.02435,
-                                    right: MediaQuery.of(context).size.width *
-                                        0.02435),
-                                decoration: BoxDecoration(),
-                                child: ListView.builder(
-                                  itemBuilder: (ctx, index) {
-                                    return Row(
-                                      children: <Widget>[
-                                        Expanded(
-                                          child: Container(
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.1195,
-                                              //80
-                                              decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                border: Border.all(
-                                                    color: Colors.black,
-                                                    width: 1),
-                                              ),
-                                              margin: EdgeInsets.all(5),
-                                              padding: EdgeInsets.all(10),
-                                              child: Column(
-                                                //mainAxisAlignment: MainAxisAlignment.center,
-                                                children: <Widget>[
-                                                  Row(
-                                                    children: <Widget>[
-                                                      Container(
-                                                        height:
-                                                            MediaQuery.of(context)
-                                                                    .size
-                                                                    .height *
-                                                                0.08204,
-                                                        //56
-                                                        width:
-                                                            MediaQuery.of(context)
-                                                                    .size
-                                                                    .height *
-                                                                0.08204,
-                                                        //margin: EdgeInsets.all(10),
-                                                        alignment:
-                                                            Alignment.center,
-                                                        decoration: BoxDecoration(
-                                                          border: Border.all(
-                                                              color: Colors.black,
-                                                              width: 1),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(35),
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        width:
-                                                            MediaQuery.of(context)
-                                                                    .size
-                                                                    .width *
-                                                                0.02435,
-                                                      ), //10
-                                                      Text(
-                                                        'AppId :',
-                                                        style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                          fontSize: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .height *
-                                                              0.0293, //20
-                                                          color: Colors.black,
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        width:
-                                                            MediaQuery.of(context)
-                                                                    .size
-                                                                    .width *
-                                                                0.017045,
-                                                      ), //7
-                                                      Text(
-                                                        _idList[index]
-                                                            .appid
-                                                            .toString(),
-                                                        style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .height *
-                                                              0.033695, //23
-                                                          color:
-                                                              Color(0xFF003CE7),
-                                                        ),
-                                                      ),
-                                                      Spacer(),
-                                                      _idList[index].isadmin &&
-                                                              flag
-                                                          ? Container(
-                                                              height: MediaQuery.of(
+                                Container(
+                                  height: MediaQuery.of(context).size.height *
+                                      0.6153, //was 275
+                                  margin: EdgeInsets.only(
+                                      left: MediaQuery.of(context).size.width *
+                                          0.02435,
+                                      right: MediaQuery.of(context).size.width *
+                                          0.02435),
+                                  decoration: BoxDecoration(),
+                                  child: ListView.builder(
+                                    itemBuilder: (ctx, index) {
+                                      return Row(
+                                        children: <Widget>[
+                                          Expanded(
+                                            child: Container(
+                                                height: MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                    0.1195,
+                                                //80
+                                                decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  border: Border.all(
+                                                      color: Colors.black,
+                                                      width: 1),
+                                                ),
+                                                margin: EdgeInsets.all(5),
+                                                padding: EdgeInsets.all(10),
+                                                child: Column(
+                                                  //mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: <Widget>[
+                                                    Padding(
+                                                      padding:  EdgeInsets.only(top:MediaQuery.of(context).size.height*0.021975,left:MediaQuery.of(context).size.width*0.00487), //15,2
+                                                      child: Row(
+
+                                                        children: <Widget>[
+                                                          //10
+                                                          Text(
+                                                            'AppId :',
+                                                            style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight.w400,
+                                                              fontSize: MediaQuery.of(
                                                                           context)
                                                                       .size
-                                                                      .height *
-                                                                  0.036625,
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                border: Border.all(
-                                                                    color: Color(
-                                                                        0xff008000),
-                                                                    width: 1),
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            3),
-                                                              ),
-                                                              child: Center(
-                                                                  child: Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                        .all(2.0),
-                                                                child: Text(
-                                                                  'Admin',
-                                                                  style: TextStyle(
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w600,
-                                                                      color: Color(
-                                                                          0xff008000),
-                                                                      letterSpacing:
-                                                                          2.0),
-                                                                ),
-                                                              )))
-                                                          : Text(""),
-                                                    ],
-                                                  ),
-                                                ],
-                                              )),
-                                        ),
-                                        Container(
-                                          height:
-                                              MediaQuery.of(context).size.height *
-                                                  0.1195, //80
-                                          width:
-                                              MediaQuery.of(context).size.width *
-                                                  0.2435, //100
-                                          decoration: BoxDecoration(
-                                            color: Color(0xFF003CE7),
-                                            //border: Border.all(color: Colors.black,width: 1),
+                                                                      .width *
+                                                                  0.060875, //20
+                                                              color: Colors.black,
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            width:
+                                                                7.0,
+                                                          ), //7
+                                                          Text(
+                                                            _idList[index]
+                                                                .appid
+                                                                .toString(),
+                                                            style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight.bold,
+                                                              fontSize: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width *
+                                                                  0.060875, //23
+                                                              color:
+                                                                  Color(0xFF003CE7),
+                                                            ),
+                                                          ),
+                                                          Spacer(),
+                                                          _idList[index].isadmin &&
+                                                                  flag
+                                                              ? Container(
+                                                                  height: MediaQuery.of(
+                                                                              context)
+                                                                          .size
+                                                                          .height *
+                                                                      0.036625,
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    border: Border.all(
+                                                                        color: Color(
+                                                                            0xff008000),
+                                                                        width: 1),
+                                                                    borderRadius:
+                                                                        BorderRadius
+                                                                            .circular(
+                                                                                3),
+                                                                  ),
+                                                                  child: Center(
+                                                                      child: Padding(
+                                                                    padding:
+                                                                        const EdgeInsets
+                                                                            .all(2.0),
+                                                                    child: Text(
+                                                                      'Admin',
+                                                                      style: TextStyle(
+                                                                          fontWeight:
+                                                                              FontWeight
+                                                                                  .w600,
+                                                                          color: Color(
+                                                                              0xff008000),
+                                                                          letterSpacing:
+                                                                              2.0),
+                                                                    ),
+                                                                  )))
+                                                              : Text(""),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                )),
                                           ),
-                                          child: Center(
-                                            child: Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 25.0), //25
-                                                child: flag
-                                                    ? Text(
-                                                        Safah(_idList.length, index),
-                                                        //pass number of users , users == (num of app_id)...else error !
-                                                        style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .height *
-                                                              0.0293, //20
-                                                        ),
-                                                      )
-                                                    : Text("")),
+                                          Container(
+                                            height:
+                                                MediaQuery.of(context).size.height *
+                                                    0.1195, //80
+                                            width:
+                                                MediaQuery.of(context).size.width *
+                                                    0.2435, //100
+                                            decoration: BoxDecoration(
+                                              color: Color(0xFF003CE7),
+                                              //border: Border.all(color: Colors.black,width: 1),
+                                            ),
+                                            child: Center(
+                                              child: Padding(
+                                                  padding: const EdgeInsets.only(
+                                                      left: 20.0), //25
+                                                  child: flag
+                                                      ? Text(
+                                                          Safah(_idList.length, index),
+                                                          //pass number of users , users == (num of app_id)...else error !
+                                                          style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width *
+                                                                0.060875, //20
+                                                          ),
+                                                        )
+                                                      : Text("")),
+                                            ),
                                           ),
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                  itemCount: _idList.length,
+                                        ],
+                                      );
+                                    },
+                                    itemCount: _idList.length,
+                                  ),
                                 ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(
-                                    top: MediaQuery.of(context).size.height *
-                                        0.00612), //
-                                child: Text('Countdown for maqarat will start at '+ widget.maqarat.time +'IST\nDo not exit the lobby',
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      top: MediaQuery.of(context).size.height *
+                                          0.00612), //
+                                  child: Text('Countdown for maqarat will start at '+ widget.maqarat.time +'IST\nDo not exit the lobby',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize:
+                                            MediaQuery.of(context).size.width *
+                                                0.036525, //20
+
+                                      )),
+                                ),
+                                Text("$_current",
                                     style: TextStyle(
-                                      fontSize:
-                                          MediaQuery.of(context).size.height *
-                                              0.0253, //20
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: MediaQuery.of(context).size.height *
+                                          0.0293,
                                     )),
-                              ),
-                              Text("$_current",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: MediaQuery.of(context).size.height *
-                                        0.0293,
-                                  )),
-                            ],
-                          ),
-                        ],
+                              ],
+                            ),
+                          ],
+                        ),
                       )),
                 ),
               ],
@@ -626,8 +605,31 @@ int position=0;
   return true;
 
   }
+  Future update() async{
 
+    DataSnapshot nem= await FirebaseDatabase.instance.reference().child('non empty maqarat').child(channel).once();
+    List<String> inuser=[];
+    for(var t in _idList){
+      inuser.add(t.appid);
+    }
+    List tusers=nem.value.toString().split(",");
+    List<String> notatd=[];
+    for(var p in tusers){
+      if(inuser.contains(p)==false){
+        notatd.add(p);
+      }
+    }
+    for(var w in notatd){
+      DataSnapshot incun= await FirebaseDatabase.instance.reference().child('user_state').child(w).once();
+      await FirebaseDatabase.instance.reference().child('user_state').child(w).update({"unattended_maqarat":incun.value["unattended_maqarat"]+','+channel});
+    }
+  }
 
+  Future<void> _handleCameraAndMic() async {
+    await PermissionHandler().requestPermissions(
+      [PermissionGroup.camera, PermissionGroup.microphone],
+    );
+  }
 
 
 }

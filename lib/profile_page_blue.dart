@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/services.dart';
 import 'package:mahadalzahra/services/authentication.dart';
 
 import 'login_signup_page.dart';
@@ -179,7 +180,7 @@ class _ProfileBlueState extends State<ProfileBlue> {
                                                 style: TextStyle(
                                                   fontFamily: "Segoe UI",
                                                   fontWeight: FontWeight.w600,
-                                                  fontSize: 16,
+                                                  fontSize: 16, //to be solved
                                                   //MediaQuery.of(context).size.height *
                                                   // 0.04102,
                                                   //28
@@ -204,8 +205,8 @@ class _ProfileBlueState extends State<ProfileBlue> {
                                                 fontFamily: "Segoe UI",
                                                 fontSize: MediaQuery.of(context)
                                                         .size
-                                                        .height *
-                                                    0.03223, //22
+                                                        .width *
+                                                    0.05357, //22
                                                 color: Color(0xff00ffe5),
                                               ),
                                             ),
@@ -226,8 +227,8 @@ class _ProfileBlueState extends State<ProfileBlue> {
                                                 fontFamily: "Segoe UI",
                                                 fontSize: MediaQuery.of(context)
                                                         .size
-                                                        .height *
-                                                    0.03223, //22
+                                                        .width *
+                                                    0.05357, //22
                                                 color: Color(0xffffffff),
                                               ),
                                             ),
@@ -262,7 +263,7 @@ class _ProfileBlueState extends State<ProfileBlue> {
                               fontFamily: "Segoe UI",
                               fontWeight: FontWeight.w600,
                               fontSize:
-                                  MediaQuery.of(context).size.height * 0.039555,
+                                  MediaQuery.of(context).size.width * 0.065745,
                               //27
                               color: Color(0xffffffff),
                             ),
@@ -312,8 +313,8 @@ class _ProfileBlueState extends State<ProfileBlue> {
                                           fontFamily: "Segoe UI",
                                           fontSize: MediaQuery.of(context)
                                                   .size
-                                                  .height *
-                                              0.0293, //20
+                                                  .width *
+                                              0.0487, //20
                                           color: Color(0xff580000),
                                         ),
                                       ),
@@ -354,8 +355,8 @@ class _ProfileBlueState extends State<ProfileBlue> {
                                               fontFamily: "Segoe UI",
                                               fontSize: MediaQuery.of(context)
                                                       .size
-                                                      .height *
-                                                  0.0293,
+                                                      .width *
+                                                  0.0487,
                                               color: Color(0xff000000),
                                             ),
                                           ),
@@ -398,8 +399,8 @@ class _ProfileBlueState extends State<ProfileBlue> {
                                           fontFamily: "Segoe UI",
                                           fontSize: MediaQuery.of(context)
                                                   .size
-                                                  .height *
-                                              0.0293,
+                                                  .width *
+                                              0.0487,
                                           color: Color(0xff580000),
                                         ),
                                       ),
@@ -440,8 +441,8 @@ class _ProfileBlueState extends State<ProfileBlue> {
                                               fontFamily: "Segoe UI",
                                               fontSize: MediaQuery.of(context)
                                                       .size
-                                                      .height *
-                                                  0.0293,
+                                                      .width *
+                                                  0.0487,
                                               color: Color(0xff000000),
                                             ),
                                           ),
@@ -483,8 +484,8 @@ class _ProfileBlueState extends State<ProfileBlue> {
                                           fontFamily: "Segoe UI",
                                           fontSize: MediaQuery.of(context)
                                                   .size
-                                                  .height *
-                                              0.0293,
+                                                  .width *
+                                              0.0487,
                                           color: Color(0xff580000),
                                         ),
                                       ),
@@ -525,8 +526,8 @@ class _ProfileBlueState extends State<ProfileBlue> {
                                               fontFamily: "Segoe UI",
                                               fontSize: MediaQuery.of(context)
                                                       .size
-                                                      .height *
-                                                  0.0293,
+                                                      .width *
+                                                  0.0487,
                                               color: Color(0xff000000),
                                             ),
                                           ),
@@ -568,8 +569,8 @@ class _ProfileBlueState extends State<ProfileBlue> {
                                           fontFamily: "Segoe UI",
                                           fontSize: MediaQuery.of(context)
                                                   .size
-                                                  .height *
-                                              0.0293,
+                                                  .width *
+                                              0.0487,
                                           color: Color(0xff580000),
                                         ),
                                       ),
@@ -610,8 +611,8 @@ class _ProfileBlueState extends State<ProfileBlue> {
                                               fontFamily: "Segoe UI",
                                               fontSize: MediaQuery.of(context)
                                                       .size
-                                                      .height *
-                                                  0.0293,
+                                                      .width *
+                                                  0.0487,
                                               color: Color(0xff000000),
                                             ),
                                           ),
@@ -653,8 +654,8 @@ class _ProfileBlueState extends State<ProfileBlue> {
                                           fontFamily: "Segoe UI",
                                           fontSize: MediaQuery.of(context)
                                                   .size
-                                                  .height *
-                                              0.0293,
+                                                  .width *
+                                              0.0487,
                                           color: Color(0xff580000),
                                         ),
                                       ),
@@ -695,8 +696,8 @@ class _ProfileBlueState extends State<ProfileBlue> {
                                               fontFamily: "Segoe UI",
                                               fontSize: MediaQuery.of(context)
                                                       .size
-                                                      .height *
-                                                  0.0293,
+                                                      .width *
+                                                  0.0487,
                                               color: Color(0xff000000),
                                             ),
                                           ),
@@ -742,11 +743,11 @@ class _ProfileBlueState extends State<ProfileBlue> {
                                               Icons.power_settings_new,
                                               size: MediaQuery.of(context)
                                                       .size
-                                                      .height *
-                                                  0.04395, //30
+                                                      .width *
+                                                  0.07305, //30
                                               color: Colors.black,
                                             ),
-                                            onPressed:(){ signOut().then((value) => Navigator.pushReplacement(context, new MaterialPageRoute(builder: (context) => new LoginSignupPage())));
+                                            onPressed:(){ oauth.signOut().then((value) => SystemChannels.platform.invokeMethod('SystemNavigator.pop'));
 
                                             }//signOut,
                                           ),
@@ -757,15 +758,15 @@ class _ProfileBlueState extends State<ProfileBlue> {
                                               right: MediaQuery.of(context)
                                                       .size
                                                       .width *
-                                                  0.01948), //8.0
+                                                  0.03896), //16.0
                                           child: Text(
                                             "Log out",
                                             style: TextStyle(
                                               fontFamily: "Segoe UI",
                                               fontSize: MediaQuery.of(context)
                                                       .size
-                                                      .height *
-                                                  0.0293, //20
+                                                      .width *
+                                                  0.0487, //20
                                               color: Colors.black,
                                             ),
                                           ),
