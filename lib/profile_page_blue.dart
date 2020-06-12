@@ -485,7 +485,7 @@ class _ProfileBlueState extends State<ProfileBlue> {
                                           fontSize: MediaQuery.of(context)
                                                   .size
                                                   .width *
-                                              0.0487,
+                                              0.0430,
                                           color: Color(0xff580000),
                                         ),
                                       ),

@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_util/date_util.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -333,6 +335,7 @@ class _NewMaqaratState extends State<NewMaqarat> {
     print(date1);
     print(todaylist);
   }
+  final ScrollController _scrollController = ScrollController();
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -363,9 +366,20 @@ class _NewMaqaratState extends State<NewMaqarat> {
                       height: MediaQuery.of(context).size.height * 0.007325, //5.0
                     ),
                     Padding(
-                      padding:  EdgeInsets.only(right:MediaQuery.of(context).size.width*0.02435), //10.0
+                      padding:  EdgeInsets.only(right:MediaQuery.of(context).size.width*0.02435,left: MediaQuery.of(context).size.width *
+                          0.02435), //10.0
                       child: Row(
                         children: <Widget>[
+                          Icon(Icons.account_circle,color: Colors.white,size:30,),
+                          Text(" Mustafa Husain Piplodi",style: TextStyle(     //FROM DATABASE
+                            fontFamily: "Segoe UI",
+                            fontWeight: FontWeight.w400,
+                            fontSize:
+                            25.0,
+                            //40.0
+                            color: Colors.white,
+                              fontFeatures: [FontFeature.tabularFigures(),]
+                          ),),
 
                           Spacer(),
 
@@ -408,7 +422,7 @@ class _NewMaqaratState extends State<NewMaqarat> {
                                   Padding(
                                     padding:  EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.0487, vertical: MediaQuery.of(context).size.height * 0.007325), //20.0, 5.0
                                     child: Text(
-                                      "Join a Maqarat",
+                                      "Join Maqarat",
                                       style: TextStyle(
                                         fontFamily: "Segoe UI",fontWeight: FontWeight.w600,
                                         fontSize: MediaQuery.of(context).size.width *
@@ -416,7 +430,43 @@ class _NewMaqaratState extends State<NewMaqarat> {
                                         color:Color(0xff000000),
                                       ),
                                     ),
-                                  )
+                                  ),
+                                  Spacer(),
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                        right: MediaQuery.of(context).size.height *
+                                            0.01465), //10.0
+                                    child: Container(
+                                      height: MediaQuery.of(context).size.height *
+                                          0.0586, //40
+                                      width: MediaQuery.of(context).size.width *
+                                          0.2922, //120
+                                      decoration: BoxDecoration(
+                                        color: Color(0xffffffff),
+                                        border: Border.all(
+                                          width: 1.00,
+                                          color: Colors.black,
+                                        ),
+                                        borderRadius: BorderRadius.circular(15.00),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          'IST 14/06 19:00',   //TIME
+                                          style: TextStyle(
+                                              fontFamily: "Segoe UI",
+                                              fontWeight: FontWeight.w400,
+                                              fontSize:
+                                              MediaQuery.of(context).size.width*0.03896, //17.0
+                                              //23.0
+                                              color: Color(0xff000000),
+                                              fontFeatures: [FontFeature.tabularFigures(),]
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+
                                 ],
                               ),
 
@@ -688,6 +738,7 @@ class _NewMaqaratState extends State<NewMaqarat> {
                                                       fontFamily: "Segoe UI",
                                                       fontSize: MediaQuery.of(context).size.width*0.046265, //18
                                                       color:Color(0xff000000).withOpacity(0.72),
+                                                        fontFeatures: [FontFeature.tabularFigures(),]
                                                     ),
                                                   ),
                                                 ),
@@ -784,113 +835,120 @@ class _NewMaqaratState extends State<NewMaqarat> {
                                                                             20.00),
                                                                       ),
 
-                                                                      child: ListView.builder(
-                                                                        itemCount:
-                                                                        L.length,
-                                                                        itemBuilder:
-                                                                            (context, index) {
-                                                                          return GestureDetector(
-                                                                            onTap: () {
-                                                                              setState(() {
-                                                                                if (selectedIndex ==
-                                                                                    index) {
-                                                                                  selectedIndex =
-                                                                                  -1;
-                                                                                  i = false;
-                                                                                } else {
-                                                                                  selectedIndex =
-                                                                                      index;
-                                                                                  i = true;
-                                                                                  selectedTime =
-                                                                                      L[
-                                                                                      index]
-                                                                                          .time
-                                                                                          .toString();
-                                                                                }
+                                                                      child: Scrollbar(
+                                                                        isAlwaysShown:true,
+                                                                        controller: _scrollController,
+                                                                        child: ListView.builder(
+                                                                          controller: _scrollController,
+                                                                          itemCount:
+                                                                          L.length,
+                                                                          itemBuilder:
+                                                                              (context, index) {
+                                                                            return GestureDetector(
+                                                                              onTap: () {
+                                                                                setState(() {
+                                                                                  if (selectedIndex ==
+                                                                                      index) {
+                                                                                    selectedIndex =
+                                                                                    -1;
+                                                                                    i = false;
+                                                                                  } else {
+                                                                                    selectedIndex =
+                                                                                        index;
+                                                                                    i = true;
+                                                                                    selectedTime =
+                                                                                        L[
+                                                                                        index]
+                                                                                            .time
+                                                                                            .toString();
+                                                                                  }
 
-                                                                              });
-                                                                            },
-                                                                            /*onDoubleTap: (){
+                                                                                });
+                                                                              },
+                                                                              /*onDoubleTap: (){
                                                                setState(() {
                                                                  selectedIndex=-1;
                                                                });
                                                              },*/
-                                                                            child: Row(
-                                                                              children: <
-                                                                                  Widget>[
-                                                                                Spacer(),
-                                                                                Padding(
-                                                                                  padding: EdgeInsets.only(
-                                                                                      top: MediaQuery.of(context)
-                                                                                          .size
-                                                                                          .height *
-                                                                                          0.01172),
-                                                                                  //8.0
-                                                                                  child: Container(
-                                                                                      height: MediaQuery.of(context).size.height * 0.065925,
-                                                                                      //45
-                                                                                      width: MediaQuery.of(context).size.width * 0.74511,
-                                                                                      //306
-                                                                                      decoration: BoxDecoration(
-                                                                                        color: index ==
-                                                                                            selectedIndex
-                                                                                            ? Color(0xff00ff00)
-                                                                                            : Color(0xffffffff),
-                                                                                        border:
-                                                                                        Border.all(
-                                                                                          width:
-                                                                                          1.00,
-                                                                                          color:
-                                                                                          Color(0xff707070),
+                                                                              child: Row(
+                                                                                children: <
+                                                                                    Widget>[
+                                                                                  Spacer(),
+                                                                                  Padding(
+                                                                                    padding: EdgeInsets.only(
+                                                                                        top: MediaQuery.of(context)
+                                                                                            .size
+                                                                                            .height *
+                                                                                            0.01172),
+                                                                                    //8.0
+                                                                                    child: Container(
+                                                                                        height: MediaQuery.of(context).size.height * 0.065925,
+                                                                                        //45
+                                                                                        width: MediaQuery.of(context).size.width * 0.74511,
+                                                                                        //306
+                                                                                        decoration: BoxDecoration(
+                                                                                          color: index ==
+                                                                                              selectedIndex
+                                                                                              ? Color(0xff00ff00)
+                                                                                              : Color(0xffffffff),
+                                                                                          border:
+                                                                                          Border.all(
+                                                                                            width:
+                                                                                            1.00,
+                                                                                            color:
+                                                                                            Color(0xff707070),
+                                                                                          ),
+                                                                                          borderRadius:
+                                                                                          BorderRadius.circular(10.00),
                                                                                         ),
-                                                                                        borderRadius:
-                                                                                        BorderRadius.circular(10.00),
-                                                                                      ),
-                                                                                      child: Padding(
-                                                                                        padding: EdgeInsets.only(
-                                                                                            left: MediaQuery.of(context).size.width *
-                                                                                                0.01948,
-                                                                                            right:
-                                                                                            MediaQuery.of(context).size.width * 0.01948),
-                                                                                        //8.0 , 8
-                                                                                        child:
-                                                                                        Row(
-                                                                                          children: <
-                                                                                              Widget>[
-                                                                                            Text(
-                                                                                              L[index].time + " IST",
-                                                                                              style: TextStyle(
-                                                                                                fontFamily: "Segoe UI",
-                                                                                                fontWeight: FontWeight.w700,
-                                                                                                fontSize: MediaQuery.of(context).size.height * 0.033695,
-                                                                                                //23
-                                                                                                color: Color(0xff000000),
+                                                                                        child: Padding(
+                                                                                          padding: EdgeInsets.only(
+                                                                                              left: MediaQuery.of(context).size.width *
+                                                                                                  0.01948,
+                                                                                              right:
+                                                                                              MediaQuery.of(context).size.width * 0.01948),
+                                                                                          //8.0 , 8
+                                                                                          child:
+                                                                                          Row(
+                                                                                            children: <
+                                                                                                Widget>[
+                                                                                              Text(
+                                                                                                L[index].time + " IST",
+                                                                                                style: TextStyle(
+                                                                                                  fontFamily: "Segoe UI",
+                                                                                                  fontWeight: FontWeight.w700,
+                                                                                                  fontSize: MediaQuery.of(context).size.height * 0.033695,
+                                                                                                  //23
+                                                                                                  color: Color(0xff000000),
+                                                                                                    fontFeatures: [FontFeature.tabularFigures(),]
+                                                                                                ),
                                                                                               ),
-                                                                                            ),
-                                                                                            Spacer(),
-                                                                                            Text(
-                                                                                              juzsnapshot.data.documents[0][L[index].time.toString()]["no_participants"].toString()+"/5",
-                                                                                              style: TextStyle(
-                                                                                                fontFamily: "Segoe UI",
-                                                                                                fontSize: MediaQuery.of(context).size.height * 0.02637,
-                                                                                                //18
-                                                                                                color: Color(0xff000000),
+                                                                                              Spacer(),
+                                                                                              Text(
+                                                                                                juzsnapshot.data.documents[0][L[index].time.toString()]["no_participants"].toString()+"/5",
+                                                                                                style: TextStyle(
+                                                                                                  fontFamily: "Segoe UI",
+                                                                                                  fontSize: MediaQuery.of(context).size.height * 0.02637,
+                                                                                                  //18
+                                                                                                  color: Color(0xff000000),
+                                                                                                    fontFeatures: [FontFeature.tabularFigures(),]
+                                                                                                ),
                                                                                               ),
-                                                                                            ),
-                                                                                            Spacer(),
-                                                                                            Icon(
-                                                                                              index == selectedIndex ? Icons.check_box : Icons.check_box_outline_blank,
-                                                                                              size: MediaQuery.of(context).size.height * 0.04395, //30
-                                                                                            ),
-                                                                                          ],
-                                                                                        ),
-                                                                                      )),
-                                                                                ),
-                                                                                Spacer(),
-                                                                              ],
-                                                                            ),
-                                                                          );
-                                                                        },
+                                                                                              Spacer(),
+                                                                                              Icon(
+                                                                                                index == selectedIndex ? Icons.check_box : Icons.check_box_outline_blank,
+                                                                                                size: MediaQuery.of(context).size.height * 0.04395, //30
+                                                                                              ),
+                                                                                            ],
+                                                                                          ),
+                                                                                        )),
+                                                                                  ),
+                                                                                  Spacer(),
+                                                                                ],
+                                                                              ),
+                                                                            );
+                                                                          },
+                                                                        ),
                                                                       ),
                                                                     ),
                                                                     maintainSize: true,
@@ -936,8 +994,8 @@ class _NewMaqaratState extends State<NewMaqarat> {
                                                                                           selectedTime +
                                                                                           " IST\nJuz: " +
                                                                                           selectedJuz +
-                                                                                          "\n\nOnce confirmed Maqarat cannot be changed nor deleted\nAttendance is mandatory\n"
-                                                                                              "Wait for data sync after confirming"),
+                                                                                          "\n\n1. Once confirmed Maqarat cannot be changed nor deleted\n2. Attendance is mandatory\n"
+                                                                                              "3. Wait for data sync after confirming",style: TextStyle(fontSize: 19.0,)),
                                                                                       actions: <
                                                                                           Widget>[
                                                                                         FlatButton(

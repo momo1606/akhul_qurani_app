@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
@@ -297,8 +299,9 @@ class _MaqaratPageState extends State<MaqaratPage> {
                           fontSize: MediaQuery
                               .of(context)
                               .size
-                              .height * 0.030765,
+                              .width * 0.060875,
                           color: Color(0xff000000),
+                          fontFeatures: [FontFeature.tabularFigures(),]
                         ),
                       ),
                     ),
@@ -389,6 +392,7 @@ class _MaqaratPageState extends State<MaqaratPage> {
                                     // from database
                                     style: TextStyle(
                                       fontFamily: "Segoe UI",
+                                      fontWeight: FontWeight.w600,
                                       fontSize:
                                       MediaQuery
                                           .of(context)
@@ -477,7 +481,7 @@ class _MaqaratPageState extends State<MaqaratPage> {
                                                       "Confirm",
                                                     ),
                                                     content: Text("Once confirmed, wait few seconds for the Lobby to be created \n"
-                                                        "DO NOT EXIT THE LOBBY"),
+                                                        "DO NOT EXIT THE LOBBY",style: TextStyle(fontSize: 19.0,)),
                                                     actions: <
                                                         Widget>[
                                                       FlatButton(

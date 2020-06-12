@@ -23,6 +23,8 @@ class _SettingsState extends State<Settings> {
     }
   }
 
+  final ScrollController _scrollController = ScrollController();
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -97,95 +99,154 @@ class _SettingsState extends State<Settings> {
                           Expanded(
                             child: Container(
                               width: MediaQuery.of(context).size.width,
-                              child: SingleChildScrollView(
-                                child: Padding(
-                                  padding:  EdgeInsets.only(left:MediaQuery.of(context).size.width * 0.01948, right:MediaQuery.of(context).size.width * 0.01948), //8.0, 8.0
-                                  child: Column(
-                                    children: <Widget>[
-                                      Align(  alignment: Alignment.center, child: Text("Join Maqarat",style: TextStyle(fontSize: 25.0, fontFamily: "Segoe UI",fontWeight: FontWeight.w500,  ))),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top:5.0),
-                                        child: Align(alignment: Alignment.centerLeft, child: Text("1. A maximum of 2 Maqarats are allowed in a day",style: TextStyle(fontSize: 19.0))),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top:5.0),
-                                        child: Align(alignment: Alignment.centerLeft, child: Text("2. Two Maqarats cannot be booked for the same time slot of a given date",style: TextStyle(fontSize: 19.0))),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top:5.0),
-                                        child: Align(alignment: Alignment.centerLeft,child: Text("3. A Maqarat cannot be booked 15 mins prior to a maqarat slot of a given date",style: TextStyle(fontSize: 19.0))),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top:5.0),
-                                        child: Align(alignment: Alignment.centerLeft,child: Text("4. Ajza are divided between days as Odd Ajza and Even Ajza",style: TextStyle(fontSize: 19.0))),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top:5.0),
-                                        child: Align(alignment: Alignment.centerLeft,child: Text("5. Maqarat(s) can be booked for upto seven days at a time",style: TextStyle(fontSize: 19.0))),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top:5.0),
-                                        child: Align(alignment: Alignment.centerLeft,child: Text("6. Days will be incremented daily",style: TextStyle(fontSize: 19.0))),
-                                      ),
-                                      Text(''),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top:5.0),
-                                        child: Align(alignment: Alignment.center,child: Text("Dashboard",style: TextStyle(fontSize: 25.0, fontFamily: "Segoe UI",fontWeight: FontWeight.w500,  ))),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top:5.0),
-                                        child: Align(alignment: Alignment.centerLeft,child: Text("1. Scroll down to refresh dashboard",style: TextStyle(fontSize: 19.0))),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top:5.0),
-                                        child: Align(alignment: Alignment.centerLeft,child: Text("2. Maqarat will be activated 6 minutes before Maqarat time and locked 1 minute before Maqarat time",style: TextStyle(fontSize: 19.0))),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top:5.0),
-                                        child: Align(alignment: Alignment.centerLeft,child: Text("3. Maqarat will not be displayed after Maqarat time",style: TextStyle(fontSize: 19.0))),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top:5.0),
-                                        child: Align(alignment: Alignment.centerLeft,child: Text("4. During the active phase, wait for few seconds until lobby is created",style: TextStyle(fontSize: 19.0))),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top:5.0),
-                                        child: Align(alignment: Alignment.centerLeft,child: Text("5. After lobby creation, wait till Maqarat time after which a countdown for 30 seconds will begin",style: TextStyle(fontSize: 19.0))),
-                                      ),
-                                      //
-                                      Padding(
-                                        padding: const EdgeInsets.only(top:5.0),
-                                        child: Align(alignment: Alignment.centerLeft,child: Text("6. During the countdown Safahaat to be recited will be displayed and then the Maqarat will start",style: TextStyle(fontSize: 19.0))),
-                                      ),
+                              child: Scrollbar(
+                                isAlwaysShown:true,
+                                controller: _scrollController,
+                                child: SingleChildScrollView(
+                                  controller: _scrollController,
+                                  child: Padding(
+                                    padding:  EdgeInsets.only(left:MediaQuery.of(context).size.width * 0.01948, right:MediaQuery.of(context).size.width * 0.01948), //8.0, 8.0
+                                    child: Column(
+                                      children: <Widget>[
+                                        Align(  alignment: Alignment.center, child: Text("Joining a Maqarat",style: TextStyle(fontSize: 25.0, fontFamily: "Segoe UI",fontWeight: FontWeight.w500,  ))),
+                                        Padding(
+                                          padding: const EdgeInsets.only(top:5.0),
+                                          child: Align(alignment: Alignment.centerLeft, child: Text("1. A maximum of 2 Maqarats are allowed in a day",style: TextStyle(fontSize: 19.0))),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(top:5.0),
+                                          child: Align(alignment: Alignment.centerLeft, child: Text("2. Two Maqarats cannot be booked for the same time slot of a given date",style: TextStyle(fontSize: 19.0))),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(top:5.0),
+                                          child: Align(alignment: Alignment.centerLeft,child: Text("3. A Maqarat cannot be booked 15 mins prior to a maqarat slot of a given date",style: TextStyle(fontSize: 19.0))),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(top:5.0),
+                                          child: Align(alignment: Alignment.centerLeft,child: Text("4. Ajza are divided between days as Odd Ajza and Even Ajza",style: TextStyle(fontSize: 19.0))),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(top:5.0),
+                                          child: Align(alignment: Alignment.centerLeft,child: Text("5. Maqarat(s) can be booked for upto seven days at a time",style: TextStyle(fontSize: 19.0))),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(top:5.0),
+                                          child: Align(alignment: Alignment.centerLeft,child: Text("6. Days will be incremented daily",style: TextStyle(fontSize: 19.0))),
+                                        ),
+                                        Text(''),
+                                        Padding(
+                                          padding: const EdgeInsets.only(top:5.0),
+                                          child: Align(alignment: Alignment.center,child: Text("Dashboard",style: TextStyle(fontSize: 25.0, fontFamily: "Segoe UI",fontWeight: FontWeight.w500,  ))),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(top:5.0),
+                                          child: Align(alignment: Alignment.centerLeft,child: Text("1. Scroll down to refresh dashboard",style: TextStyle(fontSize: 19.0))),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(top:5.0),
+                                          child: Align(alignment: Alignment.centerLeft,child: Text("2. Maqarat will be activated 6 minutes before Maqarat time and locked 1 minute before Maqarat time",style: TextStyle(fontSize: 19.0))),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(top:5.0),
+                                          child: Align(alignment: Alignment.centerLeft,child: Text("3. Maqarat will not be displayed after Maqarat time",style: TextStyle(fontSize: 19.0))),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(top:5.0),
+                                          child: Align(alignment: Alignment.centerLeft,child: Text("4. During the active phase, wait for few seconds until lobby is created",style: TextStyle(fontSize: 19.0))),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(top:5.0),
+                                          child: Align(alignment: Alignment.centerLeft,child: Text("5. After lobby creation, wait till Maqarat time after which a countdown for 30 seconds will begin",style: TextStyle(fontSize: 19.0))),
+                                        ),
+                                        //
+                                        Padding(
+                                          padding: const EdgeInsets.only(top:5.0),
+                                          child: Align(alignment: Alignment.centerLeft,child: Text("6. During the countdown Safahaat to be recited will be displayed and then the Maqarat will start",style: TextStyle(fontSize: 19.0))),
+                                        ),
 
-                                      Padding(
-                                        padding: const EdgeInsets.only(top:5.0),
-                                        child: Align(alignment: Alignment.centerLeft,child: Text("7. During the 30 second countdown you are not allowed to leave the lobby",style: TextStyle(fontSize: 19.0))),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top:5.0),
-                                        child: Align(alignment: Alignment.centerLeft,child: Text("8. Each Maqarat will be of a duration of 50 minutes after which the lobby will be disposed",style: TextStyle(fontSize: 19.0))),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top:5.0),
-                                        child: Align(alignment: Alignment.centerLeft,child: Text("9. Ending an ongoing Maqarat call will lead to the user not being able to rejoin",style: TextStyle(fontSize: 19.0))),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top:5.0),
-                                        child: Align(alignment: Alignment.centerLeft,child: Text("10. Each Maqarat will have a user who will be the admin of that Maqarat, who will be responsible for prompting Tanbee/Talqeen",style: TextStyle(fontSize: 19.0))),
-                                      ),
-                                      Text(""),
-                                      Align(alignment: Alignment.center,child: Text("Feedback",style: TextStyle(fontSize: 25.0, fontFamily: "Segoe UI",fontWeight: FontWeight.w500,  ))),
-                                      //  Material(child: InkWell(child: Icon(Icons.feedback, color: Color(0xFF003CE7), size: 40,),))
-                                      RaisedButton(
-                                        color: Colors.white,
-                                        child: Icon(Icons.feedback, color: Color(0xFF003CE7), size: 40,),
-                                        onPressed: (){launchURL(url);},
-                                      )
+                                        Padding(
+                                          padding: const EdgeInsets.only(top:5.0),
+                                          child: Align(alignment: Alignment.centerLeft,child: Text("7. During the 30 second countdown you are not allowed to leave the lobby",style: TextStyle(fontSize: 19.0))),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(top:5.0),
+                                          child: Align(alignment: Alignment.centerLeft,child: Text("8. Each Maqarat will be of a duration of 50 minutes after which the lobby will be disposed",style: TextStyle(fontSize: 19.0))),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(top:5.0),
+                                          child: Align(alignment: Alignment.centerLeft,child: Text("9. Ending an ongoing Maqarat call will lead to the user not being able to rejoin",style: TextStyle(fontSize: 19.0))),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(top:5.0),
+                                          child: Align(alignment: Alignment.centerLeft,child: Text("10. Each Maqarat will have a user who will be the admin of that Maqarat, who will be responsible for prompting Tanbee/Talqeen",style: TextStyle(fontSize: 19.0))),
+                                        ),
+                                        Text(""),
+                                        Row(
+                                          children: <Widget>[
+                                            Column(
+                                              children: <Widget>[
+                                                Align(alignment: Alignment.center,child: Text("Feedback",style: TextStyle(fontSize: 25.0, fontFamily: "Segoe UI",fontWeight: FontWeight.w500,  ))),
+                                                //  Material(child: InkWell(child: Icon(Icons.feedback, color: Color(0xFF003CE7), size: 40,),))
+                                                RaisedButton(
+                                                  color: Colors.white,
+                                                  child: Icon(Icons.feedback, color: Color(0xFF003CE7), size: 40,),
+                                                  onPressed: (){launchURL(url);},
+                                                )
+                                              ],
+                                            ),
+                                            Spacer(),
+                                            Container(width:1.0,height:75.0,color:Colors.black),
+                                            Spacer(),
+                                            Column(
+                                              children: <Widget>[
+                                                Align(alignment: Alignment.center,child: Text("Upcoming Features",style: TextStyle(fontSize: 25.0, fontFamily: "Segoe UI",fontWeight: FontWeight.w500,  ))),
+                                                //  Material(child: InkWell(child: Icon(Icons.feedback, color: Color(0xFF003CE7), size: 40,),))
+                                                RaisedButton(
+                                                  color: Colors.white,
+                                                  child: Icon(Icons.star, color: Color(0xFF003CE7), size: 40,),
+                                                  onPressed: (){
+
+                                                    showDialog(
+                                                        context:
+                                                        context,
+                                                        builder:
+                                                            (BuildContext
+                                                        context) {
+                                                          return AlertDialog(
+                                                            title:
+                                                            Text(
+                                                              "Upcoming Features",
+                                                            ),
+                                                            content: Text("1. Allowing users to send invites and create private lobbies\n2. Notification System\n3. Users will be able to send Emoticons during Maqarat call\n4. Enhanced UI\n5. More Stats",style: TextStyle(fontSize: 19.0,)),
+                                                            actions: <
+                                                                Widget>[
+                                                              FlatButton(
+                                                                  child:
+                                                                  Text("OK",),
+                                                                  onPressed: () {
+                                                                    Navigator.pop(context);
+                                                                  }
+                                                              ),
+                                                            ],
+                                                          );
+                                                        });
+
+
+                                                  },
+                                                )
+                                              ],
+                                            )
+                                          ],
+                                        ),
 
 
 
-                                    ],
+
+
+
+
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -213,3 +274,4 @@ class _SettingsState extends State<Settings> {
     );
   }
 }
+

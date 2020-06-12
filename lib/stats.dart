@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:mahadalzahra/homepagebackground.dart';
 import 'package:mahadalzahra/plus_button.dart';
@@ -118,9 +120,20 @@ class _StatsState extends State<Stats> {
               ),
               Padding(
                 padding: EdgeInsets.only(
-                    right: MediaQuery.of(context).size.width * 0.02435), //10.0
+                    right: MediaQuery.of(context).size.width * 0.02435,left: MediaQuery.of(context).size.width *
+                    0.02435), //10.0
                 child: Row(
                   children: <Widget>[
+                    Icon(Icons.account_circle,color: Colors.white,size:30,),
+                    Text(" Mustafa Husain Piplodi",style: TextStyle(     //FROM DATABASE
+                      fontFamily: "Segoe UI",
+                      fontWeight: FontWeight.w400,
+                      fontSize:
+                      25.0,
+                      //40.0
+                      color: Colors.white,
+                        fontFeatures: [FontFeature.tabularFigures(),]
+                    ),),
                     Spacer(),
                     Container(
                       height: MediaQuery.of(context).size.height * 0.0879, //60.0
@@ -317,6 +330,7 @@ class _StatsState extends State<Stats> {
                                                                   //44
                                                                   color: Color(
                                                                       0xffffffff),
+                                                                    fontFeatures: [FontFeature.tabularFigures(),]
                                                                 ),
                                                               )
                                                             ],
@@ -360,6 +374,7 @@ class _StatsState extends State<Stats> {
                                                               0.129055,
                                                       //44
                                                       color: Color(0xff771616),
+                                                        fontFeatures: [FontFeature.tabularFigures(),]
                                                     ),
                                                   ),
                                                 )

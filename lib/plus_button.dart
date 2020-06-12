@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:firebase_database/firebase_database.dart';
@@ -98,6 +100,8 @@ void populate(Map val){
     }}
   }
 }
+  final ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController1 = ScrollController();
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -122,17 +126,18 @@ void populate(Map val){
                 bottom: TabBar(
                   tabs: <Widget>[
                     Tab(
-                      text: 'DATE WISE',
+                      //text: 'DATE WISE',
+                      child: Text("Based on DATE",style: TextStyle(fontSize: 17.0),),
                     ),
                     Tab(
-                      text: 'JUZ WISE',
+                      child: Text("Based on JUZ",style: TextStyle(fontSize: 17.0),),
                     ),
                   ],
                 ),
               ),
               body: TabBarView(
                 children: <Widget>[
-                  ListView.builder(
+                /*  ListView.builder(
                     itemCount: _maqaratList.length,
                     padding: EdgeInsets.only(
                         top: MediaQuery.of(context).size.height * 0.01172), //8
@@ -205,8 +210,8 @@ void populate(Map val){
                         ),
                       );
                     },
-                  ),
-                  ListView.builder(
+                  ),*/
+                 /* ListView.builder(
                     itemCount: _juz_list.length,
                     padding: EdgeInsets.only(
                         top: MediaQuery.of(context).size.height * 0.01172),
@@ -269,7 +274,71 @@ void populate(Map val){
                         ),
                       );
                     },
-                  ),
+                  ), */
+
+              Scrollbar(
+                isAlwaysShown:true,
+                controller: _scrollController1,
+                child: ListView.builder(
+                  controller: _scrollController1,
+                itemCount: _maqaratList.length,
+                  padding: EdgeInsets.only(
+                      top: 10.0), //8
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      leading: Icon(Icons.assignment_turned_in,size:30.0),
+                      title: Text(_maqaratList[index].date +"   " +_maqaratList[index].time + ' IST   Juz '+_maqaratList[index]
+                          .juz
+                          .toString(),style: TextStyle(
+                          fontSize: 21.0,
+                          fontFeatures: [FontFeature.tabularFigures(),]
+                      )),
+                    );
+                  },
+                ),
+              ),
+
+
+              Scrollbar(
+                isAlwaysShown:true,
+                controller: _scrollController,
+                child: ListView.builder(
+                  controller: _scrollController,
+                  itemCount: _juz_list.length,
+
+                  itemBuilder: (context, index) {
+                    return ExpansionTile(
+                      title: Text('Juz ' + _juz_list[index].juz.toString() +'       Count: ' +
+                          _juz_list[index].count.toString(),style: TextStyle(
+                        fontSize: 21.0,
+                          fontFeatures: [FontFeature.tabularFigures(),]
+                      )),
+                      leading: Icon(Icons.import_contacts,size:25),
+                      trailing: Icon(Icons.arrow_drop_down,size: 35,),
+                      children: <Widget>[
+                        ListTile(title: Text("Date: 04/06/2020  Time: 9:00 IST Attented: 5/5",style: TextStyle(
+                          fontSize: 19.0,
+                            fontFeatures: [FontFeature.tabularFigures(),]
+                        ),),leading: Icon(Icons.today),),
+                        ListTile(title: Text("Date: 07/06/2020  Time: 19:00 IST Attented: 2/5",
+                            style: TextStyle(
+                                fontSize: 19.0,
+                                fontFeatures: [FontFeature.tabularFigures(),]
+                            )
+                        ),leading: Icon(Icons.today),),
+                      ],
+initiallyExpanded: false,
+                    );
+                  },
+                ),
+              ),
+
+
+
+
+
+
+
                 ],
               ),
             ),

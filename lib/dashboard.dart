@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:mahadalzahra/homepagebackground.dart';
 import 'package:mahadalzahra/maqarat_display.dart';
 import 'package:flutter/material.dart';
@@ -150,9 +152,21 @@ class _DashboardState extends State<Dashboard> {
                       Padding(
                         padding: EdgeInsets.only(
                             right: MediaQuery.of(context).size.width *
-                                0.02435), //10.0
+                                0.02435,left: MediaQuery.of(context).size.width *
+                            0.02435
+                        ), //10.0
                         child: Row(
                           children: <Widget>[
+                            Icon(Icons.account_circle,color: Colors.white,size:30,),
+                            Text(" Mustafa Husain Piplodi",style: TextStyle(     //FROM DATABASE
+                              fontFamily: "Segoe UI",
+                              fontWeight: FontWeight.w400,
+                              fontSize:
+                              25.0,
+                              //40.0
+                              color: Colors.white,
+                                fontFeatures: [FontFeature.tabularFigures(),]
+                            ),),
                             Spacer(),
                             Container(
                               height: MediaQuery.of(context).size.height *
@@ -217,7 +231,42 @@ class _DashboardState extends State<Dashboard> {
                                           color: Color(0xff000000),
                                         ),
                                       ),
-                                    )
+                                    ),
+                                    Spacer(),
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          right: MediaQuery.of(context).size.height *
+                                              0.01465), //10.0
+                                      child: Container(
+                                        height: MediaQuery.of(context).size.height *
+                                            0.0586, //40
+                                        width: MediaQuery.of(context).size.width *
+                                            0.2922, //120
+                                        decoration: BoxDecoration(
+                                          color: Color(0xffffffff),
+                                          border: Border.all(
+                                            width: 1.00,
+                                            color: Colors.black,
+                                          ),
+                                          borderRadius: BorderRadius.circular(15.00),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            'IST 14/06 19:00',   //TIME
+                                            style: TextStyle(
+                                              fontFamily: "Segoe UI",
+                                              fontWeight: FontWeight.w400,
+                                              fontSize:
+                                              MediaQuery.of(context).size.width*0.03896, //17.0
+                                              //23.0
+                                              color: Color(0xff000000),
+                                                fontFeatures: [FontFeature.tabularFigures(),]
+                                            ),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
                                   ],
                                 ),
                                 //DateSelector(),
@@ -361,6 +410,7 @@ class _DashboardState extends State<Dashboard> {
                                                                         selectedIndex
                                                                     ? Colors.white
                                                                     : Colors.black,
+                                                                  fontFeatures: [FontFeature.tabularFigures(),]
                                                               ),
                                                             ),
                                                           ),
@@ -425,6 +475,7 @@ class _DashboardState extends State<Dashboard> {
                                                                             0xFF003CE7)
                                                                         : Colors
                                                                             .black,
+                                                                      fontFeatures: [FontFeature.tabularFigures(),]
                                                                   ),
                                                                 ),
                                                               ),
@@ -547,7 +598,7 @@ class _DashboardState extends State<Dashboard> {
                                                   children: <Widget>[
                                                     Spacer(),
                                                     Text(
-                                                        "To schedule a Maqarat - Click on Join Maqarat",
+                                                        "To schedule a Maqarat - Click on ",
                                                         style: TextStyle(
                                                             fontWeight:
                                                                 FontWeight.w300,
@@ -557,6 +608,21 @@ class _DashboardState extends State<Dashboard> {
                                                                     .width *
                                                                 0.04383)),
                                                     //18
+                                                    Icon(Icons.add_circle_outline,size:MediaQuery.of(
+                                                        context)
+                                                        .size
+                                                        .width *
+                                                        0.04383, color: Color(0xff6B6B6B),),
+                                                    Text(
+                                                        " Maqarat",
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                            FontWeight.w300,
+                                                            fontSize: MediaQuery.of(
+                                                                context)
+                                                                .size
+                                                                .width *
+                                                                0.04383)),
                                                     Spacer(),
                                                   ],
                                                 )
