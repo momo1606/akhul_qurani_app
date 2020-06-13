@@ -287,12 +287,16 @@ void populate(Map val){
                   itemBuilder: (context, index) {
                     return ListTile(
                       leading: Icon(Icons.assignment_turned_in,size:30.0),
-                      title: Text(_maqaratList[index].date +"   " +_maqaratList[index].time + ' IST   Juz '+_maqaratList[index]
-                          .juz
-                          .toString(),style: TextStyle(
+                      title: Text(_maqaratList[index].date +"\n" +_maqaratList[index].time + ' IST',style: TextStyle(
                           fontSize: 21.0,
                           fontFeatures: [FontFeature.tabularFigures(),]
                       )),
+                      trailing: Text('Juz '+_maqaratList[index]
+                          .juz
+                          .toString(),style: TextStyle(
+                        fontSize: 21.0,
+                        fontFeatures: [FontFeature.tabularFigures(),]
+                    )),
                     );
                   },
                 ),

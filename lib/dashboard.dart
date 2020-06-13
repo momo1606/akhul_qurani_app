@@ -157,12 +157,12 @@ class _DashboardState extends State<Dashboard> {
                         ), //10.0
                         child: Row(
                           children: <Widget>[
-                            Icon(Icons.account_circle,color: Colors.white,size:30,),
-                            Text(" Mustafa Husain Piplodi",style: TextStyle(     //FROM DATABASE
+                            Icon(Icons.account_circle,color: Colors.white,size:21,),
+                            Text(" Burhanuddin Shabbir Bhai",style: TextStyle(     //FROM DATABASE
                               fontFamily: "Segoe UI",
                               fontWeight: FontWeight.w400,
                               fontSize:
-                              25.0,
+                              19.0,
                               //40.0
                               color: Colors.white,
                                 fontFeatures: [FontFeature.tabularFigures(),]
@@ -252,7 +252,7 @@ class _DashboardState extends State<Dashboard> {
                                         ),
                                         child: Center(
                                           child: Text(
-                                            'IST 14/06 19:00',   //TIME
+                                            'IST 13/06 22:00',   //TIME
                                             style: TextStyle(
                                               fontFamily: "Segoe UI",
                                               fontWeight: FontWeight.w400,

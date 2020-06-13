@@ -124,12 +124,12 @@ class _StatsState extends State<Stats> {
                     0.02435), //10.0
                 child: Row(
                   children: <Widget>[
-                    Icon(Icons.account_circle,color: Colors.white,size:30,),
-                    Text(" Mustafa Husain Piplodi",style: TextStyle(     //FROM DATABASE
+                    Icon(Icons.account_circle,color: Colors.white,size:21,),
+                    Text(" Burhanuddin Shabbir Bhai",style: TextStyle(     //FROM DATABASE
                       fontFamily: "Segoe UI",
                       fontWeight: FontWeight.w400,
                       fontSize:
-                      25.0,
+                      19.0,
                       //40.0
                       color: Colors.white,
                         fontFeatures: [FontFeature.tabularFigures(),]

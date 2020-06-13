@@ -370,12 +370,12 @@ class _NewMaqaratState extends State<NewMaqarat> {
                           0.02435), //10.0
                       child: Row(
                         children: <Widget>[
-                          Icon(Icons.account_circle,color: Colors.white,size:30,),
-                          Text(" Mustafa Husain Piplodi",style: TextStyle(     //FROM DATABASE
+                          Icon(Icons.account_circle,color: Colors.white,size:21,),
+                          Text(" Burhanuddin Shabbir Bhai",style: TextStyle(     //FROM DATABASE
                             fontFamily: "Segoe UI",
                             fontWeight: FontWeight.w400,
                             fontSize:
-                            25.0,
+                            19.0,
                             //40.0
                             color: Colors.white,
                               fontFeatures: [FontFeature.tabularFigures(),]
@@ -422,7 +422,7 @@ class _NewMaqaratState extends State<NewMaqarat> {
                                   Padding(
                                     padding:  EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.0487, vertical: MediaQuery.of(context).size.height * 0.007325), //20.0, 5.0
                                     child: Text(
-                                      "Join Maqarat",
+                                      "Schedule",
                                       style: TextStyle(
                                         fontFamily: "Segoe UI",fontWeight: FontWeight.w600,
                                         fontSize: MediaQuery.of(context).size.width *
@@ -451,7 +451,7 @@ class _NewMaqaratState extends State<NewMaqarat> {
                                       ),
                                       child: Center(
                                         child: Text(
-                                          'IST 14/06 19:00',   //TIME
+                                          'IST 13/06 22:00',   //TIME
                                           style: TextStyle(
                                               fontFamily: "Segoe UI",
                                               fontWeight: FontWeight.w400,
